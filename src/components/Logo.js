@@ -34,7 +34,7 @@ export default function Logo({ splashscreen = false }) {
       className="flex justify-end items-center p-3 rounded-3xl"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      data-testid="container"
+      data-testid="logo-component-container"
     >
       <div
         className="logo-container font-black text-black"
@@ -54,7 +54,7 @@ export default function Logo({ splashscreen = false }) {
             ? "text-logoSplashscreen font-black text-black cursor-default"
             : "text-logoTitle font-black text-black cursor-default"
         }
-        data-testid="title"
+        data-testid="logo-title"
       >
         Oumont Quizz
       </h1>
