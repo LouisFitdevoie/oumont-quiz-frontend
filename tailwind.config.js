@@ -16,6 +16,10 @@ module.exports = {
         50: "50px",
         400: "400px",
       },
+      fontSize: {
+        logoSplashscreen: "48px",
+        logoTitle: "36px",
+      },
     },
   },
   plugins: [],
