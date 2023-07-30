@@ -26,6 +26,7 @@ export default function Home() {
           title="Historique des parties"
           onClick={() => console.log("Game history clicked")}
           splashscreen
+          disabled
         />
       </div>
     </div>
