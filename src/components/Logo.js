@@ -34,13 +34,18 @@ export default function Logo({ splashscreen = false }) {
       className="flex justify-end items-center p-3 rounded-3xl"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      data-testid="container"
     >
-      <div className="logo-container font-black text-black">
+      <div
+        className="logo-container font-black text-black"
+        data-testid="logo-container"
+      >
         <img
           src={logo}
           alt="Oumont Quizz's logo"
           className={logoClass}
           onAnimationEnd={handleAnimationEnd}
+          data-testid="logo"
         />
       </div>
       <h1
@@ -49,6 +54,7 @@ export default function Logo({ splashscreen = false }) {
             ? "text-logoSplashscreen font-black text-black cursor-default"
             : "text-logoTitle font-black text-black cursor-default"
         }
+        data-testid="title"
       >
         Oumont Quizz
       </h1>
