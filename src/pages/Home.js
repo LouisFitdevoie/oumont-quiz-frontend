@@ -8,7 +8,7 @@ export default function Home() {
       data-testid="home-container"
     >
       <div
-        className="flex flex-row justify-center items-center mb-10"
+        className="flex flex-row justify-center items-center mb-2"
         data-testid="home-logo-container"
       >
         <Logo splashscreen />
