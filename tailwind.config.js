@@ -20,6 +20,9 @@ module.exports = {
         logoSplashscreen: "48px",
         logoTitle: "36px",
       },
+      rotate: {
+        25: "25deg",
+      },
     },
   },
   plugins: [],
