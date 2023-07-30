@@ -4,14 +4,18 @@ import Home from "./pages/Home";
 
 function App() {
   return (
-    <div className="bg-yellow w-screen h-screen">
-      <Router>
+    <Router>
+      <div className="bg-yellow w-screen h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-game" element={<h1>Create Game</h1>} />
+          <Route
+            path="*"
+            element={<h1>404 - Page Not Found (PAGE NOT BUILT YET)</h1>}
+          />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
 
