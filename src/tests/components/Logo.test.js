@@ -4,10 +4,10 @@ import Logo from "../../components/Logo.js";
 
 test("renders non splashscreen Button", () => {
   render(<Logo />);
-  const containerElement = screen.getByTestId("container");
+  const containerElement = screen.getByTestId("logo-component-container");
   const logoContainerElement = screen.getByTestId("logo-container");
   const logoElement = screen.getByTestId("logo");
-  const titleElement = screen.getByTestId("title");
+  const titleElement = screen.getByTestId("logo-title");
 
   expect(containerElement).toBeInTheDocument();
   expect(logoContainerElement).toBeInTheDocument();
@@ -36,10 +36,10 @@ test("renders non splashscreen Button", () => {
 
 test("renders splashscreen Button", () => {
   render(<Logo splashscreen />);
-  const containerElement = screen.getByTestId("container");
+  const containerElement = screen.getByTestId("logo-component-container");
   const logoContainerElement = screen.getByTestId("logo-container");
   const logoElement = screen.getByTestId("logo");
-  const titleElement = screen.getByTestId("title");
+  const titleElement = screen.getByTestId("logo-title");
 
   expect(containerElement).toBeInTheDocument();
   expect(logoContainerElement).toBeInTheDocument();
