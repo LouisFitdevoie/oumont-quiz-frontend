@@ -79,8 +79,8 @@ export default function Logo({ splashscreen = false }) {
           }
 
           .logo-image {
-            width: 64px;
-            height: 64px;
+            width: 40px;
+            height: 40px;
           }
           
           @keyframes rotateLeft {

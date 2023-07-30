@@ -19,7 +19,7 @@ module.exports = {
       },
       fontSize: {
         logoSplashscreen: "48px",
-        logoTitle: "36px",
+        logoTitle: "24px",
       },
       rotate: {
         25: "25deg",
