@@ -2,12 +2,22 @@ import { Field, useFormikContext } from "formik";
 
 import ErrorMessage from "./ErrorMessage";
 
-export default function FormField({ label, name, placeholder, type = "text" }) {
+export default function FormField({
+  label,
+  name,
+  placeholder,
+  type = "text",
+  hidden = false,
+}) {
   const { setFieldTouched, setFieldValue, errors, touched, values } =
     useFormikContext();
   if (type === "text") {
     return (
-      <div className="p-4 w-full flex flex-row items-center justify-start">
+      <div
+        className={`p-4 w-full flex flex-row items-center justify-start ${
+          hidden ? "hidden" : ""
+        }`}
+      >
         <p className="pr-3 text-black font-medium text-lg">{label} :</p>
         <Field
           name={name}
@@ -21,7 +31,7 @@ export default function FormField({ label, name, placeholder, type = "text" }) {
           }}
           data-testid="form-field"
         />
-        <ErrorMessage error={errors[name]} visible={touched[name]} />
+        {/* <ErrorMessage error={errors[name]} visible={touched[name]} /> */}
       </div>
     );
   } else if (type === "number") {

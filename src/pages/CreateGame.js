@@ -1,11 +1,14 @@
-import Button from "../components/Button";
 import Header from "../components/Header";
 import Form from "../components/forms/Form";
 import FormField from "../components/forms/FormField";
 import SubmitButton from "../components/forms/SubmitButton";
 import createGameValidator from "../validators/createGame.validator.js";
+import Game from "../models/Game";
+import InputFile from "../components/forms/InputFile";
 
 export default function CreateGame() {
+  let gameToCreate = new Game("", [0, 0, 0]);
+
   return (
     <div
       className="w-full h-screen flex flex-col items-start"
@@ -16,6 +19,7 @@ export default function CreateGame() {
         <Form
           initialValues={{
             gameName: "",
+            questions: [],
             timeToAnswerOpen: 0,
             timeToAnswerQCM: 0,
             timeToAnswerEstimate: 0,
@@ -29,11 +33,7 @@ export default function CreateGame() {
             label="Nom de la partie"
             placeholder="Partie n°1"
           />
-          <Button
-            title="Ajouter des questions"
-            onClick={() => console.log("Test")}
-            addQuestion={true}
-          />
+          <InputFile name="questions" gameId={gameToCreate.id} />
           <FormField
             name="timeToAnswerOpen"
             label="Temps de réponse pour les questions ouvertes (en secondes)"

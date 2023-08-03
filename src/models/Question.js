@@ -19,23 +19,3 @@ class Question {
 }
 
 module.exports = Question;
-
-/* Function to read data from a csv file formatted like specified in the README.md
-
-const fs = require("fs");
-const Question = require("./model/Question");
-
-var questions = [];
-
-fs.readFile("./src/test.csv", "utf8", (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  const fileContent = data.split("\n").slice(1);
-  fileContent.forEach((line) => {
-    questions.push(new Question(line, game.id));
-  });
-});
-
-*/

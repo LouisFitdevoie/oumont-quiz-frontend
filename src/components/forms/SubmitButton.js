@@ -11,10 +11,14 @@ export default function SubmitButton({ title }) {
   }, [validateForm]);
 
   return (
-    <Button
-      title={title}
-      onClick={handleSubmit}
-      disabled={Object.keys(errors).length !== 0}
-    />
+    <>
+      <Button
+        title={title}
+        onClick={() => {
+          handleSubmit();
+        }}
+        disabled={Object.keys(errors).length !== 0}
+      />
+    </>
   );
 }
