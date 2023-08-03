@@ -5,7 +5,8 @@ import FormField from "./FormField";
 import Question from "../../models/Question";
 
 export default function InputFile({ name, gameId }) {
-  const { setFieldTouched, setFieldValue, validateForm } = useFormikContext();
+  const { setFieldTouched, setFieldValue, validateForm, values } =
+    useFormikContext();
 
   return (
     <div id="questionField">
@@ -30,8 +31,17 @@ export default function InputFile({ name, gameId }) {
           )
         }
       />
+      {values["questions"].length > 0 && (
+        <p className="w-full text-center pb-1 pt-2">
+          {values["questions"].length} questions ajoutées
+        </p>
+      )}
       <Button
-        title="Ajouter des questions"
+        title={
+          values["questions"].length > 0
+            ? "Modifier les questions"
+            : "Ajouter des questions"
+        }
         onClick={() => document.getElementById("csvFile").click()}
         addQuestion={true}
       />
