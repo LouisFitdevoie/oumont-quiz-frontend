@@ -5,8 +5,10 @@ module.exports = {
     extend: {
       colors: {
         black: "#1e1e1e",
+        darkGray: "#5a5a5a",
         gray: "#dfdfdf",
         green: "#6ade7d",
+        placeholder: "#a0a0a0",
         red: "#f46546",
         white: "#f0f0f0",
         yellow: "#f4c546",
@@ -18,7 +20,7 @@ module.exports = {
       },
       fontSize: {
         logoSplashscreen: "48px",
-        logoTitle: "36px",
+        logoTitle: "24px",
       },
       rotate: {
         25: "25deg",
