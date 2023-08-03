@@ -3,30 +3,7 @@ import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   gameName: Yup.string().required("Le nom de partie est requis"),
   questions: Yup.array()
-    .of(
-      Yup.object().shape({
-        id: Yup.string().uuid().required("L'id de la question est requis"),
-        questionType: Yup.string()
-          .oneOf(["open", "multipleChoice", "estimate"])
-          .required("Le type de question est requis"),
-        theme: Yup.string().required("Le thème de la question est requis"),
-        question: Yup.string().required("La question est requise"),
-        answer: Yup.string().required("La réponse est requise"),
-        points: Yup.number("Le nombre de points doit être un nombre")
-          .integer("Le nombre de points doit être un nombre entier")
-          .positive("Le nombre de points doit être positif")
-          .required("Le nombre de points est requis"),
-        choices: Yup.string().when("questionType", {
-          is: "mutlipleChoice",
-          then: Yup.string().required("Les choix sont requis"),
-        }),
-        explanation: Yup.string(),
-        imageName: Yup.string(),
-        isBonus: Yup.boolean().required("isBonus est requis"),
-        gameId: Yup.string().uuid().required("L'id de la partie est requis"),
-        isAsked: Yup.boolean().required("isAsked est requis"),
-      })
-    )
+    .of(Yup.string())
     .min(1, "Il doit y avoir au moins une question")
     .required("Les questions sont requises"),
   timeToAnswerOpen: Yup.number("Le temps de réponse doit être un nombre")

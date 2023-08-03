@@ -2,7 +2,6 @@ import { useFormikContext } from "formik";
 
 import Button from "../Button";
 import FormField from "./FormField";
-import Question from "../../models/Question";
 
 export default function InputFile({ name, gameId }) {
   const { setFieldTouched, setFieldValue, validateForm, values } =
@@ -24,7 +23,6 @@ export default function InputFile({ name, gameId }) {
         onChange={(e) =>
           handleFileUpload(
             e.target.files[0],
-            gameId,
             setFieldValue,
             setFieldTouched,
             validateForm
@@ -51,7 +49,6 @@ export default function InputFile({ name, gameId }) {
 
 function handleFileUpload(
   fileUploaded,
-  gameId,
   setFieldValue,
   setFieldTouched,
   validateForm
@@ -67,16 +64,9 @@ function handleFileUpload(
   } else {
     const reader = new FileReader();
     reader.readAsText(file);
-    let questions = [];
     reader.onload = function () {
-      const result = reader.result;
-      result
-        .split("\n")
-        .slice(1)
-        .forEach((question) => {
-          questions.push(new Question(question, gameId));
-        });
-      setFieldValue("questions", questions);
+      const result = reader.result.split("\n").slice(1);
+      setFieldValue("questions", result);
       setFieldTouched("questions", true);
       validateForm();
     };

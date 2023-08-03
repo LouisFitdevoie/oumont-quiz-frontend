@@ -1,13 +1,33 @@
+import { useNavigate } from "react-router-dom";
+
 import Header from "../components/Header";
 import Form from "../components/forms/Form";
 import FormField from "../components/forms/FormField";
 import SubmitButton from "../components/forms/SubmitButton";
 import createGameValidator from "../validators/createGame.validator.js";
-import Game from "../models/Game";
 import InputFile from "../components/forms/InputFile";
+import { createGame } from "../api/game.api.js";
+import { createQuestion } from "../api/question.api.js";
 
 export default function CreateGame() {
-  let gameToCreate = new Game("", [0, 0, 0]);
+  let navigate = useNavigate();
+  const handleSubmit = async (values) => {
+    const gameResponse = await createGame(
+      values.gameName,
+      values.timeToAnswerOpen,
+      values.timeToAnswerQCM,
+      values.timeToAnswerEstimate,
+      values.personsPerGroup
+    );
+    const questionResponse = await createQuestion(
+      gameResponse.data.gameId,
+      values.questions
+    );
+    if (questionResponse.status === 201) {
+      alert("Partie créée avec succès");
+      navigate("/");
+    }
+  };
 
   return (
     <div
@@ -25,7 +45,7 @@ export default function CreateGame() {
             timeToAnswerEstimate: 0,
             personsPerGroup: 4,
           }}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) => handleSubmit(values)}
           validationSchema={createGameValidator}
         >
           <FormField
@@ -33,7 +53,7 @@ export default function CreateGame() {
             label="Nom de la partie"
             placeholder="Partie n°1"
           />
-          <InputFile name="questions" gameId={gameToCreate.id} />
+          <InputFile name="questions" />
           <FormField
             name="timeToAnswerOpen"
             label="Temps de réponse pour les questions ouvertes (en secondes)"
