@@ -11,12 +11,10 @@ export default function SubmitButton({ title }) {
   }, [validateForm]);
 
   return (
-    <div className="flex flex-row justify-center">
-      <Button
-        title={title}
-        onClick={handleSubmit}
-        disabled={Object.keys(errors).length !== 0}
-      />
-    </div>
+    <Button
+      title={title}
+      onClick={handleSubmit}
+      disabled={Object.keys(errors).length !== 0}
+    />
   );
 }

@@ -1,3 +1,4 @@
+import Button from "../components/Button";
 import Header from "../components/Header";
 import Form from "../components/forms/Form";
 import FormField from "../components/forms/FormField";
@@ -27,6 +28,11 @@ export default function CreateGame() {
             name="gameName"
             label="Nom de la partie"
             placeholder="Partie n°1"
+          />
+          <Button
+            title="Ajouter des questions"
+            onClick={() => console.log("Test")}
+            addQuestion={true}
           />
           <FormField
             name="timeToAnswerOpen"
