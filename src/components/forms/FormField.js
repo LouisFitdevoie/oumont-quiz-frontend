@@ -31,7 +31,7 @@ export default function FormField({
           }}
           data-testid="form-field"
         />
-        {/* <ErrorMessage error={errors[name]} visible={touched[name]} /> */}
+        <ErrorMessage error={errors[name]} visible={touched[name]} />
       </div>
     );
   } else if (type === "number") {
