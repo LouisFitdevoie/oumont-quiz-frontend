@@ -25,7 +25,7 @@ export default function CreateGame() {
     );
     if (questionResponse.status === 201) {
       alert("Partie créée avec succès");
-      navigate("/");
+      navigate("/add-groups/" + gameResponse.data.gameId);
     }
   };
 

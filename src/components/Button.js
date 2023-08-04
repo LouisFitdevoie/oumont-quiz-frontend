@@ -27,6 +27,7 @@ export default function Button({
         } text-white font-medium transition-all duration-150`}
         disabled={disabled}
         data-testid="button"
+        title={title}
       >
         <p>{title}</p>
       </button>
