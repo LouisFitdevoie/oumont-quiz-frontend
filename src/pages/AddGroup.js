@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Form from "../components/forms/Form";
 import GroupField from "../components/forms/GroupField";
-import { getGroupsForGame } from "../api/group.api";
+import { getGroupsForGame, createGroup } from "../api/group.api";
 const { useParams } = require("react-router-dom");
 
 export default function AddGroup() {
@@ -19,6 +19,14 @@ export default function AddGroup() {
     handleGetGroupsForGame(gameId);
   }, [gameId]);
 
+  const handleCreateGroup = async (values) => {
+    const response = await createGroup(values.group, gameId);
+    if (response.status === 201) {
+      alert("Groupe créé avec succès");
+      handleGetGroupsForGame(gameId);
+    }
+  };
+
   return (
     <div
       className="w-full h-screen flex flex-col items-start"
@@ -30,7 +38,7 @@ export default function AddGroup() {
           initialValues={{
             group: "",
           }}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) => handleCreateGroup(values)}
         >
           <GroupField />
         </Form>
@@ -42,11 +50,17 @@ export default function AddGroup() {
           </h1>
         </div>
       ) : (
-        <div className="self-center">
+        <div className="w-full h-full flex flex-col items-center justify-start">
           <h1 className="text-2xl font-bold text-center">
             Groupes participants
           </h1>
-          <ul className="mt-4"></ul>
+          <ul className="mt-4">
+            {groups.map((group) => (
+              <li key={group.id} className="text-xl">
+                {group.name}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

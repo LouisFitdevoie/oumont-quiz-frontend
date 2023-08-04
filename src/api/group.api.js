@@ -8,3 +8,14 @@ export function getGroupsForGame(gameId) {
     url: `${base_url}/group?gameId=${gameId}`,
   });
 }
+
+export function createGroup(name, gameId) {
+  return axios({
+    method: "post",
+    url: `${base_url}/group`,
+    data: {
+      name,
+      gameId,
+    },
+  });
+}
