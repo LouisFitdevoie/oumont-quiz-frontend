@@ -29,6 +29,9 @@ export default function GroupField() {
             if (!touched["group"]) setFieldTouched("group");
             setFieldValue("group", e.target.value);
           }}
+          onKeyUp={(e) => {
+            if (e.key === "Enter" && !disabled) handleSubmit();
+          }}
         />
         <button
           onClick={() => handleSubmit()}

@@ -19,3 +19,24 @@ export function createGroup(name, gameId) {
     },
   });
 }
+
+export function updateGroupName(name, groupId) {
+  return axios({
+    method: "put",
+    url: `${base_url}/group/updateName`,
+    data: {
+      name,
+      groupId,
+    },
+  });
+}
+
+export function deleteGroup(groupId) {
+  return axios({
+    method: "delete",
+    url: `${base_url}/group`,
+    data: {
+      groupId,
+    },
+  });
+}
