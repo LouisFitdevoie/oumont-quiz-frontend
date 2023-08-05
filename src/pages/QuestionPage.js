@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
 import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
+import { getRandomThemes } from "../api/question.api";
 import { useParams } from "react-router-dom";
 
 export default function QuestionPage() {
@@ -16,6 +17,7 @@ export default function QuestionPage() {
   const [themeId, setThemeId] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(null);
+  const [randomThemes, setRandomThemes] = useState([]);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
@@ -38,6 +40,7 @@ export default function QuestionPage() {
   const handleThemeChoice = (themeId) => {
     setIsThemeChosen(true);
     setThemeId(themeId);
+    setRandomThemes([]);
     setTimeout(() => {
       setQuestionNumber(questionNumber + 3);
       setIsThemeChosen(false);
@@ -59,6 +62,11 @@ export default function QuestionPage() {
     setCurrentGroup(groupToReturn);
   };
 
+  const handleGetRandomThemes = async () => {
+    const response = await getRandomThemes(gameId);
+    setRandomThemes(response.data.themes);
+  };
+
   useEffect(() => {
     handleGetGame(gameId);
     handleGetGroups(gameId);
@@ -74,6 +82,7 @@ export default function QuestionPage() {
   useEffect(() => {
     if (!isThemeChosen && initialGroups.length > 0) {
       handleGetRandomGroup();
+      handleGetRandomThemes();
     }
   }, [isThemeChosen, initialGroups]);
 
@@ -87,6 +96,7 @@ export default function QuestionPage() {
         <ChooseTheme
           handleThemeChoice={handleThemeChoice}
           groupName={currentGroup.name}
+          themes={randomThemes}
         />
       )}
       {isThemeChosen && <p>{themeId}</p>}

@@ -12,3 +12,10 @@ export function createQuestion(gameId, fileLines) {
     },
   });
 }
+
+export function getRandomThemes(gameId) {
+  return axios({
+    method: "get",
+    url: `${base_url}/randomThemes?gameId=${gameId}`,
+  });
+}
