@@ -6,11 +6,13 @@ import GroupField from "../components/forms/GroupField";
 import { getGroupsForGame, createGroup } from "../api/group.api";
 import GroupLine from "../components/GroupLine";
 import Button from "../components/Button";
+const { useNavigate } = require("react-router-dom");
 const { useParams } = require("react-router-dom");
 
 export default function AddGroup() {
   const { gameId } = useParams();
   const [groups, setGroups] = useState([]);
+  const navigate = useNavigate();
 
   const handleGetGroupsForGame = async (gameId) => {
     const response = await getGroupsForGame(gameId);
@@ -81,7 +83,7 @@ export default function AddGroup() {
           ))}
           <Button
             title="Commencer la partie"
-            onClick={() => console.log("To the game")}
+            onClick={() => navigate("/question/" + gameId)}
           />
         </div>
       )}

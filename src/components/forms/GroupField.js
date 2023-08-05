@@ -35,7 +35,7 @@ export default function GroupField() {
         />
         <button
           onClick={() => handleSubmit()}
-          className={`h-8 w-8 ml-2 flex items-center justify-center border rounded-full text-white ${
+          className={`h-8 w-8 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
             disabled
               ? "bg-darkGray border-darkGray cursor-not-allowed"
               : "border-black bg-black hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black"
