@@ -11,7 +11,7 @@ export default function ChooseTheme({ handleThemeChoice, groupName, themes }) {
       </div>
       <div className="flex flex-row mt-4 w-5/6 h-1/2">
         <div className="flex flex-row w-full h-full">
-          {themes.length !== 0 && (
+          {themes.length === 2 && (
             <>
               <ThemeCard
                 theme={themes[0]}
@@ -23,6 +23,12 @@ export default function ChooseTheme({ handleThemeChoice, groupName, themes }) {
                 handleThemeChoice={handleThemeChoice}
               />
             </>
+          )}
+          {themes.length === 1 && (
+            <ThemeCard
+              theme={themes[0]}
+              handleThemeChoice={handleThemeChoice}
+            />
           )}
         </div>
       </div>
