@@ -9,10 +9,17 @@ export default function QuestionPage() {
   const { gameId } = useParams();
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
+  const [isThemeChosen, setIsThemeChosen] = useState(false);
+  const [themeId, setThemeId] = useState(null);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
     setGame(response.data.game);
+  };
+
+  const handleThemeChoice = (themeId) => {
+    setIsThemeChosen(true);
+    setThemeId(themeId);
   };
 
   useEffect(() => {
@@ -27,7 +34,8 @@ export default function QuestionPage() {
       <Header
         pageTitle={`${game.name} - Question n°${questionList.length + 1}`}
       />
-      <ChooseTheme />
+      {!isThemeChosen && <ChooseTheme handleThemeChoice={handleThemeChoice} />}
+      {isThemeChosen && <p>{themeId}</p>}
     </div>
   );
 }
