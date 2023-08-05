@@ -5,6 +5,7 @@ import Form from "../components/forms/Form";
 import GroupField from "../components/forms/GroupField";
 import { getGroupsForGame, createGroup } from "../api/group.api";
 import GroupLine from "../components/GroupLine";
+import Button from "../components/Button";
 const { useParams } = require("react-router-dom");
 
 export default function AddGroup() {
@@ -78,6 +79,10 @@ export default function AddGroup() {
               )}
             </div>
           ))}
+          <Button
+            title="Commencer la partie"
+            onClick={() => console.log("To the game")}
+          />
         </div>
       )}
     </div>
