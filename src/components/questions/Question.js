@@ -3,9 +3,11 @@ import { useState } from "react";
 import MultipleChoice from "./MultipleChoice";
 import QuestionButtons from "./QuestionButtons";
 import OpenEstimate from "./OpenEstimate";
+import Timer from "./Timer";
 
 export default function App({ question, handleNextQuestion, questionNumber }) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
+  const [isTimeOver, setIsTimeOver] = useState(false);
 
   //TODO : add timer and hide buttons before timer ends
   //TODO : add explanation
@@ -19,13 +21,17 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
           correctAnswer={question.answer}
           timeToAnswer={10}
           isAnswerShown={isAnswerShown}
+          isTimeOver={isTimeOver}
+          setIsTimeOver={setIsTimeOver}
         />
-        <QuestionButtons
-          handleNextQuestion={handleNextQuestion}
-          isAnswerShown={isAnswerShown}
-          questionNumber={questionNumber}
-          setIsAnswerShown={setIsAnswerShown}
-        />
+        {isTimeOver && (
+          <QuestionButtons
+            handleNextQuestion={handleNextQuestion}
+            isAnswerShown={isAnswerShown}
+            questionNumber={questionNumber}
+            setIsAnswerShown={setIsAnswerShown}
+          />
+        )}
       </div>
     );
   } else if (
@@ -40,13 +46,17 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
           timeToAnswer={10}
           isAnswerShown={isAnswerShown}
           type={question.questionType}
+          isTimeOver={isTimeOver}
+          setIsTimeOver={setIsTimeOver}
         />
-        <QuestionButtons
-          handleNextQuestion={handleNextQuestion}
-          isAnswerShown={isAnswerShown}
-          questionNumber={questionNumber}
-          setIsAnswerShown={setIsAnswerShown}
-        />
+        {isTimeOver && (
+          <QuestionButtons
+            handleNextQuestion={handleNextQuestion}
+            isAnswerShown={isAnswerShown}
+            questionNumber={questionNumber}
+            setIsAnswerShown={setIsAnswerShown}
+          />
+        )}
       </div>
     );
   }

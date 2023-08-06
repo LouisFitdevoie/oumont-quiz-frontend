@@ -44,15 +44,6 @@ export default function QuestionPage() {
     setIsThemeChosen(true);
     setThemeName(themeName);
     setRandomThemes([]);
-
-    //*****************/
-    //TODO: Remove this timeout and replace it with a call to the API to get the question
-    //TODO: Then add question id to the questionList
-    // setTimeout(() => {
-    //   setQuestionNumber(questionNumber + 3);
-    //   setIsThemeChosen(false);
-    // }, 2000);
-    //*****************/
   };
 
   const handleGetRandomGroup = () => {
