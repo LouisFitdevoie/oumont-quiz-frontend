@@ -6,6 +6,8 @@ import Button from "../Button";
 export default function App({ question, handleNextQuestion, questionNumber }) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
 
+  //TODO : add timer and hide buttons before timer ends
+
   if (question.questionType === "multipleChoice") {
     return (
       <div className="w-full h-full flex flex-col justify-between">

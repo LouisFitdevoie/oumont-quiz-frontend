@@ -22,6 +22,8 @@ export default function MultipleChoice({
     });
   }, [question]);
 
+  //TODO : add explanation
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-5/6 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
