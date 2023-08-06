@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
-import { getGame } from "../api/game.api.js";
+import { getGame, getTimeToAnswer } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import { useParams } from "react-router-dom";
@@ -21,10 +21,21 @@ export default function QuestionPage() {
   const [randomThemes, setRandomThemes] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState({});
   const [isQuestionSelected, setIsQuestionSelected] = useState(false);
+  const [timeToAnswer, setTimeToAnswer] = useState({
+    open: 0,
+    multipleChoice: 0,
+    estimate: 0,
+  });
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
     setGame(response.data.game);
+    const timesToAnswer = response.data.game.timeToAnswer.split(",");
+    setTimeToAnswer({
+      multipleChoice: timesToAnswer[0], //RECEIVED IN THIS ORDER FROM BACKEND : timeToAnswerQCM, timeToAnswerOpen, timeToAnswerEstimate
+      open: timesToAnswer[1],
+      estimate: timesToAnswer[2],
+    });
   };
 
   const handleGetGroups = async (gameId) => {
@@ -44,15 +55,6 @@ export default function QuestionPage() {
     setIsThemeChosen(true);
     setThemeName(themeName);
     setRandomThemes([]);
-
-    //*****************/
-    //TODO: Remove this timeout and replace it with a call to the API to get the question
-    //TODO: Then add question id to the questionList
-    // setTimeout(() => {
-    //   setQuestionNumber(questionNumber + 3);
-    //   setIsThemeChosen(false);
-    // }, 2000);
-    //*****************/
   };
 
   const handleGetRandomGroup = () => {
@@ -147,6 +149,7 @@ export default function QuestionPage() {
           question={currentQuestion}
           handleNextQuestion={handleNextQuestion}
           questionNumber={questionNumber}
+          timeToAnswer={timeToAnswer}
         />
       )}
     </div>
