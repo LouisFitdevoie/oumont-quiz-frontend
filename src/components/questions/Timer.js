@@ -18,7 +18,9 @@ export default function Timer({ timeToAnswer, setIsTimeOver }) {
 
   useEffect(() => {
     if (seconds === 0) {
-      setIsTimeOver(true);
+      setTimeout(() => {
+        setIsTimeOver(true);
+      }, 500);
     }
   }, [seconds, setIsTimeOver]);
 
@@ -29,26 +31,28 @@ export default function Timer({ timeToAnswer, setIsTimeOver }) {
   return (
     <div className="flex justify-center items-center">
       <div className="relative w-20 h-20">
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 100 100"
-          className="-rotate-90"
-        >
-          <circle
-            cx="50"
-            cy="50"
-            r={circleRadius}
-            stroke={seconds <= 3 ? "#f46546" : "#1e1e1e"}
-            strokeWidth="10"
-            fill="transparent"
-            style={{
-              transition: "stroke 500ms",
-              strokeDasharray: circumference,
-              strokeDashoffset: strokeDashoffset,
-            }}
-          />
-        </svg>
+        {seconds > 0.1 && (
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 100 100"
+            className="-rotate-90"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r={circleRadius}
+              stroke={seconds <= 3 ? "#f46546" : "#1e1e1e"}
+              strokeWidth="10"
+              fill="transparent"
+              style={{
+                transition: "stroke 500ms",
+                strokeDasharray: circumference,
+                strokeDashoffset: strokeDashoffset,
+              }}
+            />
+          </svg>
+        )}
         <p
           className={`transition-all duration-500 absolute inset-0 flex justify-center items-center text-3xl font-bold ${
             seconds <= 3 ? "text-red" : "text-black"

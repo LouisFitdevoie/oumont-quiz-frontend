@@ -11,7 +11,6 @@ export default function MultipleChoice({
   isTimeOver,
   setIsTimeOver,
 }) {
-  //TODO after timer ends -> remove possible answers and display show answer button
   useEffect(() => {
     const elements = document.querySelectorAll(".auto-height");
     let maxHeight = 0;

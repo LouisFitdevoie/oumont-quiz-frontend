@@ -3,13 +3,16 @@ import { useState } from "react";
 import MultipleChoice from "./MultipleChoice";
 import QuestionButtons from "./QuestionButtons";
 import OpenEstimate from "./OpenEstimate";
-import Timer from "./Timer";
 
-export default function App({ question, handleNextQuestion, questionNumber }) {
+export default function App({
+  question,
+  handleNextQuestion,
+  questionNumber,
+  timeToAnswer,
+}) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
-  //TODO : add timer and hide buttons before timer ends
   //TODO : add explanation
 
   if (question.questionType === "multipleChoice") {
@@ -19,7 +22,7 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
           question={question.question}
           possibleAnswers={question.choices.split("/")}
           correctAnswer={question.answer}
-          timeToAnswer={10}
+          timeToAnswer={timeToAnswer.multipleChoice}
           isAnswerShown={isAnswerShown}
           isTimeOver={isTimeOver}
           setIsTimeOver={setIsTimeOver}
@@ -43,7 +46,11 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
         <OpenEstimate
           question={question.question}
           correctAnswer={question.answer}
-          timeToAnswer={10}
+          timeToAnswer={
+            question.questionType === "open"
+              ? timeToAnswer.open
+              : timeToAnswer.estimate
+          }
           isAnswerShown={isAnswerShown}
           type={question.questionType}
           isTimeOver={isTimeOver}
