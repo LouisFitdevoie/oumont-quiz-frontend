@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import MultipleChoice from "./MultipleChoice";
-import Button from "../Button";
+import QuestionButtons from "./QuestionButtons";
 
 export default function App({ question, handleNextQuestion, questionNumber }) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
@@ -18,42 +18,12 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
           timeToAnswer={10}
           isAnswerShown={isAnswerShown}
         />
-        <div className="mb-4">
-          {!isAnswerShown && (
-            <Button
-              title="Montrer la réponse"
-              onClick={() => setIsAnswerShown(true)}
-            />
-          )}
-          {isAnswerShown && (
-            <div className="w-full flex justify-center items-center">
-              <div
-                className={`flex flex-row ${
-                  questionNumber % 3 === 0
-                    ? "justify-between"
-                    : "justify-center"
-                }  w-5/6`}
-              >
-                {questionNumber % 3 === 0 && (
-                  <>
-                    <Button
-                      title="Faire une pause"
-                      onClick={() => console.log("Faire une pause")}
-                    />
-                    <Button
-                      title="Fin du jeu"
-                      onClick={() => console.log("Fin du jeu")}
-                    />
-                  </>
-                )}
-                <Button
-                  title="Question suivante"
-                  onClick={handleNextQuestion}
-                />
-              </div>
-            </div>
-          )}
-        </div>
+        <QuestionButtons
+          handleNextQuestion={handleNextQuestion}
+          isAnswerShown={isAnswerShown}
+          questionNumber={questionNumber}
+          setIsAnswerShown={setIsAnswerShown}
+        />
       </div>
     );
   } else if (question.questionType === "open") {
