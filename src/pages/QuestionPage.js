@@ -128,7 +128,13 @@ export default function QuestionPage() {
       className="w-full h-screen flex flex-col items-start"
       data-testid="add-groups-page-container"
     >
-      <Header pageTitle={`${game.name} - Question n°${questionNumber}`} />
+      <Header
+        pageTitle={`${game.name} - ${
+          !isThemeChosen
+            ? "Choix du prochain thème"
+            : `Question n°${questionNumber}`
+        }`}
+      />
       {!isThemeChosen && currentGroup != null && (
         <ChooseTheme
           handleThemeChoice={handleThemeChoice}

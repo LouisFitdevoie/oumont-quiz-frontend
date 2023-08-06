@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import MultipleChoice from "./MultipleChoice";
 import QuestionButtons from "./QuestionButtons";
-import Open from "./Open";
+import OpenEstimate from "./OpenEstimate";
 
 export default function App({ question, handleNextQuestion, questionNumber }) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
@@ -28,14 +28,18 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
         />
       </div>
     );
-  } else if (question.questionType === "open") {
+  } else if (
+    question.questionType === "open" ||
+    question.questionType === "estimate"
+  ) {
     return (
       <div className="w-full h-full flex flex-col justify-between">
-        <Open
+        <OpenEstimate
           question={question.question}
           correctAnswer={question.answer}
           timeToAnswer={10}
           isAnswerShown={isAnswerShown}
+          type={question.questionType}
         />
         <QuestionButtons
           handleNextQuestion={handleNextQuestion}
@@ -45,7 +49,5 @@ export default function App({ question, handleNextQuestion, questionNumber }) {
         />
       </div>
     );
-  } else if (question.questionType === "estimate") {
-    return <p>ESTIMATE</p>;
   }
 }
