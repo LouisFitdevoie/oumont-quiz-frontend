@@ -21,3 +21,10 @@ export function createGame(
     },
   });
 }
+
+export function getGame(gameId) {
+  return axios({
+    method: "get",
+    url: `${base_url}/game/${gameId}`,
+  });
+}
