@@ -46,7 +46,7 @@ export default function GroupLine({ groupName, groupId }) {
           <div className="flex flex-row ml-2">
             <button
               onClick={() => setIsEditing(true)}
-              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white ${
+              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
                 isEditing
                   ? "bg-darkGray border-darkGray cursor-not-allowed"
                   : "border-black bg-black hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black"
@@ -58,7 +58,7 @@ export default function GroupLine({ groupName, groupId }) {
             </button>
             <button
               onClick={() => handleDelete()}
-              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white ${
+              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
                 isEditing
                   ? "bg-darkGray border-darkGray cursor-not-allowed"
                   : "border-black bg-black hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black"
@@ -81,7 +81,7 @@ export default function GroupLine({ groupName, groupId }) {
           <div className="flex flex-row ml-2">
             <button
               onClick={() => handleEdit()}
-              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white ${
+              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
                 !isEditing
                   ? "bg-darkGray border-darkGray cursor-not-allowed"
                   : "border-black bg-black hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black"
@@ -93,7 +93,7 @@ export default function GroupLine({ groupName, groupId }) {
             </button>
             <button
               onClick={() => handleCancel()}
-              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white ${
+              className={`h-9 w-9 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
                 !isEditing
                   ? "bg-darkGray border-darkGray cursor-not-allowed"
                   : "border-black bg-black hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black"
