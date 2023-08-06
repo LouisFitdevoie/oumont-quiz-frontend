@@ -24,7 +24,7 @@ export default function Timer({ timeToAnswer, setIsTimeOver }) {
 
   const circleRadius = 45;
   const circumference = 2 * Math.PI * circleRadius;
-  const strokeDashoffset = (circumference * (100 - progress)) / 100;
+  const strokeDashoffset = 1 - (circumference * (100 - progress)) / 100;
 
   return (
     <div className="flex justify-center items-center">
@@ -39,7 +39,7 @@ export default function Timer({ timeToAnswer, setIsTimeOver }) {
             cx="50"
             cy="50"
             r={circleRadius}
-            stroke={progress >= 70 ? "#f46546" : "#1e1e1e"}
+            stroke={seconds <= 3 ? "#f46546" : "#1e1e1e"}
             strokeWidth="10"
             fill="transparent"
             style={{
@@ -51,7 +51,7 @@ export default function Timer({ timeToAnswer, setIsTimeOver }) {
         </svg>
         <p
           className={`transition-all duration-500 absolute inset-0 flex justify-center items-center text-3xl font-bold ${
-            progress >= 70 ? "text-red" : "text-black"
+            seconds <= 3 ? "text-red" : "text-black"
           }`}
         >
           {Math.ceil(seconds)}
