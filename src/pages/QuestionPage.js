@@ -6,6 +6,7 @@ import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import { useParams } from "react-router-dom";
+import Question from "../components/questions/Question";
 
 export default function QuestionPage() {
   const { gameId } = useParams();
@@ -18,7 +19,8 @@ export default function QuestionPage() {
   const [questionNumber, setQuestionNumber] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(null);
   const [randomThemes, setRandomThemes] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [currentQuestion, setCurrentQuestion] = useState({});
+  const [isQuestionSelected, setIsQuestionSelected] = useState(false);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
@@ -46,10 +48,10 @@ export default function QuestionPage() {
     //*****************/
     //TODO: Remove this timeout and replace it with a call to the API to get the question
     //TODO: Then add question id to the questionList
-    setTimeout(() => {
-      setQuestionNumber(questionNumber + 3);
-      setIsThemeChosen(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setQuestionNumber(questionNumber + 3);
+    //   setIsThemeChosen(false);
+    // }, 2000);
     //*****************/
   };
 
@@ -75,10 +77,25 @@ export default function QuestionPage() {
 
   const handleGetRandomQuestion = async () => {
     const response = await getRandomQuestion(themeName, gameId);
-    setCurrentQuestion(response.data.question.question);
+    setCurrentQuestion(response.data.question);
     const questionsAlreadyAsked = questionList;
     questionsAlreadyAsked.push(response.data.question.id);
     setQuestionList(questionsAlreadyAsked);
+    setIsQuestionSelected(true);
+  };
+
+  const handleNextQuestion = () => {
+    setQuestionNumber(questionNumber + 1);
+    if (questionNumber + (1 % 3) === 0) {
+      setIsThemeChosen(false);
+      setThemeName(null);
+      setCurrentQuestion({});
+      setIsQuestionSelected(false);
+    } else {
+      setIsQuestionSelected(false);
+      setCurrentQuestion({});
+      handleGetRandomQuestion();
+    }
   };
 
   useEffect(() => {
@@ -119,7 +136,13 @@ export default function QuestionPage() {
           themes={randomThemes}
         />
       )}
-      {isThemeChosen && <p>{themeName}</p>}
+      {isThemeChosen && isQuestionSelected && currentQuestion !== {} && (
+        <Question
+          question={currentQuestion}
+          handleNextQuestion={handleNextQuestion}
+          questionNumber={questionNumber}
+        />
+      )}
     </div>
   );
 }
