@@ -81,10 +81,12 @@ export default function AddGroup() {
               )}
             </div>
           ))}
-          <Button
-            title="Commencer la partie"
-            onClick={() => navigate("/question/" + gameId)}
-          />
+          {groups.length >= 2 && (
+            <Button
+              title="Commencer la partie"
+              onClick={() => navigate("/question/" + gameId)}
+            />
+          )}
         </div>
       )}
     </div>

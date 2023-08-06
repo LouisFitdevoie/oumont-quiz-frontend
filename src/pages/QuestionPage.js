@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
 import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
-import { getRandomThemes } from "../api/question.api";
+import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import { useParams } from "react-router-dom";
 
 export default function QuestionPage() {
@@ -14,10 +14,11 @@ export default function QuestionPage() {
   const [initialGroups, setInitialGroups] = useState([]);
   const [groups, setGroups] = useState([]);
   const [isThemeChosen, setIsThemeChosen] = useState(true);
-  const [themeId, setThemeId] = useState(null);
+  const [themeName, setThemeName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [currentGroup, setCurrentGroup] = useState(null);
   const [randomThemes, setRandomThemes] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
@@ -37,14 +38,19 @@ export default function QuestionPage() {
     setGroups(groups);
   };
 
-  const handleThemeChoice = (themeId) => {
+  const handleThemeChoice = (themeName) => {
     setIsThemeChosen(true);
-    setThemeId(themeId);
+    setThemeName(themeName);
     setRandomThemes([]);
+
+    //*****************/
+    //TODO: Remove this timeout and replace it with a call to the API to get the question
+    //TODO: Then add question id to the questionList
     setTimeout(() => {
       setQuestionNumber(questionNumber + 3);
       setIsThemeChosen(false);
     }, 2000);
+    //*****************/
   };
 
   const handleGetRandomGroup = () => {
@@ -67,6 +73,14 @@ export default function QuestionPage() {
     setRandomThemes(response.data.themes);
   };
 
+  const handleGetRandomQuestion = async () => {
+    const response = await getRandomQuestion(themeName, gameId);
+    setCurrentQuestion(response.data.question.question);
+    const questionsAlreadyAsked = questionList;
+    questionsAlreadyAsked.push(response.data.question.id);
+    setQuestionList(questionsAlreadyAsked);
+  };
+
   useEffect(() => {
     handleGetGame(gameId);
     handleGetGroups(gameId);
@@ -75,7 +89,7 @@ export default function QuestionPage() {
   useEffect(() => {
     if ((questionNumber - 1) % 3 === 0) {
       setIsThemeChosen(false);
-      setThemeId(null);
+      setThemeName(null);
     }
   }, [questionNumber]);
 
@@ -83,6 +97,12 @@ export default function QuestionPage() {
     if (!isThemeChosen && initialGroups.length > 0) {
       handleGetRandomGroup();
       handleGetRandomThemes();
+    } else if (
+      isThemeChosen &&
+      initialGroups.length > 0 &&
+      themeName !== null
+    ) {
+      handleGetRandomQuestion();
     }
   }, [isThemeChosen, initialGroups]);
 
@@ -99,7 +119,7 @@ export default function QuestionPage() {
           themes={randomThemes}
         />
       )}
-      {isThemeChosen && <p>{themeId}</p>}
+      {isThemeChosen && <p>{themeName}</p>}
     </div>
   );
 }
