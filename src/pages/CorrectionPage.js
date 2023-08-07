@@ -3,7 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 
 import Header from "../components/Header";
 import { getGame } from "../api/game.api";
-import { getGroupsForGame } from "../api/group.api";
+import { getGroupsForGame, updateGroupPoints } from "../api/group.api";
 import { getQuestionById } from "../api/question.api";
 import Button from "../components/Button";
 
@@ -17,6 +17,7 @@ export default function CorrectionPage() {
   const [questions, setQuestions] = useState([]);
   const [groups, setGroups] = useState([]);
   const [currentGroup, setCurrentGroup] = useState(0);
+  const [groupPoints, setGroupPoints] = useState(0);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
@@ -39,6 +40,20 @@ export default function CorrectionPage() {
       questionsReceived.push(response.data.question);
     });
     setQuestions(questionsReceived);
+  };
+
+  const handleChangeGroup = async (groupIndex) => {
+    const response = await updateGroupPoints(
+      groups[groupIndex].id,
+      groupPoints
+    );
+    if (response.status === 200) {
+      setGroupPoints(0);
+      setCurrentGroup(groupIndex + 1);
+    } else {
+      console.log(response.data);
+      alert("Une erreur est survenue lors de la mise à jour des points");
+    }
   };
 
   useEffect(() => {
@@ -74,12 +89,12 @@ export default function CorrectionPage() {
               onClick={() => {
                 if (currentGroup === groups.length - 1) {
                   if (isEnded === "true") {
-                    console.log("TODO: redirect to end page");
+                    console.log("TODO: rediriger classement final");
                   } else {
-                    console.log("TODO: redirect to next question");
+                    console.log("TODO: rediriger classement intermédiaire");
                   }
                 } else {
-                  setCurrentGroup(currentGroup + 1);
+                  handleChangeGroup(currentGroup);
                 }
               }}
             />
