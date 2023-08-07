@@ -37,58 +37,62 @@ export default function AddGroup() {
 
   return (
     <div
-      className="w-full h-screen flex flex-col items-start"
+      className="w-full h-screen flex flex-col items-start max-h-screen"
       data-testid="add-groups-page-container"
     >
       <Header pageTitle="Création de partie - Groupes participants" />
-      <div className="self-center w-5/6">
-        <Form
-          initialValues={{
-            group: "",
-          }}
-          onSubmit={(values) => handleCreateGroup(values)}
-        >
-          <GroupField />
-        </Form>
-      </div>
-      {groups.length === 0 ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <h1 className="text-2xl font-bold text-center">
-            Aucun groupe n'a été trouvé pour cette partie
-          </h1>
-        </div>
-      ) : (
+      <div className="w-full flex flex-col items-center overflow-auto">
         <div className="self-center w-5/6">
-          <h1 className="text-2xl font-bold text-center">
-            Groupes participants
-          </h1>
-          {groups.map((group) => (
-            <div
-              className="px-4 mt-2 w-full flex flex-col items-center justify-start"
-              key={group.id}
-            >
-              <Form
-                initialValues={{
-                  group: group.name,
-                }}
-              >
-                <GroupLine groupName={group.name} groupId={group.id} />
-              </Form>
-              {groups[groups.length - 1].id !== group.id && (
-                <div className="px-3 w-full">
-                  <div className="h-px bg-darkGray mt-2" />
-                </div>
-              )}
-            </div>
-          ))}
-          {groups.length >= 2 && (
-            <Button
-              title="Commencer la partie"
-              onClick={() => navigate("/question/" + gameId)}
-            />
-          )}
+          <Form
+            initialValues={{
+              group: "",
+            }}
+            onSubmit={(values) => handleCreateGroup(values)}
+          >
+            <GroupField />
+          </Form>
         </div>
-      )}
+        {groups.length === 0 ? (
+          <div className="w-full h-full flex items-center justify-center">
+            <h1 className="text-2xl font-bold text-center">
+              Aucun groupe n'a été trouvé pour cette partie
+            </h1>
+          </div>
+        ) : (
+          <div className="self-center w-5/6">
+            <h1 className="text-2xl font-bold text-center">
+              Groupes participants
+            </h1>
+            <div className="w-full">
+              {groups.map((group) => (
+                <div
+                  className="px-4 mt-2 w-full flex flex-col items-center justify-start"
+                  key={group.id}
+                >
+                  <Form
+                    initialValues={{
+                      group: group.name,
+                    }}
+                  >
+                    <GroupLine groupName={group.name} groupId={group.id} />
+                  </Form>
+                  {groups[groups.length - 1].id !== group.id && (
+                    <div className="px-3 w-full">
+                      <div className="h-px bg-darkGray mt-2" />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            {groups.length >= 2 && (
+              <Button
+                title="Commencer la partie"
+                onClick={() => navigate("/question/" + gameId)}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
