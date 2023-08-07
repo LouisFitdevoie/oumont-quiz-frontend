@@ -5,6 +5,7 @@ import CreateGamePage from "./pages/CreateGamePage";
 import AddGroupPage from "./pages/AddGroupPage";
 import QuestionPage from "./pages/QuestionPage";
 import CorrectionPage from "./pages/CorrectionPage";
+import ResultPage from "./pages/ResultPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/add-groups/:gameId" element={<AddGroupPage />} />
             <Route path="/question/:gameId" element={<QuestionPage />} />
             <Route path="/correction/:gameId" element={<CorrectionPage />} />
+            <Route path="/results/:gameId" element={<ResultPage />} />
             <Route
               path="*"
               element={<h1>404 - Page Not Found (PAGE NOT BUILT YET)</h1>}
