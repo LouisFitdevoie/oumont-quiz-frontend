@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import Button from "../components/Button";
@@ -10,6 +10,7 @@ import { getQuestionById } from "../api/question.api";
 
 export default function CorrectionPage() {
   const { gameId } = useParams();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(useLocation().search);
   const questionNumber = queryParams.get("questionNumber");
   const isEnded = queryParams.get("isEnded");
@@ -87,10 +88,7 @@ export default function CorrectionPage() {
   }, [questionList, gameId]);
 
   return (
-    <div
-      className="w-full h-screen flex flex-col items-start"
-      data-testid="add-groups-page-container"
-    >
+    <div className="w-full h-screen flex flex-col items-start">
       {game !== {} && <Header pageTitle={`${game.name} - Correction`} />}
       {groups.length !== 0 && (
         <div className="w-full h-full flex flex-col items-center justify-center">
@@ -117,7 +115,8 @@ export default function CorrectionPage() {
                           setPoints={setGroupPoints}
                           currentGroup={currentGroup}
                         />
-                        {questions[questions.length - 1].id !== question.id && (
+                        {questions[questions.length - 1].question.id !==
+                          question.id && (
                           <div className="w-full">
                             <div className="h-px bg-darkGray" />
                           </div>
@@ -167,11 +166,12 @@ export default function CorrectionPage() {
                     : "Voir le classement intermédiaire"
                 }
                 onClick={() => {
-                  if (isEnded === "true") {
-                    console.log("TODO: rediriger classement final");
-                  } else {
-                    console.log("TODO: rediriger classement intermédiaire");
-                  }
+                  navigate("/results/" + gameId, {
+                    state: {
+                      questionNumber: questionNumber,
+                      isEnded: isEnded,
+                    },
+                  });
                 }}
               />
             )}
