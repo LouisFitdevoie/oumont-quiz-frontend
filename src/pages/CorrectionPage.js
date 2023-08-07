@@ -77,56 +77,68 @@ export default function CorrectionPage() {
       {game !== {} && <Header pageTitle={`${game.name} - Correction`} />}
       {groups.length !== 0 && (
         <div className="w-full h-full flex flex-col items-center justify-center">
-          <div className="w-5/6 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
-            <h1 className="text-xl">
-              Correction des réponses du groupe :{" "}
-              <i className="font-bold">{groups[currentGroup].name}</i>
-            </h1>
-          </div>
-          <div className="w-5/6 bg-white border-2 border-black overflow-auto rounded-2xl text-center font-medium py-2 px-4 mt-2">
-            {questions
-              .sort((a, b) => {
-                return a.order - b.order;
-              })
-              .map((question, index) => {
-                return (
-                  <div key={index}>
-                    <QuestionCorrection
-                      questionNumber={question.order + 1}
-                      question={question.question}
-                      points={groupPoints}
-                      setPoints={setGroupPoints}
-                    />
-                    {questions[questions.length - 1].id !== question.id && (
-                      <div className="w-full">
-                        <div className="h-px bg-darkGray" />
+          {currentGroup < groups.length && (
+            <>
+              <div className="w-5/6 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+                <h1 className="text-xl">
+                  Correction des réponses du groupe :{" "}
+                  <i className="font-bold">{groups[currentGroup].name}</i>
+                </h1>
+              </div>
+              <div className="w-5/6 bg-white border-2 border-black overflow-auto rounded-2xl text-center font-medium py-2 px-4 mt-2">
+                {questions
+                  .sort((a, b) => {
+                    return a.order - b.order;
+                  })
+                  .map((question, index) => {
+                    return (
+                      <div key={index}>
+                        <QuestionCorrection
+                          questionNumber={question.order + 1}
+                          question={question.question}
+                          points={groupPoints}
+                          setPoints={setGroupPoints}
+                          currentGroup={currentGroup}
+                        />
+                        {questions[questions.length - 1].id !== question.id && (
+                          <div className="w-full">
+                            <div className="h-px bg-darkGray" />
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-          </div>
+                    );
+                  })}
+              </div>
+            </>
+          )}
+          {currentGroup === groups.length && (
+            <div className="w-1/2 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4 mb-4">
+              <h1 className="text-3xl font-bold">Correction terminée</h1>
+            </div>
+          )}
           <div className="my-2">
-            <Button
-              title={
-                currentGroup === groups.length - 1
-                  ? isEnded === "true"
+            {currentGroup <= groups.length - 1 && (
+              <Button
+                title="Groupe suivant"
+                onClick={() => handleChangeGroup(currentGroup)}
+              />
+            )}
+            {currentGroup === groups.length && (
+              <Button
+                title={
+                  isEnded === "true"
                     ? "Voir le classement final"
                     : "Voir le classement intermédiaire"
-                  : "Groupe suivant"
-              }
-              onClick={() => {
-                if (currentGroup === groups.length - 1) {
+                }
+                onClick={() => {
                   if (isEnded === "true") {
                     console.log("TODO: rediriger classement final");
                   } else {
                     console.log("TODO: rediriger classement intermédiaire");
                   }
-                } else {
-                  handleChangeGroup(currentGroup);
-                }
-              }}
-            />
+                }}
+              />
+            )}
           </div>
         </div>
       )}

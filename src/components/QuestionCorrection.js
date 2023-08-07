@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
@@ -8,6 +8,7 @@ export default function QuestionCorrection({
   question,
   setPoints,
   points,
+  currentGroup,
 }) {
   const [isCorrectClicked, setIsCorrectClicked] = useState(false);
   const [isIncorrectClicked, setIsIncorrectClicked] = useState(false);
@@ -34,6 +35,11 @@ export default function QuestionCorrection({
     }
     setIsIncorrectClicked(true);
   };
+
+  useEffect(() => {
+    setIsCorrectClicked(false);
+    setIsIncorrectClicked(false);
+  }, [currentGroup]);
 
   return (
     <div className="w-full flex flex-row text-left items-center justify-between py-2">
