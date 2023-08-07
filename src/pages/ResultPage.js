@@ -9,9 +9,9 @@ import Button from "../components/Button";
 export default function ResultPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(useLocation().search);
-  const questionNumber = queryParams.get("questionNumber");
-  const isEnded = queryParams.get("isEnded");
+  const state = useLocation().state;
+  const questionNumber = state.questionNumber;
+  const isEnded = state.isEnded;
 
   const [groups, setGroups] = useState([]);
   const [game, setGame] = useState({});
@@ -104,7 +104,7 @@ export default function ResultPage() {
         </div>
       </div>
       <div className="w-full mb-2">
-        {isEnded && (
+        {isEnded === "true" && (
           <Button
             title="Retour à l'accueil"
             onClick={() => {
@@ -112,11 +112,15 @@ export default function ResultPage() {
             }}
           />
         )}
-        {!isEnded && (
+        {isEnded === "false" && (
           <Button
             title="Continuer la partie"
             onClick={() => {
-              console.log("Continuer la partie");
+              navigate(
+                `/question/${gameId}?questionNumber=${
+                  parseInt(questionNumber) + 1
+                }`
+              );
             }}
           />
         )}

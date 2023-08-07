@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
@@ -11,13 +11,16 @@ import Question from "../components/questions/Question";
 export default function QuestionPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
+  const queryParams = new URLSearchParams(useLocation().search);
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
   const [groups, setGroups] = useState([]);
   const [isThemeChosen, setIsThemeChosen] = useState(true);
   const [themeName, setThemeName] = useState(null);
-  const [questionNumber, setQuestionNumber] = useState(1);
+  const [questionNumber, setQuestionNumber] = useState(
+    queryParams.has("questionNumber") ? queryParams.get("questionNumber") : 1
+  );
   const [currentGroup, setCurrentGroup] = useState(null);
   const [randomThemes, setRandomThemes] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState({});
