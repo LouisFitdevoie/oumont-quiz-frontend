@@ -26,6 +26,7 @@ export default function App({
           isAnswerShown={isAnswerShown}
           isTimeOver={isTimeOver}
           setIsTimeOver={setIsTimeOver}
+          explanation={question.explanation}
         />
         {isTimeOver && (
           <QuestionButtons
@@ -55,6 +56,7 @@ export default function App({
           type={question.questionType}
           isTimeOver={isTimeOver}
           setIsTimeOver={setIsTimeOver}
+          explanation={question.explanation}
         />
         {isTimeOver && (
           <QuestionButtons

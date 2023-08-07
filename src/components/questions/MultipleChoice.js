@@ -10,6 +10,7 @@ export default function MultipleChoice({
   isAnswerShown,
   isTimeOver,
   setIsTimeOver,
+  explanation,
 }) {
   useEffect(() => {
     const elements = document.querySelectorAll(".auto-height");
@@ -57,6 +58,11 @@ export default function MultipleChoice({
               </div>
             </div>
           ))}
+        </div>
+      )}
+      {isAnswerShown && explanation !== "" && (
+        <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+          <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}
     </div>

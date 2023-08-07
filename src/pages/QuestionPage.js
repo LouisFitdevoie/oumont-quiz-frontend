@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
-import { getGame, getTimeToAnswer } from "../api/game.api.js";
+import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import { useParams } from "react-router-dom";
