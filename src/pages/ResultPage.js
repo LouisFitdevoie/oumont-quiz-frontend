@@ -1,12 +1,14 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Header from "../components/Header";
 import { getGroupsForGame } from "../api/group.api";
 import { getGame } from "../api/game.api";
+import Button from "../components/Button";
 
 export default function ResultPage() {
   const { gameId } = useParams();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(useLocation().search);
   const questionNumber = queryParams.get("questionNumber");
   const isEnded = queryParams.get("isEnded");
@@ -37,8 +39,6 @@ export default function ResultPage() {
   };
 
   const calcRankingBarWidth = (points) => {
-    console.log(points / maxScore);
-    //Want to multiply by half the width of the div
     const divWidth = document.getElementById("rankingDiv").clientWidth;
     return Math.round((points / maxScore) * (divWidth / 2));
   };
@@ -69,10 +69,16 @@ export default function ResultPage() {
               })
               .map((group, index) => {
                 const barWidth = calcRankingBarWidth(group.points);
-                console.log(barWidth);
                 return (
-                  <div key={index} className="flex flex-row p-3">
-                    <p className="w-28 text-right p-2">
+                  <div
+                    key={index}
+                    className={
+                      index === 0
+                        ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
+                        : "flex flex-row p-3"
+                    }
+                  >
+                    <p className="w-28 text-right p-2 font-bold">
                       {index === 0 ? "🏆" : ""}
                       {group.points} points
                     </p>
@@ -96,6 +102,24 @@ export default function ResultPage() {
               })}
           </div>
         </div>
+      </div>
+      <div className="w-full mb-2">
+        {isEnded && (
+          <Button
+            title="Retour à l'accueil"
+            onClick={() => {
+              navigate("/");
+            }}
+          />
+        )}
+        {!isEnded && (
+          <Button
+            title="Continuer la partie"
+            onClick={() => {
+              console.log("Continuer la partie");
+            }}
+          />
+        )}
       </div>
     </div>
   );
