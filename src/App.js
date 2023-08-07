@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/Home";
-import CreateGame from "./pages/CreateGame";
-import AddGroup from "./pages/AddGroup";
+import HomePage from "./pages/HomePage";
+import CreateGamePage from "./pages/CreateGamePage";
+import AddGroupPage from "./pages/AddGroupPage";
 import QuestionPage from "./pages/QuestionPage";
 
 function App() {
@@ -11,9 +11,9 @@ function App() {
       <div className="bg-yellow w-screen h-screen">
         <div className="max-w-7xl h-screen flex flex-col items-center mx-auto">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/create-game" element={<CreateGame />} />
-            <Route path="/add-groups/:gameId" element={<AddGroup />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/create-game" element={<CreateGamePage />} />
+            <Route path="/add-groups/:gameId" element={<AddGroupPage />} />
             <Route path="/question/:gameId" element={<QuestionPage />} />
             <Route
               path="*"

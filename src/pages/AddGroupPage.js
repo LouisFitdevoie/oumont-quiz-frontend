@@ -9,7 +9,7 @@ import Button from "../components/Button";
 const { useNavigate } = require("react-router-dom");
 const { useParams } = require("react-router-dom");
 
-export default function AddGroup() {
+export default function AddGroupPage() {
   const { gameId } = useParams();
   const [groups, setGroups] = useState([]);
   const navigate = useNavigate();

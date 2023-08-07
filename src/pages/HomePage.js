@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
 
-export default function Home() {
+export default function HomePage() {
   let navigate = useNavigate();
   return (
     <div
