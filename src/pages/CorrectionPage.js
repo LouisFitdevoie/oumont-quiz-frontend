@@ -19,6 +19,7 @@ export default function CorrectionPage() {
   const [groups, setGroups] = useState([]);
   const [currentGroup, setCurrentGroup] = useState(0);
   const [groupPoints, setGroupPoints] = useState(0);
+  const [penaltyPoints, setPenaltyPoints] = useState(0);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
@@ -50,16 +51,32 @@ export default function CorrectionPage() {
   };
 
   const handleChangeGroup = async (groupIndex) => {
-    const response = await updateGroupPoints(
-      groups[groupIndex].id,
-      groupPoints
-    );
+    const points = groupPoints - penaltyPoints;
+    let response;
+    if (groups[groupIndex].points + points < 0) {
+      response = await updateGroupPoints(
+        groups[groupIndex].id,
+        -groups[groupIndex].points
+      );
+    } else {
+      response = await updateGroupPoints(groups[groupIndex].id, points);
+    }
+
     if (response.status === 200) {
       setGroupPoints(0);
+      setPenaltyPoints(0);
       setCurrentGroup(groupIndex + 1);
     } else {
       console.log(response.data);
       alert("Une erreur est survenue lors de la mise à jour des points");
+    }
+  };
+
+  const handlePenaltyPointsChange = (points) => {
+    if (points < 0) {
+      setPenaltyPoints(0);
+    } else {
+      setPenaltyPoints(points);
     }
   };
 
@@ -108,6 +125,25 @@ export default function CorrectionPage() {
                       </div>
                     );
                   })}
+                <div className="w-full flex flex-row text-left items-center justify-between py-2">
+                  <div className="flex flex-row">
+                    <p className="font-bold">
+                      <u>Pénalités :</u>&nbsp;
+                    </p>
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <p>Retirer </p>
+                    <input
+                      className="w-12 h-8 border-2 border-black rounded-md mx-2 text-right"
+                      type="number"
+                      value={penaltyPoints}
+                      onChange={(e) =>
+                        handlePenaltyPointsChange(e.target.value)
+                      }
+                    />
+                    <p> points</p>
+                  </div>
+                </div>
               </div>
             </>
           )}
