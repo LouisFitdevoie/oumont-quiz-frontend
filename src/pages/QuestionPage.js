@@ -21,7 +21,9 @@ export default function QuestionPage() {
   const [isThemeChosen, setIsThemeChosen] = useState(true);
   const [themeName, setThemeName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(
-    queryParams.has("questionNumber") ? queryParams.get("questionNumber") : 1
+    queryParams.has("questionNumber")
+      ? parseInt(queryParams.get("questionNumber"))
+      : 1
   );
   const [currentGroup, setCurrentGroup] = useState(null);
   const [randomThemes, setRandomThemes] = useState([]);

@@ -10,6 +10,8 @@ import ResultPage from "./pages/ResultPage";
 //TODO : Create the 404 page
 //TODO : Create the Game History page
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
+//TODO : Empêcher champs nombre à aller dans le négatif
+//TODO : Vérifier numéro question pas bon quand on continue la partie
 
 function App() {
   return (
