@@ -7,7 +7,6 @@ import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import Question from "../components/questions/Question";
-import Button from "../components/Button";
 
 export default function QuestionPage() {
   const { gameId } = useParams();
@@ -83,7 +82,10 @@ export default function QuestionPage() {
     const response = await getRandomQuestion(themeName, gameId);
     setCurrentQuestion(response.data.question);
     const questionsAlreadyAsked = questionList;
-    questionsAlreadyAsked.push(response.data.question.id);
+    questionsAlreadyAsked.push({
+      order: questionsAlreadyAsked.length,
+      questionId: response.data.question.id,
+    });
     setQuestionList(questionsAlreadyAsked);
     setIsQuestionSelected(true);
   };

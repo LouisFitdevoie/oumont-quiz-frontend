@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import Header from "../components/Header";
+import Button from "../components/Button";
+import QuestionCorrection from "../components/QuestionCorrection";
 import { getGame } from "../api/game.api";
 import { getGroupsForGame, updateGroupPoints } from "../api/group.api";
 import { getQuestionById } from "../api/question.api";
-import Button from "../components/Button";
 
 export default function CorrectionPage() {
   const { gameId } = useParams();
@@ -33,13 +34,19 @@ export default function CorrectionPage() {
     setGroups(groupsReceived);
   };
 
-  const handleGetQuestions = async (questionsId) => {
-    let questionsReceived = [];
-    questionsId.forEach(async (questionId) => {
-      const response = await getQuestionById(questionId);
-      questionsReceived.push(response.data.question);
+  const handleGetQuestions = async (questionsReceived) => {
+    let questionsToReturn = [];
+    questionsReceived.forEach(async (question) => {
+      const response = await getQuestionById(question.questionId);
+      questionsToReturn.push({
+        order: question.order,
+        question: response.data.question,
+      });
     });
-    setQuestions(questionsReceived);
+    questionsToReturn.sort((a, b) => {
+      return a.order - b.order;
+    });
+    setQuestions(questionsToReturn);
   };
 
   const handleChangeGroup = async (groupIndex) => {
@@ -76,7 +83,29 @@ export default function CorrectionPage() {
               <i className="font-bold">{groups[currentGroup].name}</i>
             </h1>
           </div>
-          <div className="w-5/6 bg-white border-2 border-black overflow-auto rounded-2xl text-center font-medium py-2 px-4 mt-2"></div>
+          <div className="w-5/6 bg-white border-2 border-black overflow-auto rounded-2xl text-center font-medium py-2 px-4 mt-2">
+            {questions
+              .sort((a, b) => {
+                return a.order - b.order;
+              })
+              .map((question, index) => {
+                return (
+                  <div key={index}>
+                    <QuestionCorrection
+                      questionNumber={question.order + 1}
+                      question={question.question}
+                      points={groupPoints}
+                      setPoints={setGroupPoints}
+                    />
+                    {questions[questions.length - 1].id !== question.id && (
+                      <div className="w-full">
+                        <div className="h-px bg-darkGray" />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+          </div>
           <div className="my-2">
             <Button
               title={
