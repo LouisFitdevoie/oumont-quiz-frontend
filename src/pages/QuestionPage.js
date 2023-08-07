@@ -104,7 +104,7 @@ export default function QuestionPage() {
 
   const handleBreakClicked = () => {
     navigate(
-      `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
+      `/correction/${gameId}?isEnded=false&questionNumber=${questionNumber}`,
       {
         state: {
           questionList: questionList,
