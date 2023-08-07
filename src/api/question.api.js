@@ -26,3 +26,10 @@ export function getRandomQuestion(theme, gameId) {
     url: `${base_url}/randomQuestion?gameId=${gameId}&theme=${theme}`,
   });
 }
+
+export function getQuestionById(questionId) {
+  return axios({
+    method: "get",
+    url: `${base_url}/question/${questionId}`,
+  });
+}

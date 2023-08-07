@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
 import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
-import { useParams } from "react-router-dom";
 import Question from "../components/questions/Question";
 
 export default function QuestionPage() {
   const { gameId } = useParams();
+  const navigate = useNavigate();
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
@@ -81,7 +82,10 @@ export default function QuestionPage() {
     const response = await getRandomQuestion(themeName, gameId);
     setCurrentQuestion(response.data.question);
     const questionsAlreadyAsked = questionList;
-    questionsAlreadyAsked.push(response.data.question.id);
+    questionsAlreadyAsked.push({
+      order: questionsAlreadyAsked.length,
+      questionId: response.data.question.id,
+    });
     setQuestionList(questionsAlreadyAsked);
     setIsQuestionSelected(true);
   };
@@ -98,6 +102,28 @@ export default function QuestionPage() {
       setCurrentQuestion({});
       handleGetRandomQuestion();
     }
+  };
+
+  const handleBreakClicked = () => {
+    navigate(
+      `/correction/${gameId}?isEnded=false&questionNumber=${questionNumber}`,
+      {
+        state: {
+          questionList: questionList,
+        },
+      }
+    );
+  };
+
+  const handleEndGameClicked = () => {
+    navigate(
+      `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
+      {
+        state: {
+          questionList: questionList,
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -150,6 +176,8 @@ export default function QuestionPage() {
           handleNextQuestion={handleNextQuestion}
           questionNumber={questionNumber}
           timeToAnswer={timeToAnswer}
+          handleBreakClicked={handleBreakClicked}
+          handleEndGameClicked={handleEndGameClicked}
         />
       )}
     </div>

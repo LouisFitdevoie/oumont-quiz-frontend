@@ -9,6 +9,8 @@ export default function App({
   handleNextQuestion,
   questionNumber,
   timeToAnswer,
+  handleBreakClicked,
+  handleEndGameClicked,
 }) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
@@ -34,6 +36,8 @@ export default function App({
             isAnswerShown={isAnswerShown}
             questionNumber={questionNumber}
             setIsAnswerShown={setIsAnswerShown}
+            handleBreakClicked={handleBreakClicked}
+            handleEndGameClicked={handleEndGameClicked}
           />
         )}
       </div>
@@ -64,6 +68,8 @@ export default function App({
             isAnswerShown={isAnswerShown}
             questionNumber={questionNumber}
             setIsAnswerShown={setIsAnswerShown}
+            handleBreakClicked={handleBreakClicked}
+            handleEndGameClicked={handleEndGameClicked}
           />
         )}
       </div>

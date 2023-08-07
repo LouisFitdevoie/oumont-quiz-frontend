@@ -9,7 +9,7 @@ import InputFile from "../components/forms/InputFile";
 import { createGame } from "../api/game.api.js";
 import { createQuestion } from "../api/question.api.js";
 
-export default function CreateGame() {
+export default function CreateGamePage() {
   let navigate = useNavigate();
   const handleSubmit = async (values) => {
     const gameResponse = await createGame(

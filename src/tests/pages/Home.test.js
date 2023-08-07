@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
-import Home from "../../pages/Home";
+import HomePage from "../../pages/HomePage";
 
 test("renders homepage", () => {
-  render(<Home />);
+  render(<HomePage />);
   const containerElement = screen.getByTestId("home-container");
   const logoContainerElement = screen.getByTestId("home-logo-container");
   const buttonsContainerElement = screen.getByTestId("home-buttons-container");

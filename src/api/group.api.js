@@ -40,3 +40,14 @@ export function deleteGroup(groupId) {
     },
   });
 }
+
+export function updateGroupPoints(groupId, points) {
+  return axios({
+    method: "put",
+    url: `${base_url}/group`,
+    data: {
+      groupId,
+      points,
+    },
+  });
+}
