@@ -8,6 +8,8 @@ import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import Question from "../components/questions/Question";
 
+//TODO : empêcher user de revenir à question n° questionNumber après avoir actualisé la page
+
 export default function QuestionPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();

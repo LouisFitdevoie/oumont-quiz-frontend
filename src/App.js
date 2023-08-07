@@ -7,6 +7,10 @@ import QuestionPage from "./pages/QuestionPage";
 import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
 
+//TODO : Create the 404 page
+//TODO : Create the Game History page
+//TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
+
 function App() {
   return (
     <Router>

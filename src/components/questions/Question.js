@@ -15,8 +15,6 @@ export default function App({
   const [isAnswerShown, setIsAnswerShown] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
-  //TODO : add explanation
-
   if (question.questionType === "multipleChoice") {
     return (
       <div className="w-full h-full flex flex-col justify-between">
