@@ -8,6 +8,7 @@ export default function OpenEstimate({
   type,
   isTimeOver,
   setIsTimeOver,
+  explanation,
 }) {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -25,6 +26,11 @@ export default function OpenEstimate({
       {isAnswerShown && (
         <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
           <u className="font-semibold">Réponse correcte :</u> {correctAnswer}
+        </div>
+      )}
+      {isAnswerShown && explanation !== "" && (
+        <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+          <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}
     </div>
