@@ -5,6 +5,8 @@ export default function QuestionButtons({
   questionNumber,
   setIsAnswerShown,
   handleNextQuestion,
+  handleBreakClicked,
+  handleEndGameClicked,
 }) {
   return (
     <div className="mb-4">
@@ -22,17 +24,11 @@ export default function QuestionButtons({
             }  w-5/6`}
           >
             {questionNumber % 3 === 0 && (
-              <Button
-                title="Faire une pause"
-                onClick={() => console.log("Faire une pause")}
-              />
+              <Button title="Faire une pause" onClick={handleBreakClicked} />
             )}
             <Button title="Question suivante" onClick={handleNextQuestion} />
             {questionNumber % 3 === 0 && (
-              <Button
-                title="Fin du jeu"
-                onClick={() => console.log("Fin du jeu")}
-              />
+              <Button title="Fin du jeu" onClick={handleEndGameClicked} />
             )}
           </div>
         </div>

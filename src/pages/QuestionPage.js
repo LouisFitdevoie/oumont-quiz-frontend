@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
 import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
-import { useParams } from "react-router-dom";
 import Question from "../components/questions/Question";
+import Button from "../components/Button";
 
 export default function QuestionPage() {
   const { gameId } = useParams();
+  const navigate = useNavigate();
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
@@ -100,6 +102,28 @@ export default function QuestionPage() {
     }
   };
 
+  const handleBreakClicked = () => {
+    navigate(
+      `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
+      {
+        state: {
+          questionList: questionList,
+        },
+      }
+    );
+  };
+
+  const handleEndGameClicked = () => {
+    navigate(
+      `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
+      {
+        state: {
+          questionList: questionList,
+        },
+      }
+    );
+  };
+
   useEffect(() => {
     handleGetGame(gameId);
     handleGetGroups(gameId);
@@ -150,6 +174,8 @@ export default function QuestionPage() {
           handleNextQuestion={handleNextQuestion}
           questionNumber={questionNumber}
           timeToAnswer={timeToAnswer}
+          handleBreakClicked={handleBreakClicked}
+          handleEndGameClicked={handleEndGameClicked}
         />
       )}
     </div>
