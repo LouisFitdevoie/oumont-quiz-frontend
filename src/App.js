@@ -12,6 +12,8 @@ import ResultPage from "./pages/ResultPage";
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Empêcher champs nombre à aller dans le négatif
 //TODO : Vérifier numéro question pas bon quand on continue la partie
+//TODO : Ajouter images si présentes
+//TODO : Ajouter musique de son
 
 function App() {
   return (
