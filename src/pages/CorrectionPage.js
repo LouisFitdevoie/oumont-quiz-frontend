@@ -15,6 +15,7 @@ export default function CorrectionPage() {
   const questionNumber = queryParams.get("questionNumber");
   const isEnded = queryParams.get("isEnded");
   const questionList = useLocation().state.questionList;
+  const groupsLeftList = useLocation().state.groupsLeftList;
   const [game, setGame] = useState({});
   const [questions, setQuestions] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -85,7 +86,10 @@ export default function CorrectionPage() {
     handleGetGame(gameId);
     handleGetGroups(gameId);
     handleGetQuestions(questionList);
-  }, [questionList, gameId]);
+    if (isEnded === "false") {
+      console.log(groupsLeftList);
+    }
+  }, [questionList, groupsLeftList, gameId, isEnded]);
 
   return (
     <div className="w-full h-screen flex flex-col items-start">
@@ -170,6 +174,7 @@ export default function CorrectionPage() {
                     state: {
                       questionNumber: questionNumber,
                       isEnded: isEnded,
+                      groupsLeftList: groupsLeftList,
                     },
                   });
                 }}

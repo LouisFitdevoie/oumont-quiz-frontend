@@ -7,13 +7,12 @@ import QuestionPage from "./pages/QuestionPage";
 import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
 
-//TODO : Quand pause, passer en paramètres de la requête la liste des groupes qui doivent encore choisir un thème -> quand partie reprend -> récupérer la liste pour choisir un groupe aléatoire tant qu'elle n'est pas vide
 //TODO : Ajouter images si présentes
 //TODO : Ajouter musique de jeu pendant le décompte des questions
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Create the 404 page
 //TODO : Create the Game History page
-//TODO : Bonus
+//TODO : Bonus ?
 
 function App() {
   return (

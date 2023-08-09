@@ -17,7 +17,13 @@ export default function QuestionPage() {
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
-  const [groups, setGroups] = useState([]);
+  const state = useLocation().state;
+  const groupsLeftList = state.hasOwnProperty("groupsLeftList")
+    ? state.groupsLeftList
+    : [];
+  const [groups, setGroups] = useState(
+    groupsLeftList.length > 0 ? groupsLeftList : []
+  );
   const [isThemeChosen, setIsThemeChosen] = useState(true);
   const [themeName, setThemeName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(
@@ -56,7 +62,10 @@ export default function QuestionPage() {
       });
     });
     setInitialGroups(groups);
-    setGroups(groups);
+    if (groupsLeftList.length === 0) {
+      setGroups(groups);
+      console.log(groupsLeftList);
+    }
   };
 
   const handleThemeChoice = (themeName) => {
@@ -117,6 +126,7 @@ export default function QuestionPage() {
       {
         state: {
           questionList: questionList,
+          groupsLeftList: groups,
         },
       }
     );
