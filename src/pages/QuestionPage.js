@@ -18,9 +18,12 @@ export default function QuestionPage() {
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
   const state = useLocation().state;
-  const groupsLeftList = state.hasOwnProperty("groupsLeftList")
-    ? state.groupsLeftList
-    : [];
+  const groupsLeftList =
+    state === null
+      ? []
+      : state.hasOwnProperty("groupsLeftList")
+      ? state.groupsLeftList
+      : [];
   const [groups, setGroups] = useState(
     groupsLeftList.length > 0 ? groupsLeftList : []
   );
@@ -64,7 +67,6 @@ export default function QuestionPage() {
     setInitialGroups(groups);
     if (groupsLeftList.length === 0) {
       setGroups(groups);
-      console.log(groupsLeftList);
     }
   };
 
