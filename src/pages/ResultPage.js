@@ -53,7 +53,7 @@ export default function ResultPage() {
       {game !== {} && (
         <Header
           pageTitle={`${game.name} - Classement ${
-            isEnded ? "final" : "intermédiaire"
+            isEnded === "true" ? "final" : "intermédiaire"
           }`}
         />
       )}
