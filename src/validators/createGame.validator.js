@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
   personsPerGroup: Yup.number(
     "Le nombre de personnes par groupe doit être un nombre"
   )
-    .moreThan(0, "Le nombre de personnes par groupe doit être plus grand que 0")
+    .moreThan(1, "Le nombre de personnes par groupe doit être plus grand que 1")
     .integer("Le nombre de personnes par groupe doit être un nombre entier"),
 });
 

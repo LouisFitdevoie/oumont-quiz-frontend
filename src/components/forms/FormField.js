@@ -46,7 +46,15 @@ export default function FormField({
           value={values[name]}
           onChange={(e) => {
             if (!touched[name]) setFieldTouched(name);
-            setFieldValue(name, e.target.value);
+            if (name === "personsPerGroup" && e.target.value < 1) {
+              setFieldValue(name, 1);
+              return;
+            }
+            if (e.target.value < 0) {
+              setFieldValue(name, 0);
+            } else {
+              setFieldValue(name, e.target.value);
+            }
           }}
           data-testid="form-field"
         />

@@ -12,6 +12,9 @@ export default function ResultPage() {
   const state = useLocation().state;
   const questionNumber = state.questionNumber;
   const isEnded = state.isEnded;
+  const groupsLeftList = state.hasOwnProperty("groupsLeftList")
+    ? state.groupsLeftList
+    : [];
 
   const [groups, setGroups] = useState([]);
   const [game, setGame] = useState({});
@@ -119,7 +122,12 @@ export default function ResultPage() {
               navigate(
                 `/question/${gameId}?questionNumber=${
                   parseInt(questionNumber) + 1
-                }`
+                }`,
+                {
+                  state: {
+                    groupsLeftList: groupsLeftList,
+                  },
+                }
               );
             }}
           />
