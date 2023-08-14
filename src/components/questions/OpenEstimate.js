@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+
 import Timer from "./Timer";
-import QuestionImage from "./QuestionImages";
+import { getQuestionImage } from "../../api/question.api";
 
 export default function OpenEstimate({
   question,
@@ -12,27 +14,48 @@ export default function OpenEstimate({
   explanation,
   imageName = null,
 }) {
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    const getImage = async () => {
+      const response = await getQuestionImage(imageName);
+      const imageType = response.headers["content-type"];
+      const blob = new Blob([response.data], { type: imageType });
+      const url = URL.createObjectURL(blob);
+      setImage(url);
+    };
+    if (imageName) {
+      getImage();
+    }
+  }, [question, imageName]);
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-5/6 flex flex-row bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
         <div className="flex flex-col justify-center flex-grow">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-3xl font-bold">
             Question {type === "open" ? "ouverte" : "d'estimation"}
           </h1>
-          <p className="text-xl">{question}</p>
+          <p className="text-2xl">{question}</p>
+          {image && (
+            <img
+              src={image}
+              alt="Question"
+              className="w-full h-64 pt-2 object-contain"
+            />
+          )}
         </div>
         {!isTimeOver && (
           <Timer setIsTimeOver={setIsTimeOver} timeToAnswer={timeToAnswer} />
         )}
       </div>
-      {imageName !== null && <QuestionImage imageName={imageName} />}
       {isAnswerShown && (
-        <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
           <u className="font-semibold">Réponse correcte :</u> {correctAnswer}
         </div>
       )}
       {isAnswerShown && explanation !== "" && (
-        <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}
