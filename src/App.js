@@ -8,8 +8,6 @@ import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
 import QuestionImage from "./components/questions/QuestionImage";
 
-//TODO : Ajouter images si présentes
-//TODO : Agrandir les textes des questions pour être plus lisibles
 //TODO : Ajouter musique de jeu pendant le décompte des questions
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Create the 404 page
