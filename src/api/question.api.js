@@ -37,7 +37,7 @@ export function getQuestionById(questionId) {
 export function getQuestionImage(imageName) {
   return axios({
     method: "get",
-    url: `${base_url}/questionImage/${imageName}`,
+    url: `${base_url}/questionImage?imageName=${imageName}`,
     responseType: "arraybuffer",
   });
 }
