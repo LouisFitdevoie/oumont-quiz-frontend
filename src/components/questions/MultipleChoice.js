@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import Timer from "./Timer";
+import QuestionImage from "./QuestionImages";
 
 export default function MultipleChoice({
   question,
@@ -11,6 +12,7 @@ export default function MultipleChoice({
   isTimeOver,
   setIsTimeOver,
   explanation,
+  imageName = null,
 }) {
   useEffect(() => {
     const elements = document.querySelectorAll(".auto-height");
@@ -39,26 +41,29 @@ export default function MultipleChoice({
         )}
       </div>
       {(!isTimeOver || isAnswerShown) && (
-        <div className="mt-5 w-5/6 grid grid-cols-2 gap-2">
-          {possibleAnswers.map((answer, index) => (
-            <div
-              key={index}
-              className={`px-3 py-2 flex items-center justify-center border-2 border-black rounded-2xl ${
-                isAnswerShown
-                  ? answer === correctAnswer
-                    ? "bg-green"
-                    : "bg-red"
-                  : "bg-white"
-              }`}
-            >
-              <div className={`auto-height`}>
-                <p className="text-lg w-full text-center font-semibold">
-                  {answer}
-                </p>
+        <>
+          {imageName !== null && <QuestionImage imageName={imageName} />}
+          <div className="mt-5 w-5/6 grid grid-cols-2 gap-2">
+            {possibleAnswers.map((answer, index) => (
+              <div
+                key={index}
+                className={`px-3 py-2 flex items-center justify-center border-2 border-black rounded-2xl ${
+                  isAnswerShown
+                    ? answer === correctAnswer
+                      ? "bg-green"
+                      : "bg-red"
+                    : "bg-white"
+                }`}
+              >
+                <div className={`auto-height`}>
+                  <p className="text-lg w-full text-center font-semibold">
+                    {answer}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
       {isAnswerShown && explanation !== "" && (
         <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">

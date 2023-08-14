@@ -27,6 +27,7 @@ export default function App({
           isTimeOver={isTimeOver}
           setIsTimeOver={setIsTimeOver}
           explanation={question.explanation}
+          imageName={question.imageName !== "" ? question.imageName : null}
         />
         {isTimeOver && (
           <QuestionButtons
@@ -59,6 +60,7 @@ export default function App({
           isTimeOver={isTimeOver}
           setIsTimeOver={setIsTimeOver}
           explanation={question.explanation}
+          imageName={question.imageName !== "" ? question.imageName : null}
         />
         {isTimeOver && (
           <QuestionButtons
