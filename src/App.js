@@ -6,11 +6,10 @@ import AddGroupPage from "./pages/AddGroupPage";
 import QuestionPage from "./pages/QuestionPage";
 import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
-import QuestionImage from "./components/questions/QuestionImage";
+import Page404 from "./pages/Page404";
 
 //TODO : Ajouter musique de jeu pendant le décompte des questions
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
-//TODO : Create the 404 page
 //TODO : Create the Game History page
 //TODO : Bonus ?
 
@@ -26,14 +25,7 @@ function App() {
             <Route path="/question/:gameId" element={<QuestionPage />} />
             <Route path="/correction/:gameId" element={<CorrectionPage />} />
             <Route path="/results/:gameId" element={<ResultPage />} />
-            <Route
-              path="*"
-              element={<h1>404 - Page Not Found (PAGE NOT BUILT YET)</h1>}
-            />
-            <Route
-              path="/questionImage"
-              element={<QuestionImage imageName={"example.jpg"} />}
-            />
+            <Route path="*" element={<Page404 />} />
           </Routes>
         </div>
       </div>
