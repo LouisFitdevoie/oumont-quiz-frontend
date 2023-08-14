@@ -33,3 +33,11 @@ export function getQuestionById(questionId) {
     url: `${base_url}/question/${questionId}`,
   });
 }
+
+export function getQuestionImage(imageName) {
+  return axios({
+    method: "get",
+    url: `${base_url}/questionImage?imageName=${imageName}`,
+    responseType: "arraybuffer",
+  });
+}

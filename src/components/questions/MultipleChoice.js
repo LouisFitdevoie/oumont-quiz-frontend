@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Timer from "./Timer";
+import { getQuestionImage } from "../../api/question.api";
 
 export default function MultipleChoice({
   question,
@@ -11,7 +12,10 @@ export default function MultipleChoice({
   isTimeOver,
   setIsTimeOver,
   explanation,
+  imageName = null,
 }) {
+  const [image, setImage] = useState(null);
+
   useEffect(() => {
     const elements = document.querySelectorAll(".auto-height");
     let maxHeight = 0;
@@ -25,21 +29,39 @@ export default function MultipleChoice({
     elements.forEach((element) => {
       element.style.height = `${maxHeight}px`;
     });
-  }, [question]);
+
+    const getImage = async () => {
+      const response = await getQuestionImage(imageName);
+      const imageType = response.headers["content-type"];
+      const blob = new Blob([response.data], { type: imageType });
+      const url = URL.createObjectURL(blob);
+      setImage(url);
+    };
+    if (imageName) {
+      getImage();
+    }
+  }, [question, imageName]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-5/6 flex flex-row bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
         <div className="flex flex-col justify-center flex-grow">
-          <h1 className="text-2xl font-bold">Question à choix multiple</h1>
-          <p className="text-xl">{question}</p>
+          <h1 className="text-3xl font-bold">Question à choix multiple</h1>
+          <p className="text-2xl">{question}</p>
+          {image && (
+            <img
+              src={image}
+              alt="Question"
+              className="w-full max-h-72 h-full pt-2 object-contain"
+            />
+          )}
         </div>
         {!isTimeOver && (
           <Timer setIsTimeOver={setIsTimeOver} timeToAnswer={timeToAnswer} />
         )}
       </div>
       {(!isTimeOver || isAnswerShown) && (
-        <div className="mt-5 w-5/6 grid grid-cols-2 gap-2">
+        <div className="mt-2 w-5/6 grid grid-cols-2 gap-2">
           {possibleAnswers.map((answer, index) => (
             <div
               key={index}
@@ -52,7 +74,7 @@ export default function MultipleChoice({
               }`}
             >
               <div className={`auto-height`}>
-                <p className="text-lg w-full text-center font-semibold">
+                <p className="text-2xl w-full text-center font-semibold">
                   {answer}
                 </p>
               </div>
@@ -61,7 +83,7 @@ export default function MultipleChoice({
         </div>
       )}
       {isAnswerShown && explanation !== "" && (
-        <div className="mt-5 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}
