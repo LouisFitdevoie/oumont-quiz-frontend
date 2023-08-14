@@ -6,6 +6,7 @@ import AddGroupPage from "./pages/AddGroupPage";
 import QuestionPage from "./pages/QuestionPage";
 import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
+import QuestionImage from "./components/questions/QuestionImages";
 
 //TODO : Ajouter images si présentes
 //TODO : Ajouter musique de jeu pendant le décompte des questions
@@ -29,6 +30,10 @@ function App() {
             <Route
               path="*"
               element={<h1>404 - Page Not Found (PAGE NOT BUILT YET)</h1>}
+            />
+            <Route
+              path="/questionImage"
+              element={<QuestionImage imageName={"example.jpg"} />}
             />
           </Routes>
         </div>
