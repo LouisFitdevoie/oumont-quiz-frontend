@@ -15,6 +15,13 @@ export default function App({
   const [isAnswerShown, setIsAnswerShown] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
+  const timeToReadCharachter = 0.04; // 0.04s to read a charachter -> To be tweaked if needed
+  const charNumber =
+    question.questionType === "multipleChoice"
+      ? question.question.length + question.choices.length
+      : question.question.length;
+  const timeToReadQuestion = Math.round(charNumber * timeToReadCharachter);
+
   if (question.questionType === "multipleChoice") {
     return (
       <div className="w-full h-full flex flex-col justify-between">
@@ -28,6 +35,7 @@ export default function App({
           setIsTimeOver={setIsTimeOver}
           explanation={question.explanation}
           imageName={question.imageName !== "" ? question.imageName : null}
+          timeToReadQuestion={timeToReadQuestion}
         />
         {isTimeOver && (
           <QuestionButtons
@@ -61,6 +69,7 @@ export default function App({
           setIsTimeOver={setIsTimeOver}
           explanation={question.explanation}
           imageName={question.imageName !== "" ? question.imageName : null}
+          timeToReadQuestion={timeToReadQuestion}
         />
         {isTimeOver && (
           <QuestionButtons

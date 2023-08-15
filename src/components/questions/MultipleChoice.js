@@ -13,6 +13,7 @@ export default function MultipleChoice({
   setIsTimeOver,
   explanation,
   imageName = null,
+  timeToReadQuestion,
 }) {
   const [image, setImage] = useState(null);
 
@@ -57,7 +58,11 @@ export default function MultipleChoice({
           )}
         </div>
         {!isTimeOver && (
-          <Timer setIsTimeOver={setIsTimeOver} timeToAnswer={timeToAnswer} />
+          <Timer
+            setIsTimeOver={setIsTimeOver}
+            timeToAnswer={timeToAnswer}
+            timeToReadQuestion={timeToReadQuestion}
+          />
         )}
       </div>
       {(!isTimeOver || isAnswerShown) && (
