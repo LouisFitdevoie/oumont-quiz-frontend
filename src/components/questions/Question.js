@@ -21,7 +21,6 @@ export default function App({
       ? question.question.length + question.choices.length
       : question.question.length;
   const timeToReadQuestion = Math.round(charNumber * timeToReadCharachter);
-  console.log(timeToReadQuestion);
 
   if (question.questionType === "multipleChoice") {
     return (
