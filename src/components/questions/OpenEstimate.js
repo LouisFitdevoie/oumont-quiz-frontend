@@ -14,6 +14,7 @@ export default function OpenEstimate({
   explanation,
   imageName = null,
   timeToReadQuestion,
+  backgroundMusic,
 }) {
   const [image, setImage] = useState(null);
 
@@ -51,6 +52,7 @@ export default function OpenEstimate({
             setIsTimeOver={setIsTimeOver}
             timeToAnswer={timeToAnswer}
             timeToReadQuestion={timeToReadQuestion}
+            backgroundMusic={backgroundMusic}
           />
         )}
       </div>

@@ -14,6 +14,7 @@ export default function MultipleChoice({
   explanation,
   imageName = null,
   timeToReadQuestion,
+  backgroundMusic,
 }) {
   const [image, setImage] = useState(null);
 
@@ -62,6 +63,7 @@ export default function MultipleChoice({
             setIsTimeOver={setIsTimeOver}
             timeToAnswer={timeToAnswer}
             timeToReadQuestion={timeToReadQuestion}
+            backgroundMusic={backgroundMusic}
           />
         )}
       </div>
