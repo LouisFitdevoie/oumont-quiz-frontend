@@ -1,20 +1,33 @@
 import { useEffect, useState } from "react";
 
-export default function Timer({ timeToAnswer, setIsTimeOver }) {
+export default function Timer({
+  timeToAnswer,
+  setIsTimeOver,
+  timeToReadQuestion,
+}) {
   const [seconds, setSeconds] = useState(timeToAnswer);
   const progress = ((timeToAnswer - seconds) / timeToAnswer) * 100;
+  const [isRead, setIsRead] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds((prevSeconds) => Math.max(prevSeconds - 0.05, 0));
-      } else {
-        clearInterval(interval);
-      }
-    }, 50);
+    setTimeout(() => {
+      setIsRead(true);
+    }, timeToReadQuestion * 1000);
+  }, [timeToReadQuestion]);
 
-    return () => clearInterval(interval);
-  }, [seconds]);
+  useEffect(() => {
+    if (isRead) {
+      const interval = setInterval(() => {
+        if (seconds > 0) {
+          setSeconds((prevSeconds) => Math.max(prevSeconds - 0.05, 0));
+        } else {
+          clearInterval(interval);
+        }
+      }, 50);
+
+      return () => clearInterval(interval);
+    }
+  }, [isRead, seconds]);
 
   useEffect(() => {
     if (seconds === 0) {

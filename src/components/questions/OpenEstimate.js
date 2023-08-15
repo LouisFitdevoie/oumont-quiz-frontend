@@ -13,6 +13,7 @@ export default function OpenEstimate({
   setIsTimeOver,
   explanation,
   imageName = null,
+  timeToReadQuestion,
 }) {
   const [image, setImage] = useState(null);
 
@@ -46,7 +47,11 @@ export default function OpenEstimate({
           )}
         </div>
         {!isTimeOver && (
-          <Timer setIsTimeOver={setIsTimeOver} timeToAnswer={timeToAnswer} />
+          <Timer
+            setIsTimeOver={setIsTimeOver}
+            timeToAnswer={timeToAnswer}
+            timeToReadQuestion={timeToReadQuestion}
+          />
         )}
       </div>
       {isAnswerShown && (
