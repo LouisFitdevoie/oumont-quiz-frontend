@@ -53,15 +53,10 @@ export default function QuestionPage() {
     loop: false,
     volume: 0.5,
   });
-  backgroundMusic.on("play", () => {
-    console.log("Music has started playing");
-  });
   backgroundMusic.on("stop", () => {
-    console.log("Music has been stopped");
     backgroundMusic.unload();
   });
   backgroundMusic.on("end", () => {
-    console.log("Music has ended");
     backgroundMusic.stop();
     backgroundMusic.unload();
   });
