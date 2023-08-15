@@ -8,6 +8,8 @@ import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
 import Page404 from "./pages/Page404";
 
+//TODO : Ajouter une page avec les règles
+//TODO : Augmenter la durée de réponse en fonction de la longueur des questions et des propositions
 //TODO : Ajouter musique de jeu pendant le décompte des questions
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Create the Game History page
