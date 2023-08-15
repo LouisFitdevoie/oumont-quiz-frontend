@@ -17,13 +17,15 @@ export default function Timer({
     }, timeToReadQuestion * 1000);
   }, [timeToReadQuestion]);
 
+  let isMusicPlaying = false;
   const playMusic = () => {
-    backgroundMusic.fade(0, 0.5, 2000);
+    if (isMusicPlaying) return;
+    isMusicPlaying = true;
     backgroundMusic.play();
   };
 
   const stopMusic = () => {
-    backgroundMusic.fade(0.5, 0, 2000);
+    isMusicPlaying = false;
     backgroundMusic.stop();
   };
 

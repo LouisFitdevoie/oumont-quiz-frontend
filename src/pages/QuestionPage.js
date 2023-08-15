@@ -50,8 +50,20 @@ export default function QuestionPage() {
     src: [music],
     autoplay: false,
     html5: true,
-    loop: true,
-    volume: 1.0,
+    loop: false,
+    volume: 0.5,
+  });
+  backgroundMusic.on("play", () => {
+    console.log("Music has started playing");
+  });
+  backgroundMusic.on("stop", () => {
+    console.log("Music has been stopped");
+    backgroundMusic.unload();
+  });
+  backgroundMusic.on("end", () => {
+    console.log("Music has ended");
+    backgroundMusic.stop();
+    backgroundMusic.unload();
   });
 
   const handleGetGame = async (gameId) => {
