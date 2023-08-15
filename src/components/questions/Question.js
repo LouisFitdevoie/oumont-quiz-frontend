@@ -11,6 +11,7 @@ export default function App({
   timeToAnswer,
   handleBreakClicked,
   handleEndGameClicked,
+  backgroundMusic,
 }) {
   const [isAnswerShown, setIsAnswerShown] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
@@ -36,6 +37,7 @@ export default function App({
           explanation={question.explanation}
           imageName={question.imageName !== "" ? question.imageName : null}
           timeToReadQuestion={timeToReadQuestion}
+          backgroundMusic={backgroundMusic}
         />
         {isTimeOver && (
           <QuestionButtons
@@ -70,6 +72,7 @@ export default function App({
           explanation={question.explanation}
           imageName={question.imageName !== "" ? question.imageName : null}
           timeToReadQuestion={timeToReadQuestion}
+          backgroundMusic={backgroundMusic}
         />
         {isTimeOver && (
           <QuestionButtons

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Howl } from "howler";
 
 import Header from "../components/Header";
 import ChooseTheme from "../components/ChooseTheme";
@@ -7,6 +8,7 @@ import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import Question from "../components/questions/Question";
+import music from "../assets/musics/test_sound.mp3";
 
 //TODO : empêcher user de revenir à question n° questionNumber après avoir actualisé la page
 
@@ -42,6 +44,21 @@ export default function QuestionPage() {
     open: 0,
     multipleChoice: 0,
     estimate: 0,
+  });
+
+  const backgroundMusic = new Howl({
+    src: [music],
+    autoplay: false,
+    html5: true,
+    loop: false,
+    volume: 0.5,
+  });
+  backgroundMusic.on("stop", () => {
+    backgroundMusic.unload();
+  });
+  backgroundMusic.on("end", () => {
+    backgroundMusic.stop();
+    backgroundMusic.unload();
   });
 
   const handleGetGame = async (gameId) => {
@@ -123,6 +140,7 @@ export default function QuestionPage() {
   };
 
   const handleBreakClicked = () => {
+    backgroundMusic.stop();
     navigate(
       `/correction/${gameId}?isEnded=false&questionNumber=${questionNumber}`,
       {
@@ -135,6 +153,7 @@ export default function QuestionPage() {
   };
 
   const handleEndGameClicked = () => {
+    backgroundMusic.stop();
     navigate(
       `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
       {
@@ -197,6 +216,7 @@ export default function QuestionPage() {
           timeToAnswer={timeToAnswer}
           handleBreakClicked={handleBreakClicked}
           handleEndGameClicked={handleEndGameClicked}
+          backgroundMusic={backgroundMusic}
         />
       )}
     </div>
