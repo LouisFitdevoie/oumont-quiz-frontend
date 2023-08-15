@@ -4,6 +4,7 @@ export default function Timer({
   timeToAnswer,
   setIsTimeOver,
   timeToReadQuestion,
+  backgroundMusic,
 }) {
   const [seconds, setSeconds] = useState(timeToAnswer);
   const progress = ((timeToAnswer - seconds) / timeToAnswer) * 100;
@@ -12,8 +13,19 @@ export default function Timer({
   useEffect(() => {
     setTimeout(() => {
       setIsRead(true);
+      playMusic();
     }, timeToReadQuestion * 1000);
   }, [timeToReadQuestion]);
+
+  const playMusic = () => {
+    backgroundMusic.fade(0, 0.5, 2000);
+    backgroundMusic.play();
+  };
+
+  const stopMusic = () => {
+    backgroundMusic.fade(0.5, 0, 2000);
+    backgroundMusic.stop();
+  };
 
   useEffect(() => {
     if (isRead) {
@@ -21,11 +33,14 @@ export default function Timer({
         if (seconds > 0) {
           setSeconds((prevSeconds) => Math.max(prevSeconds - 0.05, 0));
         } else {
+          stopMusic();
           clearInterval(interval);
         }
       }, 50);
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+      };
     }
   }, [isRead, seconds]);
 
