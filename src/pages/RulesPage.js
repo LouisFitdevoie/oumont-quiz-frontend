@@ -1,8 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Button from "../components/Button";
 
 export default function RulesPage() {
+  const { gameId } = useParams();
+
   let navigate = useNavigate();
   return (
     <div className="h-screen flex flex-col items-center justify-center">
@@ -30,7 +32,10 @@ export default function RulesPage() {
             son téléphone.
           </p>
         </div>
-        <Button title="Retourner à l'accueil" onClick={() => navigate("/")} />
+        <Button
+          title="Commencer la partie"
+          onClick={() => navigate(`/question/${gameId}`)}
+        />
       </div>
     </div>
   );

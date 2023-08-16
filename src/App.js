@@ -9,7 +9,6 @@ import ResultPage from "./pages/ResultPage";
 import Page404 from "./pages/Page404";
 import RulesPage from "./pages/RulesPage";
 
-//TODO : Ajouter une page avec les règles
 //TODO : Ajouter la possibilité d'ajouter la moitié des points d'une question
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Create the Game History page
@@ -28,7 +27,7 @@ function App() {
             <Route path="/question/:gameId" element={<QuestionPage />} />
             <Route path="/correction/:gameId" element={<CorrectionPage />} />
             <Route path="/results/:gameId" element={<ResultPage />} />
-            <Route path="/rules" element={<RulesPage />} />
+            <Route path="/rules/:gameId" element={<RulesPage />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </div>
