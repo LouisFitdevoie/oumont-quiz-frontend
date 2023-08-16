@@ -97,6 +97,7 @@ export default function QuestionCorrection({
 
   useEffect(() => {
     setIsCorrectClicked(false);
+    setIsAddHalfPointsClicked(false);
     setIsIncorrectClicked(true);
   }, [currentGroup]);
 
