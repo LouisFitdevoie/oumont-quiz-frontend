@@ -26,8 +26,8 @@ test("renders non splashscreen Button", () => {
   );
 
   expect(logoElement).toHaveAttribute("src", "logo.png");
-  expect(logoElement).toHaveAttribute("alt", "Oumont Quizz's logo");
-  expect(titleElement).toHaveTextContent("Oumont Quizz");
+  expect(logoElement).toHaveAttribute("alt", "Oumont Quiz's logo");
+  expect(titleElement).toHaveTextContent("Oumont Quiz");
 
   expect(containerElement.childNodes[0]).toBe(logoContainerElement);
   expect(containerElement.childNodes[1]).toBe(titleElement);
@@ -58,8 +58,8 @@ test("renders splashscreen Button", () => {
   );
 
   expect(logoElement).toHaveAttribute("src", "logo.png");
-  expect(logoElement).toHaveAttribute("alt", "Oumont Quizz's logo");
-  expect(titleElement).toHaveTextContent("Oumont Quizz");
+  expect(logoElement).toHaveAttribute("alt", "Oumont Quiz's logo");
+  expect(titleElement).toHaveTextContent("Oumont Quiz");
 
   expect(containerElement.childNodes[0]).toBe(logoContainerElement);
   expect(containerElement.childNodes[1]).toBe(titleElement);
