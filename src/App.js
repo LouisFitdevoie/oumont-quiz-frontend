@@ -9,7 +9,6 @@ import ResultPage from "./pages/ResultPage";
 import Page404 from "./pages/Page404";
 import RulesPage from "./pages/RulesPage";
 
-//TODO : Ajouter la possibilité d'ajouter la moitié des points d'une question
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Create the Game History page
 //TODO : Update the README.md files

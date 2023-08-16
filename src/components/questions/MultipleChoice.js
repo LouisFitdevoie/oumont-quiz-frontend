@@ -17,6 +17,7 @@ export default function MultipleChoice({
   backgroundMusic,
 }) {
   const [image, setImage] = useState(null);
+  const possibleAnswersLetter = ["A", "B", "C", "D"];
 
   useEffect(() => {
     const elements = document.querySelectorAll(".auto-height");
@@ -82,7 +83,7 @@ export default function MultipleChoice({
             >
               <div className={`auto-height`}>
                 <p className="text-2xl w-full text-center font-semibold">
-                  {answer}
+                  {possibleAnswersLetter[index]}) {answer}
                 </p>
               </div>
             </div>
