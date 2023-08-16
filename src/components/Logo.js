@@ -42,7 +42,7 @@ export default function Logo({ splashscreen = false }) {
       >
         <img
           src={logo}
-          alt="Oumont Quizz's logo"
+          alt="Oumont Quiz's logo"
           className={logoClass}
           onAnimationEnd={handleAnimationEnd}
           data-testid="logo"
@@ -56,7 +56,7 @@ export default function Logo({ splashscreen = false }) {
         }
         data-testid="logo-title"
       >
-        Oumont Quizz
+        Oumont Quiz
       </h1>
       <style>
         {`
