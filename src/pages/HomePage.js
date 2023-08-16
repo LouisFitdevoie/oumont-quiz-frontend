@@ -5,6 +5,7 @@ import Button from "../components/Button";
 
 export default function HomePage() {
   let navigate = useNavigate();
+
   return (
     <div
       className="h-screen flex flex-col items-center justify-center"

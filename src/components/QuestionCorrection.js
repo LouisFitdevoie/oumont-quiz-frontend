@@ -36,9 +36,21 @@ export default function QuestionCorrection({
     setIsIncorrectClicked(true);
   };
 
+  const possibleAnswers = ["A", "B", "C", "D"];
+  const multipleChoiceCorrectAnswer = () => {
+    for (let i = 0; i < question.choices.split("/").length; i++) {
+      if (question.choices.split("/")[i] === question.answer) {
+        return possibleAnswers[i];
+      } else {
+        continue;
+      }
+    }
+    return -1;
+  };
+
   useEffect(() => {
     setIsCorrectClicked(false);
-    setIsIncorrectClicked(false);
+    setIsIncorrectClicked(true);
   }, [currentGroup]);
 
   return (
@@ -47,7 +59,11 @@ export default function QuestionCorrection({
         <p className="font-bold">
           <u>Question n°{questionNumber} :</u>&nbsp;
         </p>
-        <p>{question.answer}</p>
+        <p>
+          {question.questionType === "multipleChoice"
+            ? "Réponse " + multipleChoiceCorrectAnswer()
+            : question.answer}
+        </p>
       </div>
       <div className="flex flex-row">
         <button

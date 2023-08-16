@@ -86,9 +86,6 @@ export default function CorrectionPage() {
     handleGetGame(gameId);
     handleGetGroups(gameId);
     handleGetQuestions(questionList);
-    if (isEnded === "false") {
-      console.log(groupsLeftList);
-    }
   }, [questionList, groupsLeftList, gameId, isEnded]);
 
   return (
