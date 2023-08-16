@@ -87,7 +87,7 @@ export default function AddGroupPage() {
             {groups.length >= 2 && (
               <Button
                 title="Commencer la partie"
-                onClick={() => navigate("/question/" + gameId)}
+                onClick={() => navigate(`/rules/${gameId}`)}
               />
             )}
           </div>
