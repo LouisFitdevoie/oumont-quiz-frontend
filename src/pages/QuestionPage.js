@@ -127,8 +127,9 @@ export default function QuestionPage() {
   };
 
   const handleNextQuestion = () => {
+    console.log(questionNumber + 1);
     setQuestionNumber(questionNumber + 1);
-    if (questionNumber + (1 % 3) === 0) {
+    if (questionNumber % 3 === 0) {
       setIsThemeChosen(false);
       setThemeName(null);
       setCurrentQuestion({});

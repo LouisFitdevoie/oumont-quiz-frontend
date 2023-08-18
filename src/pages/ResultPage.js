@@ -43,7 +43,7 @@ export default function ResultPage() {
 
   const calcRankingBarWidth = (points) => {
     const divWidth = document.getElementById("rankingDiv").clientWidth;
-    return Math.round((points / maxScore) * (divWidth / 2));
+    return Math.round((points / maxScore) * (divWidth / 1.5));
   };
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function ResultPage() {
                         : "flex flex-row p-3"
                     }
                   >
-                    <p className="w-28 text-right p-2 font-bold">
+                    <p className="w-32 text-right p-2 font-bold">
                       {index === 0 ? "🏆" : ""}
                       {group.points} points
                     </p>
