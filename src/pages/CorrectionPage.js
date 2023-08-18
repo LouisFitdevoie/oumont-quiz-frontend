@@ -42,7 +42,7 @@ export default function CorrectionPage() {
     questionsReceived.forEach(async (question) => {
       const response = await getQuestionById(question.questionId);
       questionsToReturn.push({
-        order: question.order,
+        order: questionNumber - (questionsReceived.length - question.order),
         question: response.data.question,
       });
     });
