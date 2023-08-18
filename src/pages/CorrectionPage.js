@@ -92,7 +92,11 @@ export default function CorrectionPage() {
     <div className="w-full h-screen flex flex-col items-start">
       {game !== {} && <Header pageTitle={`${game.name} - Correction`} />}
       {groups.length !== 0 && (
-        <div className="w-full flex flex-col items-center justify-center">
+        <div
+          className={`w-full ${
+            currentGroup === groups.length ? "h-full" : ""
+          } flex flex-col items-center justify-center`}
+        >
           {currentGroup < groups.length && (
             <>
               <div className="w-5/6 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
@@ -101,7 +105,7 @@ export default function CorrectionPage() {
                   <i className="font-bold">{groups[currentGroup].name}</i>
                 </h1>
               </div>
-              <div className="w-5/6 bg-white border-2 border-black overflow-auto rounded-2xl text-center font-medium py-2 px-4 mt-2 flex-grow">
+              <div className="w-5/6 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4 mt-2 flex-grow">
                 {questions
                   .sort((a, b) => {
                     return a.order - b.order;
