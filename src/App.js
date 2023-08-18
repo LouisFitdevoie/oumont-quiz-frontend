@@ -17,7 +17,7 @@ import RulesPage from "./pages/RulesPage";
 function App() {
   return (
     <Router>
-      <div className="bg-yellow w-screen h-screen">
+      <div className="bg-yellow w-screen h-screen overflow-auto">
         <div className="max-w-7xl h-screen flex flex-col items-center mx-auto">
           <Routes>
             <Route path="/" element={<HomePage />} />

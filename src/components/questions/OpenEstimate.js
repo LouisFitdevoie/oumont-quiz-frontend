@@ -34,7 +34,11 @@ export default function OpenEstimate({
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-5/6 flex flex-row bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
-        <div className="flex flex-col justify-center flex-grow">
+        <div
+          className={`flex flex-col justify-center flex-grow ${
+            !isTimeOver ? "pr-2" : ""
+          }`}
+        >
           <h1 className="text-3xl font-bold">
             Question {type === "open" ? "ouverte" : "d'estimation"}
           </h1>
@@ -57,12 +61,12 @@ export default function OpenEstimate({
         )}
       </div>
       {isAnswerShown && (
-        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-2xl font-medium py-2 px-4">
           <u className="font-semibold">Réponse correcte :</u> {correctAnswer}
         </div>
       )}
       {isAnswerShown && explanation !== "" && (
-        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-2xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}
