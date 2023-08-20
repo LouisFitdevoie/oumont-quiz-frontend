@@ -34,6 +34,10 @@ export default function TestQuestions() {
   });
 
   const handleNextQuestion = () => {
+    if (questionNumber === allQuestions.length) {
+      navigate(`/`);
+      return;
+    }
     navigate(`/test-questions?questionNumber=${questionNumber + 1}`);
   };
 
