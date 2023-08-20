@@ -114,7 +114,6 @@ export default function QuestionPage() {
   };
 
   const handleGetRandomQuestion = async () => {
-    //NEED TO CORRECT HERE BECAUSE IT GETS A RANDOM QUESTION BEFORE NEW THEME IS CHOSEN
     const response = await getRandomQuestion(themeName, gameId);
     setCurrentQuestion(response.data.question);
     const questionsAlreadyAsked = questionList;
@@ -127,7 +126,6 @@ export default function QuestionPage() {
   };
 
   const handleNextQuestion = () => {
-    console.log(questionNumber + 1);
     setQuestionNumber(questionNumber + 1);
     if (questionNumber % 3 === 0) {
       setIsThemeChosen(false);
@@ -155,6 +153,7 @@ export default function QuestionPage() {
   };
 
   const handleEndGameClicked = () => {
+    console.log(questionList);
     backgroundMusic.stop();
     navigate(
       `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
@@ -208,6 +207,7 @@ export default function QuestionPage() {
           handleThemeChoice={handleThemeChoice}
           groupName={currentGroup.name}
           themes={randomThemes}
+          handleEndGameClicked={handleEndGameClicked}
         />
       )}
       {isThemeChosen && isQuestionSelected && currentQuestion !== {} && (
