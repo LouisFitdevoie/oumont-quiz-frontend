@@ -153,7 +153,6 @@ export default function QuestionPage() {
   };
 
   const handleEndGameClicked = () => {
-    console.log(questionList);
     backgroundMusic.stop();
     navigate(
       `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
