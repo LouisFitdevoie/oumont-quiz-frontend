@@ -53,7 +53,7 @@ export default function MultipleChoice({
             !isTimeOver ? "pr-2" : ""
           }`}
         >
-          <h1 className="text-3xl font-bold">Question à choix multiple</h1>
+          <h1 className="text-3xl font-bold">Question à choix multiples</h1>
           <p className="text-2xl">{question}</p>
           {image && (
             <img
