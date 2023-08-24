@@ -44,18 +44,10 @@ export default function CorrectionPage() {
       setIsLoading(true);
 
       const questionsToReturn = [];
-      let nbQuestions = 0;
-      if (questionNumber > questionsReceived.length) {
-        nbQuestions =
-          questionNumber - (questionNumber - questionsReceived.length);
-      } else {
-        nbQuestions = questionNumber;
-      }
-
       for (const question of questionsReceived) {
         const response = await getQuestionById(question.questionId);
         questionsToReturn.push({
-          order: nbQuestions - (questionsReceived.length - question.order),
+          order: questionNumber - (questionsReceived.length - question.order),
           question: response.data.question,
         });
       }
