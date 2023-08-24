@@ -39,10 +39,10 @@ export default function OpenEstimate({
             !isTimeOver ? "pr-2" : ""
           }`}
         >
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-4xl font-bold">
             Question {type === "open" ? "ouverte" : "d'estimation"}
           </h1>
-          <p className="text-2xl">{question}</p>
+          <p className="text-3xl">{question}</p>
           {image && (
             <img
               src={image}
@@ -61,12 +61,12 @@ export default function OpenEstimate({
         )}
       </div>
       {isAnswerShown && (
-        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-2xl font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Réponse correcte :</u> {correctAnswer}
         </div>
       )}
       {isAnswerShown && explanation !== "" && (
-        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-2xl font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}

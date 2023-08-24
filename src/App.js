@@ -8,6 +8,7 @@ import CorrectionPage from "./pages/CorrectionPage";
 import ResultPage from "./pages/ResultPage";
 import Page404 from "./pages/Page404";
 import RulesPage from "./pages/RulesPage";
+import TestQuestions from "./pages/TestQuestions";
 
 //TODO : Empêcher de retourner en arrière dans le navigateur après avoir commencé la partie
 //TODO : Create the Game History page
@@ -28,6 +29,7 @@ function App() {
             <Route path="/results/:gameId" element={<ResultPage />} />
             <Route path="/rules/:gameId" element={<RulesPage />} />
             <Route path="*" element={<Page404 />} />
+            <Route path="/test-questions" element={<TestQuestions />} />
           </Routes>
         </div>
       </div>

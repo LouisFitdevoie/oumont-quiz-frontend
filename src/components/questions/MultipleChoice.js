@@ -53,8 +53,8 @@ export default function MultipleChoice({
             !isTimeOver ? "pr-2" : ""
           }`}
         >
-          <h1 className="text-3xl font-bold">Question à choix multiple</h1>
-          <p className="text-2xl">{question}</p>
+          <h1 className="text-4xl font-bold">Question à choix multiples</h1>
+          <p className="text-3xl">{question}</p>
           {image && (
             <img
               src={image}
@@ -86,7 +86,7 @@ export default function MultipleChoice({
               }`}
             >
               <div className={`auto-height`}>
-                <p className="text-2xl w-full text-center font-semibold">
+                <p className="text-3xl w-full text-center font-semibold">
                   {possibleAnswersLetter[index]}) {answer}
                 </p>
               </div>
@@ -95,7 +95,7 @@ export default function MultipleChoice({
         </div>
       )}
       {isAnswerShown && explanation !== "" && (
-        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-2xl font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}

@@ -41,3 +41,10 @@ export function getQuestionImage(imageName) {
     responseType: "arraybuffer",
   });
 }
+
+export function getQuestions() {
+  return axios({
+    method: "get",
+    url: `${base_url}/questions`,
+  });
+}

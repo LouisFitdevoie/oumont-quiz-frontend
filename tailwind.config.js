@@ -26,6 +26,9 @@ module.exports = {
       rotate: {
         25: "25deg",
       },
+      animation: {
+        "spin-slow": "spin 2s linear infinite",
+      },
     },
   },
   plugins: [],
