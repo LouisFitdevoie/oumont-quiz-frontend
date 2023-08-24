@@ -8,7 +8,7 @@ export default function Header({ pageTitle }) {
     >
       <Logo />
       <p
-        className="text-black text-lg font-semibold pr-3"
+        className="text-black text-2xl font-semibold pr-3"
         data-testid="header-page-title"
       >
         {pageTitle}

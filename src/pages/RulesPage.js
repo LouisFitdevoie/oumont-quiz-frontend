@@ -12,12 +12,33 @@ export default function RulesPage() {
         <h1 className="text-4xl font-black mb-5">Règles du jeu</h1>
         <div className="max-w-4xl mb-2 px-3">
           <ul className="text-2xl font-semibold text-justify">
-            <li>-&nbsp;Interdiction d'utiliser le téléphone.</li>
-            <li>
+            <li className="mb-2">
+              -&nbsp;Vos réponses doivent être notées sur les papiers à votre
+              disposition, avec le numéro de la question.
+            </li>
+            <li className="mb-2">
+              -&nbsp;Pour les questions à choix multiples, notez simplement la
+              lettre correspondant à la réponse que vous voulez donner.
+            </li>
+            <li className="mb-2">
+              -&nbsp;Pour les questions ouvertes, notez votre réponse entière.
+            </li>
+            <li className="mb-2">
+              -&nbsp;Le papier sur lequel a été indiqué votre réponse devra être
+              déposé dans l'urne de votre groupe avant que la réponse correcte
+              ne soit affichée à l'écran.
+            </li>
+            <li className="mb-2">
+              -&nbsp;Interdiction d'utiliser des appareils connectés à Internet.
+            </li>
+            <li className="mb-2">
+              -&nbsp;Les téléphones doivent être posés sur la table devant vous.
+            </li>
+            <li className="mb-2">
               -&nbsp;Toute tentative de triche* sera punie d'un retrait de 3
               points.
             </li>
-            <li>
+            <li className="mb-2">
               -&nbsp;Éviter de parler trop fort pour ne pas déranger les autres
               participants.
             </li>
