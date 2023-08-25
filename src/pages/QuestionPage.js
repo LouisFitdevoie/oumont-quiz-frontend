@@ -9,6 +9,7 @@ import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import Question from "../components/questions/Question";
 import music from "../assets/musics/test_sound.mp3";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 //TODO : empêcher user de revenir à question n° questionNumber après avoir actualisé la page
 
@@ -45,6 +46,7 @@ export default function QuestionPage() {
     multipleChoice: 0,
     estimate: 0,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const backgroundMusic = new Howl({
     src: [music],
@@ -109,8 +111,17 @@ export default function QuestionPage() {
   };
 
   const handleGetRandomThemes = async () => {
-    const response = await getRandomThemes(gameId);
-    setRandomThemes(response.data.themes);
+    try {
+      setIsLoading(true);
+      const response = await getRandomThemes(gameId);
+      setRandomThemes(response.data.themes);
+    } catch (error) {
+      alert(
+        "Une erreur est survenue lors de la récupération des thèmes, essayez d'actualiser la page"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGetRandomQuestion = async () => {
@@ -207,6 +218,7 @@ export default function QuestionPage() {
           groupName={currentGroup.name}
           themes={randomThemes}
           handleEndGameClicked={handleEndGameClicked}
+          isLoading={isLoading}
         />
       )}
       {isThemeChosen && isQuestionSelected && currentQuestion !== {} && (
@@ -220,6 +232,7 @@ export default function QuestionPage() {
           backgroundMusic={backgroundMusic}
         />
       )}
+      {isLoading && <LoadingIndicator />}
     </div>
   );
 }
