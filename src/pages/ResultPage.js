@@ -27,7 +27,9 @@ export default function ResultPage() {
     response.data.groups.forEach((group) => {
       groupsReceived.push(group);
     });
-    verifyDraw(groupsReceived);
+    if (isEnded) {
+      verifyDraw(groupsReceived);
+    }
     setGroups(groupsReceived);
     let max = 0;
     groupsReceived.forEach((group) => {
@@ -128,11 +130,28 @@ export default function ResultPage() {
         </div>
       </div>
       <div className="w-full mb-2">
-        {isEnded && (
+        {isEnded && !isDraw && (
           <Button
             title="Retour à l'accueil"
             onClick={() => {
               navigate("/");
+            }}
+          />
+        )}
+        {isEnded && isDraw && (
+          <Button
+            title="Départager les équipes"
+            onClick={() => {
+              navigate(
+                `/question/${gameId}?questionNumber=${
+                  parseInt(questionNumber) + 1
+                }`,
+                {
+                  state: {
+                    groupsLeftList: groupsLeftList,
+                  },
+                }
+              );
             }}
           />
         )}
