@@ -11,7 +11,7 @@ export default function ResultPage() {
   const navigate = useNavigate();
   const state = useLocation().state;
   const questionNumber = state.questionNumber;
-  const isEnded = state.isEnded;
+  const isEnded = state.isEnded === "true" ? true : false;
   const groupsLeftList = state.hasOwnProperty("groupsLeftList")
     ? state.groupsLeftList
     : [];
@@ -19,6 +19,7 @@ export default function ResultPage() {
   const [groups, setGroups] = useState([]);
   const [game, setGame] = useState({});
   const [maxScore, setMaxScore] = useState(0);
+  const [isDraw, setIsDraw] = useState(false);
 
   const handleGetGroups = async (gameId) => {
     const response = await getGroupsForGame(gameId);
@@ -26,6 +27,9 @@ export default function ResultPage() {
     response.data.groups.forEach((group) => {
       groupsReceived.push(group);
     });
+    if (isEnded) {
+      verifyDraw(groupsReceived);
+    }
     setGroups(groupsReceived);
     let max = 0;
     groupsReceived.forEach((group) => {
@@ -34,6 +38,32 @@ export default function ResultPage() {
       }
     });
     setMaxScore(max);
+  };
+
+  const verifyDraw = (groupsReceived) => {
+    const groups = groupsReceived.sort((a, b) => {
+      return b.points - a.points;
+    });
+    if (groups.length === 2) {
+      if (groups[0].points === groups[1].points) {
+        setIsDraw(true);
+      }
+    } else if (groups.length === 3) {
+      if (
+        groups[0].points === groups[1].points ||
+        groups[1].points === groups[2].points
+      ) {
+        setIsDraw(true);
+      }
+    } else if (groups.length > 3) {
+      for (let i = 0; i < 3; i++) {
+        if (groups[i].points === groups[i + 1].points) {
+          setIsDraw(true);
+          return;
+        }
+      }
+    }
+    return;
   };
 
   const handleGetGame = async (gameId) => {
@@ -56,7 +86,7 @@ export default function ResultPage() {
       {game !== {} && (
         <Header
           pageTitle={`${game.name} - Classement ${
-            isEnded === "true" ? "final" : "intermédiaire"
+            isEnded ? "final" : "intermédiaire"
           }`}
         />
       )}
@@ -107,7 +137,7 @@ export default function ResultPage() {
         </div>
       </div>
       <div className="w-full mb-2">
-        {isEnded === "true" && (
+        {isEnded && !isDraw && (
           <Button
             title="Retour à l'accueil"
             onClick={() => {
@@ -115,7 +145,24 @@ export default function ResultPage() {
             }}
           />
         )}
-        {isEnded === "false" && (
+        {isEnded && isDraw && (
+          <Button
+            title="Départager les équipes"
+            onClick={() => {
+              navigate(
+                `/question/${gameId}?questionNumber=${
+                  parseInt(questionNumber) + 1
+                }`,
+                {
+                  state: {
+                    groupsLeftList: groupsLeftList,
+                  },
+                }
+              );
+            }}
+          />
+        )}
+        {!isEnded && (
           <Button
             title="Continuer la partie"
             onClick={() => {

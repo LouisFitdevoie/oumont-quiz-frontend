@@ -170,6 +170,7 @@ export default function QuestionPage() {
       {
         state: {
           questionList: questionList,
+          groupsLeftList: groups,
         },
       }
     );
