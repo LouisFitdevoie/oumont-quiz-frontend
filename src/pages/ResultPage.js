@@ -11,7 +11,7 @@ export default function ResultPage() {
   const navigate = useNavigate();
   const state = useLocation().state;
   const questionNumber = state.questionNumber;
-  const isEnded = state.isEnded;
+  const isEnded = state.isEnded === "true" ? true : false;
   const groupsLeftList = state.hasOwnProperty("groupsLeftList")
     ? state.groupsLeftList
     : [];
@@ -77,7 +77,7 @@ export default function ResultPage() {
       {game !== {} && (
         <Header
           pageTitle={`${game.name} - Classement ${
-            isEnded === "true" ? "final" : "intermédiaire"
+            isEnded ? "final" : "intermédiaire"
           }`}
         />
       )}
@@ -128,7 +128,7 @@ export default function ResultPage() {
         </div>
       </div>
       <div className="w-full mb-2">
-        {isEnded === "true" && (
+        {isEnded && (
           <Button
             title="Retour à l'accueil"
             onClick={() => {
@@ -136,7 +136,7 @@ export default function ResultPage() {
             }}
           />
         )}
-        {isEnded === "false" && (
+        {!isEnded && (
           <Button
             title="Continuer la partie"
             onClick={() => {
