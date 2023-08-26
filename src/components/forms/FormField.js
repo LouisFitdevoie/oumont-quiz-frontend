@@ -23,7 +23,7 @@ export default function FormField({
           name={name}
           placeholder={placeholder}
           type={type}
-          className="bg-transparent border border-black rounded-full w-1/4 text-black py-1 px-3 placeholder:text-placeholder"
+          className="bg-transparent border border-black rounded-full w-1/3 text-black py-1 px-3 placeholder:text-placeholder"
           value={values[name]}
           onChange={(e) => {
             if (!touched[name]) setFieldTouched(name);
