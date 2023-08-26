@@ -47,6 +47,7 @@ export default function ResultPage() {
     if (groups.length === 2) {
       if (groups[0].points === groups[1].points) {
         setIsDraw(true);
+        console.log(groupsLeftList);
       }
     } else if (groups.length >= 3) {
       for (let i = 0; i < groups.length - 1; i++) {
