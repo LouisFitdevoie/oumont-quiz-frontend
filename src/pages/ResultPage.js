@@ -48,15 +48,22 @@ export default function ResultPage() {
       if (groups[0].points === groups[1].points) {
         setIsDraw(true);
       }
-    } else if (groups.length >= 3) {
-      for (let i = 0; i < groups.length - 1; i++) {
-        if (groups[i].points !== groups[i + 1].points) {
-          return;
-        } else {
+    } else if (groups.length === 3) {
+      if (
+        groups[0].points === groups[1].points ||
+        groups[1].points === groups[2].points
+      ) {
+        setIsDraw(true);
+      }
+    } else if (groups.length > 3) {
+      for (let i = 0; i < 3; i++) {
+        if (groups[i].points === groups[i + 1].points) {
           setIsDraw(true);
+          return;
         }
       }
     }
+    return;
   };
 
   const handleGetGame = async (gameId) => {
