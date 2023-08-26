@@ -19,6 +19,7 @@ export default function ResultPage() {
   const [groups, setGroups] = useState([]);
   const [game, setGame] = useState({});
   const [maxScore, setMaxScore] = useState(0);
+  const [isDraw, setIsDraw] = useState(false);
 
   const handleGetGroups = async (gameId) => {
     const response = await getGroupsForGame(gameId);
@@ -26,6 +27,7 @@ export default function ResultPage() {
     response.data.groups.forEach((group) => {
       groupsReceived.push(group);
     });
+    verifyDraw(groupsReceived);
     setGroups(groupsReceived);
     let max = 0;
     groupsReceived.forEach((group) => {
@@ -34,6 +36,25 @@ export default function ResultPage() {
       }
     });
     setMaxScore(max);
+  };
+
+  const verifyDraw = (groupsReceived) => {
+    const groups = groupsReceived.sort((a, b) => {
+      return b.points - a.points;
+    });
+    if (groups.length === 2) {
+      if (groups[0].points === groups[1].points) {
+        setIsDraw(true);
+      }
+    } else if (groups.length >= 3) {
+      for (let i = 0; i < groups.length - 1; i++) {
+        if (groups[i].points !== groups[i + 1].points) {
+          return;
+        } else {
+          setIsDraw(true);
+        }
+      }
+    }
   };
 
   const handleGetGame = async (gameId) => {
