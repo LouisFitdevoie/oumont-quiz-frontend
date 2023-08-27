@@ -35,6 +35,9 @@ export default function TestQuestions() {
 
   const handleNextQuestion = () => {
     if (questionNumber === allQuestions.length) {
+      alert(
+        "Il n'y a plus de questions, vous allez être redirigé vers la page d'accueil"
+      );
       navigate(`/`);
       return;
     }
