@@ -72,13 +72,15 @@ export default function TestQuestions() {
       <Header
         pageTitle={"Question n°" + questionNumber + "/" + allQuestions.length}
       />
-      <div className="flex flex-row items-center w-full">
-        <div className="mx-auto">
-          <p>Type : {allQuestions[questionNumber - 1].questionType}</p>
-          <p>Thème : {allQuestions[questionNumber - 1].theme}</p>
-          <p>Points : {allQuestions[questionNumber - 1].points}</p>
+      {allQuestions.length > 0 && (
+        <div className="flex flex-row items-center w-full">
+          <div className="mx-auto">
+            <p>Type : {allQuestions[questionNumber - 1].questionType}</p>
+            <p>Thème : {allQuestions[questionNumber - 1].theme}</p>
+            <p>Points : {allQuestions[questionNumber - 1].points}</p>
+          </div>
         </div>
-      </div>
+      )}
       {allQuestions.length > 0 && (
         <Question
           question={allQuestions[questionNumber - 1]}
