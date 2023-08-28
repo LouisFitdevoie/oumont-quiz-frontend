@@ -13,9 +13,9 @@ export default function CorrectionPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(useLocation().search);
-  const questionNumber = queryParams.get("questionNumber");
+  const questionNumber = parseInt(localStorage.getItem("questionNumber"));
   const isEnded = queryParams.get("isEnded");
-  const questionList = useLocation().state.questionList;
+  const [questionList, setQuestionList] = useState([]);
   const groupsLeftList = useLocation().state.groupsLeftList;
   const [game, setGame] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -98,6 +98,10 @@ export default function CorrectionPage() {
     handleGetGroups(gameId);
     handleGetQuestions(questionList);
   }, [questionList, groupsLeftList, gameId, isEnded]);
+
+  useEffect(() => {
+    setQuestionList(JSON.parse(localStorage.getItem("questionList")) || []);
+  }, []);
 
   return (
     <div className="w-full h-screen flex flex-col items-start">
@@ -190,9 +194,10 @@ export default function CorrectionPage() {
                     : "Voir le classement intermédiaire"
                 }
                 onClick={() => {
+                  localStorage.removeItem("questionList");
+                  localStorage.setItem("questionNumber", questionNumber + 1);
                   navigate("/results/" + gameId, {
                     state: {
-                      questionNumber: questionNumber,
                       isEnded: isEnded,
                       groupsLeftList: groupsLeftList,
                     },

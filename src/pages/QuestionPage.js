@@ -16,7 +16,6 @@ import LoadingIndicator from "../components/LoadingIndicator";
 export default function QuestionPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(useLocation().search);
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
@@ -33,9 +32,7 @@ export default function QuestionPage() {
   const [isThemeChosen, setIsThemeChosen] = useState(true);
   const [themeName, setThemeName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(
-    queryParams.has("questionNumber")
-      ? parseInt(queryParams.get("questionNumber"))
-      : 1
+    parseInt(localStorage.getItem("questionNumber")) || 1
   );
   const [currentGroup, setCurrentGroup] = useState(null);
   const [randomThemes, setRandomThemes] = useState([]);
@@ -133,10 +130,12 @@ export default function QuestionPage() {
       questionId: response.data.question.id,
     });
     setQuestionList(questionsAlreadyAsked);
+    localStorage.setItem("questionList", JSON.stringify(questionsAlreadyAsked));
     setIsQuestionSelected(true);
   };
 
   const handleNextQuestion = () => {
+    localStorage.setItem("questionNumber", questionNumber + 1);
     setQuestionNumber(questionNumber + 1);
     if (questionNumber % 3 === 0) {
       setIsThemeChosen(false);
@@ -152,29 +151,25 @@ export default function QuestionPage() {
 
   const handleBreakClicked = () => {
     backgroundMusic.stop();
-    navigate(
-      `/correction/${gameId}?isEnded=false&questionNumber=${questionNumber}`,
-      {
-        state: {
-          questionList: questionList,
-          groupsLeftList: groups,
-        },
-      }
-    );
+    navigate(`/correction/${gameId}?isEnded=false`, {
+      state: {
+        groupsLeftList: groups,
+      },
+    });
   };
 
   const handleEndGameClicked = () => {
     backgroundMusic.stop();
-    navigate(
-      `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
-      {
-        state: {
-          questionList: questionList,
-          groupsLeftList: groups,
-        },
-      }
-    );
+    navigate(`/correction/${gameId}?isEnded=true`, {
+      state: {
+        groupsLeftList: groups,
+      },
+    });
   };
+
+  useEffect(() => {
+    setQuestionList(JSON.parse(localStorage.getItem("questionList")) || []);
+  }, []);
 
   useEffect(() => {
     handleGetGame(gameId);

@@ -10,7 +10,7 @@ export default function ResultPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const state = useLocation().state;
-  const questionNumber = state.questionNumber;
+  const questionNumber = parseInt(localStorage.getItem("questionNumber"));
   const isEnded = state.isEnded === "true" ? true : false;
   const groupsLeftList = state.hasOwnProperty("groupsLeftList")
     ? state.groupsLeftList
@@ -166,16 +166,11 @@ export default function ResultPage() {
           <Button
             title="Continuer la partie"
             onClick={() => {
-              navigate(
-                `/question/${gameId}?questionNumber=${
-                  parseInt(questionNumber) + 1
-                }`,
-                {
-                  state: {
-                    groupsLeftList: groupsLeftList,
-                  },
-                }
-              );
+              navigate(`/question/${gameId}`, {
+                state: {
+                  groupsLeftList: groupsLeftList,
+                },
+              });
             }}
           />
         )}
