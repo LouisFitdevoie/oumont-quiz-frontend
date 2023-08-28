@@ -46,7 +46,7 @@ export default function FormField({
           value={values[name]}
           onChange={(e) => {
             if (!touched[name]) setFieldTouched(name);
-            if (name === "personsPerGroup" && e.target.value < 1) {
+            if (name === "personsPerGroup" && e.target.value <= 1) {
               setFieldValue(name, 1);
               return;
             }

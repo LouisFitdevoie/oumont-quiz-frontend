@@ -193,7 +193,7 @@ export default function QuestionPage() {
   useEffect(() => {
     setIsThemeChosen(Boolean(localStorage.getItem("isThemeChosen")));
     setQuestionList(JSON.parse(localStorage.getItem("questionList")) || []);
-    setThemeName(localStorage.getItem("themeName"));
+    setThemeName(localStorage.getItem("themeName") || null);
     setCurrentGroup(JSON.parse(localStorage.getItem("currentGroup")));
     setRandomThemes(JSON.parse(localStorage.getItem("randomThemes")) || []);
   }, []);
