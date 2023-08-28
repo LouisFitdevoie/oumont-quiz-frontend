@@ -17,6 +17,7 @@ export default function OpenEstimate({
   backgroundMusic,
 }) {
   const [image, setImage] = useState(null);
+  const punctuationArray = ["!", "?", "."];
 
   useEffect(() => {
     const getImage = async () => {
@@ -68,6 +69,11 @@ export default function OpenEstimate({
       {isAnswerShown && explanation !== "" && (
         <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
+          {punctuationArray.includes(
+            explanation.split("")[explanation.split("").length - 1]
+          )
+            ? ""
+            : "."}
         </div>
       )}
     </div>

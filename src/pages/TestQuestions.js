@@ -35,6 +35,9 @@ export default function TestQuestions() {
 
   const handleNextQuestion = () => {
     if (questionNumber === allQuestions.length) {
+      alert(
+        "Il n'y a plus de questions, vous allez être redirigé vers la page d'accueil"
+      );
       navigate(`/`);
       return;
     }
@@ -69,6 +72,15 @@ export default function TestQuestions() {
       <Header
         pageTitle={"Question n°" + questionNumber + "/" + allQuestions.length}
       />
+      {allQuestions.length > 0 && (
+        <div className="flex flex-row items-center w-full">
+          <div className="mx-auto">
+            <p>Type : {allQuestions[questionNumber - 1].questionType}</p>
+            <p>Thème : {allQuestions[questionNumber - 1].theme}</p>
+            <p>Points : {allQuestions[questionNumber - 1].points}</p>
+          </div>
+        </div>
+      )}
       {allQuestions.length > 0 && (
         <Question
           question={allQuestions[questionNumber - 1]}
