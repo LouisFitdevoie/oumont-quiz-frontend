@@ -11,8 +11,6 @@ import Question from "../components/questions/Question";
 import music from "../assets/musics/test_sound.mp3";
 import LoadingIndicator from "../components/LoadingIndicator";
 
-//TODO : empêcher user de revenir à question n° questionNumber après avoir actualisé la page
-
 export default function QuestionPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
@@ -59,6 +57,10 @@ export default function QuestionPage() {
     backgroundMusic.stop();
     backgroundMusic.unload();
   });
+  window.onbeforeunload = () => {
+    backgroundMusic.stop();
+    backgroundMusic.unload();
+  };
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
