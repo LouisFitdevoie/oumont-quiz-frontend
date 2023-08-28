@@ -141,6 +141,7 @@ export default function ResultPage() {
           <Button
             title="Retour à l'accueil"
             onClick={() => {
+              localStorage.clear();
               navigate("/");
             }}
           />
@@ -149,16 +150,11 @@ export default function ResultPage() {
           <Button
             title="Départager les équipes"
             onClick={() => {
-              navigate(
-                `/question/${gameId}?questionNumber=${
-                  parseInt(questionNumber) + 1
-                }`,
-                {
-                  state: {
-                    groupsLeftList: groupsLeftList,
-                  },
-                }
-              );
+              navigate(`/question/${gameId}`, {
+                state: {
+                  groupsLeftList: groupsLeftList,
+                },
+              });
             }}
           />
         )}

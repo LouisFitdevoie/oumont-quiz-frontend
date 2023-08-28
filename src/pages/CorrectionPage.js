@@ -195,6 +195,7 @@ export default function CorrectionPage() {
                 }
                 onClick={() => {
                   localStorage.removeItem("questionList");
+                  localStorage.removeItem("themeName");
                   localStorage.setItem("questionNumber", questionNumber + 1);
                   navigate("/results/" + gameId, {
                     state: {
