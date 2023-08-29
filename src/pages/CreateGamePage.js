@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
@@ -28,6 +29,10 @@ export default function CreateGamePage() {
       navigate("/add-groups/" + gameResponse.data.gameId);
     }
   };
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <div

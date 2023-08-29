@@ -10,7 +10,6 @@ export default function ResultPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const state = useLocation().state;
-  const questionNumber = parseInt(localStorage.getItem("questionNumber"));
   const isEnded = state.isEnded === "true" ? true : false;
   const groupsLeftList = state.hasOwnProperty("groupsLeftList")
     ? state.groupsLeftList
