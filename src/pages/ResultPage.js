@@ -73,7 +73,7 @@ export default function ResultPage() {
 
   const calcRankingBarWidth = (points) => {
     const divWidth = document.getElementById("rankingDiv").clientWidth;
-    return Math.round((points / maxScore) * (divWidth / 1.5));
+    return Math.round((points / maxScore) * (divWidth / 1.6));
   };
 
   useEffect(() => {
@@ -106,27 +106,37 @@ export default function ResultPage() {
                   <div
                     key={index}
                     className={
-                      index === 0
+                      index === 0 && isEnded
                         ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
                         : "flex flex-row p-3"
                     }
                   >
-                    <p className="w-32 text-right p-2 font-bold h-auto self-center">
-                      {index === 0 ? "🏆" : ""}
-                      {group.points} points
-                    </p>
+                    {index === 0 && isEnded ? (
+                      <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                        🏆 {group.points} points
+                      </p>
+                    ) : (
+                      <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                        {index + 1}
+                        <sup>e</sup>) {group.points} points
+                      </p>
+                    )}
                     <div id={"group" + index}></div>
-                    <p className="text-left p-2 font-semibold h-9 self-center max-w-[206px] truncate">
-                      {index === 0 ? "🎉 " + group.name + " 🎉" : group.name}
+                    <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
+                      {index === 0 && isEnded
+                        ? "🎉 " + group.name + " 🎉"
+                        : group.name}
                     </p>
                     <style>
                       {`
                         #group${index} {
                           width: ${barWidth}px;
                           height: auto;
-                          background-color: #1e1e1e;
-                          border-top-right-radius: 10px;
-                          border-bottom-right-radius: 10px;
+                          background-color: ${
+                            index === 0 && isEnded ? "#f4c546" : "#1e1e1e"
+                          };
+                          border-top-right-radius: 20px;
+                          border-bottom-right-radius: 20px;
                         }
                       `}
                     </style>

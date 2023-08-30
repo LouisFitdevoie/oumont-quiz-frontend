@@ -15,7 +15,6 @@ module.exports = {
         yellow: "#f4c546",
       },
       spacing: {
-        40: "40px",
         50: "50px",
         400: "400px",
       },
