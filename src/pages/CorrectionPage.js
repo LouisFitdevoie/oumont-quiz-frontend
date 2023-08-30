@@ -36,6 +36,12 @@ export default function CorrectionPage() {
     response.data.groups.forEach((group) => {
       groupsReceived.push(group);
     });
+    groupsReceived.sort((a, b) => {
+      return new Intl.Collator("fr", {
+        sensitivity: "base",
+        numeric: true,
+      }).compare(a.name, b.name);
+    });
     setGroups(groupsReceived);
   };
 
