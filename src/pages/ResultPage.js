@@ -90,7 +90,7 @@ export default function ResultPage() {
           }`}
         />
       )}
-      <div className="w-full h-full flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col items-center justify-center">
         <div
           id="rankingDiv"
           className="w-5/6 flex flex-col justify-start items-start"
@@ -136,7 +136,7 @@ export default function ResultPage() {
           </div>
         </div>
       </div>
-      <div className="w-full mb-2">
+      <div className="w-full pb-4">
         {isEnded && !isDraw && (
           <Button
             title="Retour à l'accueil"
