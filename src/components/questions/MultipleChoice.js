@@ -95,7 +95,7 @@ export default function MultipleChoice({
         </div>
       )}
       {isAnswerShown && explanation !== "" && (
-        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 text-white bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
         </div>
       )}
