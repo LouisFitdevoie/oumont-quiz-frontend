@@ -9,7 +9,7 @@ export default function Button({
   if (splashscreen) {
     fontSize = "text-2xl";
   } else if (addQuestion) {
-    fontSize = "text-base px-4 h-40";
+    fontSize = "text-base px-4 h-10";
   } else {
     fontSize = "text-xl";
   }

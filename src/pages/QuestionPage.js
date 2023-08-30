@@ -8,7 +8,7 @@ import { getGame } from "../api/game.api.js";
 import { getGroupsForGame } from "../api/group.api";
 import { getRandomThemes, getRandomQuestion } from "../api/question.api";
 import Question from "../components/questions/Question";
-import music from "../assets/musics/test_sound.mp3";
+import music from "../assets/musics/question_music.mp3";
 import LoadingIndicator from "../components/LoadingIndicator";
 
 export default function QuestionPage() {

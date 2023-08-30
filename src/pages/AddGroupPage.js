@@ -18,7 +18,10 @@ export default function AddGroupPage() {
     const response = await getGroupsForGame(gameId);
     //Sort groups by name alphabetically ascending
     response.data.groups.sort((a, b) => {
-      return a.name.localeCompare(b.name, "fr", { sensitivity: "base" });
+      return new Intl.Collator("fr", {
+        sensitivity: "base",
+        numeric: true,
+      }).compare(a.name, b.name);
     });
     setGroups(response.data.groups);
   };
