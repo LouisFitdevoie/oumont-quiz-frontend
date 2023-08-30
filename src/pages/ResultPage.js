@@ -93,7 +93,7 @@ export default function ResultPage() {
       <div className="w-full flex flex-col items-center justify-center">
         <div
           id="rankingDiv"
-          className="w-5/6 flex flex-col justify-start items-start"
+          className="w-full flex flex-col justify-start items-start"
         >
           <div className="mx-auto">
             {groups
@@ -111,12 +111,12 @@ export default function ResultPage() {
                         : "flex flex-row p-3"
                     }
                   >
-                    <p className="w-32 text-right p-2 font-bold">
+                    <p className="w-32 text-right p-2 font-bold h-auto self-center">
                       {index === 0 ? "🏆" : ""}
                       {group.points} points
                     </p>
                     <div id={"group" + index}></div>
-                    <p className="text-left p-2 font-semibold">
+                    <p className="text-left p-2 font-semibold h-9 self-center max-w-[206px] truncate">
                       {index === 0 ? "🎉 " + group.name + " 🎉" : group.name}
                     </p>
                     <style>
