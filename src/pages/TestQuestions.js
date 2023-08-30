@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import Question from "../components/questions/Question";
-import music from "../assets/musics/test_sound.mp3";
+import music from "../assets/musics/question_music.mp3";
 import { getQuestions } from "../api/question.api";
 import { useState, useEffect } from "react";
 import { Howl } from "howler";

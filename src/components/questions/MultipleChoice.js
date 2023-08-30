@@ -80,8 +80,8 @@ export default function MultipleChoice({
               className={`px-3 py-2 flex items-center justify-center border-2 border-black rounded-2xl ${
                 isAnswerShown
                   ? answer === correctAnswer
-                    ? "bg-green"
-                    : "bg-red"
+                    ? "text-white bg-green"
+                    : "text-white bg-red"
                   : "bg-white"
               }`}
             >
