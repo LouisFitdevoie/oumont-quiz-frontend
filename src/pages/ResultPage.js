@@ -20,8 +20,6 @@ export default function ResultPage() {
   const [maxScore, setMaxScore] = useState(0);
   const [isDraw, setIsDraw] = useState(false);
 
-  const [groupsDisplayed, setGroupsDisplayed] = useState([]);
-
   const handleGetGroups = async (gameId) => {
     const response = await getGroupsForGame(gameId);
     let groupsReceived = [];
@@ -111,7 +109,6 @@ export default function ResultPage() {
         >
           <div className="mx-auto">
             {groups.map((group, index) => {
-              const barWidth = calcRankingBarWidth(group.points);
               return (
                 <div
                   key={index}
@@ -140,7 +137,7 @@ export default function ResultPage() {
                   <style>
                     {`
                         #group${index} {
-                          width: ${barWidth}px;
+                          width: ${calcRankingBarWidth(group.points)}px;
                           height: auto;
                           background-color: ${
                             index === 0 && isEnded ? "#f4c546" : "#1e1e1e"
