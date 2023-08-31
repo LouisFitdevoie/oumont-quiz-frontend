@@ -20,6 +20,8 @@ export default function ResultPage() {
   const [maxScore, setMaxScore] = useState(0);
   const [isDraw, setIsDraw] = useState(false);
 
+  const [groupsDisplayed, setGroupsDisplayed] = useState([]);
+
   const handleGetGroups = async (gameId) => {
     const response = await getGroupsForGame(gameId);
     let groupsReceived = [];
@@ -29,7 +31,20 @@ export default function ResultPage() {
     if (isEnded) {
       verifyDraw(groupsReceived);
     }
-    setGroups(groupsReceived);
+    setGroups(
+      groupsReceived.sort((a, b) => {
+        if (a.points > b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        } else {
+          return new Intl.Collator("fr", {
+            sensitivity: "base",
+            numeric: true,
+          }).compare(a.name, b.name);
+        }
+      })
+    );
     let max = 0;
     groupsReceived.forEach((group) => {
       if (group.points > max) {
@@ -95,39 +110,35 @@ export default function ResultPage() {
           className="w-full flex flex-col justify-start items-start"
         >
           <div className="mx-auto">
-            {groups
-              .sort((a, b) => {
-                return b.points - a.points;
-              })
-              .map((group, index) => {
-                const barWidth = calcRankingBarWidth(group.points);
-                return (
-                  <div
-                    key={index}
-                    className={
-                      index === 0 && isEnded
-                        ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
-                        : "flex flex-row p-3"
-                    }
-                  >
-                    {index === 0 && isEnded ? (
-                      <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                        🏆 {group.points} points
-                      </p>
-                    ) : (
-                      <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                        {index + 1}
-                        <sup>e</sup>) {group.points} points
-                      </p>
-                    )}
-                    <div id={"group" + index}></div>
-                    <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                      {index === 0 && isEnded
-                        ? "🎉 " + group.name + " 🎉"
-                        : group.name}
+            {groups.map((group, index) => {
+              const barWidth = calcRankingBarWidth(group.points);
+              return (
+                <div
+                  key={index}
+                  className={
+                    index === 0 && isEnded
+                      ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
+                      : "flex flex-row p-3"
+                  }
+                >
+                  {index === 0 && isEnded ? (
+                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                      🏆 {group.points} points
                     </p>
-                    <style>
-                      {`
+                  ) : (
+                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                      {index + 1}
+                      <sup>e</sup>) {group.points} points
+                    </p>
+                  )}
+                  <div id={"group" + index}></div>
+                  <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
+                    {index === 0 && isEnded
+                      ? "🎉 " + group.name + " 🎉"
+                      : group.name}
+                  </p>
+                  <style>
+                    {`
                         #group${index} {
                           width: ${barWidth}px;
                           height: auto;
@@ -138,10 +149,10 @@ export default function ResultPage() {
                           border-bottom-right-radius: 20px;
                         }
                       `}
-                    </style>
-                  </div>
-                );
-              })}
+                  </style>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
