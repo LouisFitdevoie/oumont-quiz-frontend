@@ -89,7 +89,7 @@ export default function ResultPage() {
           }`}
         />
       )}
-      <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col flex-grow items-center justify-center">
         <div
           id="rankingDiv"
           className="w-full flex flex-col justify-start items-start"
