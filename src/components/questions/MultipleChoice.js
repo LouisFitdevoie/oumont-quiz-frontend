@@ -45,6 +45,17 @@ export default function MultipleChoice({
     }
   }, [question, imageName]);
 
+  const punctuationArray = ["!", "?", "."];
+
+  //Adding a nbsp after the last word if the question ends with a "?" to not have the "?" alone in the next line
+  if (question.split("")[question.split("").length - 1] === "?") {
+    if (question.split("")[question.split("").length - 2] === " ") {
+      question = question.slice(0, question.split("").length - 2) + "\xa0?";
+    } else {
+      question = question.slice(0, question.split("").length - 1) + "\xa0?";
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-5/6 flex flex-row bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
@@ -80,8 +91,8 @@ export default function MultipleChoice({
               className={`px-3 py-2 flex items-center justify-center border-2 border-black rounded-2xl ${
                 isAnswerShown
                   ? answer === correctAnswer
-                    ? "text-white bg-green"
-                    : "text-white bg-red"
+                    ? "bg-green"
+                    : "bg-red"
                   : "bg-white"
               }`}
             >
@@ -94,9 +105,14 @@ export default function MultipleChoice({
           ))}
         </div>
       )}
-      {isAnswerShown && explanation !== "" && (
-        <div className="mt-2 w-5/6 text-white bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
+      {isAnswerShown && explanation.trim() !== "" && (
+        <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
+          {punctuationArray.includes(
+            explanation.split("")[explanation.split("").length - 1]
+          )
+            ? ""
+            : "."}
         </div>
       )}
     </div>

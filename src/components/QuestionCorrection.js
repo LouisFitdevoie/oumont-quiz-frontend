@@ -87,7 +87,7 @@ export default function QuestionCorrection({
   const multipleChoiceCorrectAnswer = () => {
     for (let i = 0; i < question.choices.split("/").length; i++) {
       if (question.choices.split("/")[i] === question.answer) {
-        return possibleAnswers[i];
+        return possibleAnswers[i] + " (" + question.answer + ")";
       } else {
         continue;
       }

@@ -28,3 +28,10 @@ export function getGame(gameId) {
     url: `${base_url}/game/${gameId}`,
   });
 }
+
+export function deleteGame(gameId) {
+  return axios({
+    method: "delete",
+    url: `${base_url}/game/${gameId}`,
+  });
+}

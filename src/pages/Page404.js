@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../components/Button";
@@ -5,6 +6,11 @@ import Header from "../components/Header";
 
 export default function Page404() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   return (
     <div className="w-full h-screen flex flex-col items-start justify-center">
       <Header pageTitle={"404 - Page non trouvée"} />

@@ -13,7 +13,7 @@ export default function ChooseTheme({
         <div className="w-5/6 bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
           <h1 className="text-3xl">
             Au tour du groupe <i className="font-black text-3xl">{groupName}</i>{" "}
-            de choisir le thème des 3 prochaines questions !
+            de choisir le thème des 3 prochaines questions&nbsp;!
           </h1>
         </div>
         <div className="flex flex-row mt-4 w-5/6 h-1/2">

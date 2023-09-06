@@ -3,7 +3,7 @@ import Logo from "./Logo";
 export default function Header({ pageTitle }) {
   return (
     <div
-      className="w-full flex flex-row justify-between items-center"
+      className="w-full flex flex-row justify-between items-center px-4"
       data-testid="header-container"
     >
       <Logo />

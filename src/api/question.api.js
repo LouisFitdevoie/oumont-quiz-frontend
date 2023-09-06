@@ -48,3 +48,10 @@ export function getQuestions() {
     url: `${base_url}/questions`,
   });
 }
+
+export function deleteQuestionsForGameId(gameId) {
+  return axios({
+    method: "delete",
+    url: `${base_url}/questions/${gameId}`,
+  });
+}

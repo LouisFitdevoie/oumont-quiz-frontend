@@ -10,7 +10,6 @@ export default function ResultPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const state = useLocation().state;
-  const questionNumber = state.questionNumber;
   const isEnded = state.isEnded === "true" ? true : false;
   const groupsLeftList = state.hasOwnProperty("groupsLeftList")
     ? state.groupsLeftList
@@ -30,7 +29,20 @@ export default function ResultPage() {
     if (isEnded) {
       verifyDraw(groupsReceived);
     }
-    setGroups(groupsReceived);
+    setGroups(
+      groupsReceived.sort((a, b) => {
+        if (a.points > b.points) {
+          return -1;
+        } else if (a.points < b.points) {
+          return 1;
+        } else {
+          return new Intl.Collator("fr", {
+            sensitivity: "base",
+            numeric: true,
+          }).compare(a.name, b.name);
+        }
+      })
+    );
     let max = 0;
     groupsReceived.forEach((group) => {
       if (group.points > max) {
@@ -90,47 +102,42 @@ export default function ResultPage() {
           }`}
         />
       )}
-      <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col flex-grow items-center justify-center">
         <div
           id="rankingDiv"
           className="w-full flex flex-col justify-start items-start"
         >
           <div className="mx-auto">
-            {groups
-              .sort((a, b) => {
-                return b.points - a.points;
-              })
-              .map((group, index) => {
-                const barWidth = calcRankingBarWidth(group.points);
-                return (
-                  <div
-                    key={index}
-                    className={
-                      index === 0 && isEnded
-                        ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
-                        : "flex flex-row p-3"
-                    }
-                  >
-                    {index === 0 && isEnded ? (
-                      <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                        🏆 {group.points} points
-                      </p>
-                    ) : (
-                      <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                        {index + 1}
-                        <sup>e</sup>) {group.points} points
-                      </p>
-                    )}
-                    <div id={"group" + index}></div>
-                    <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                      {index === 0 && isEnded
-                        ? "🎉 " + group.name + " 🎉"
-                        : group.name}
+            {groups.map((group, index) => {
+              return (
+                <div
+                  key={index}
+                  className={
+                    index === 0 && isEnded
+                      ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
+                      : "flex flex-row p-3"
+                  }
+                >
+                  {index === 0 && isEnded ? (
+                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                      🏆 {group.points} points
                     </p>
-                    <style>
-                      {`
+                  ) : (
+                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                      {index + 1}
+                      <sup>e</sup>) {group.points} points
+                    </p>
+                  )}
+                  <div id={"group" + index}></div>
+                  <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
+                    {index === 0 && isEnded
+                      ? "🎉 " + group.name + " 🎉"
+                      : group.name}
+                  </p>
+                  <style>
+                    {`
                         #group${index} {
-                          width: ${barWidth}px;
+                          width: ${calcRankingBarWidth(group.points)}px;
                           height: auto;
                           background-color: ${
                             index === 0 && isEnded ? "#f4c546" : "#1e1e1e"
@@ -139,10 +146,10 @@ export default function ResultPage() {
                           border-bottom-right-radius: 20px;
                         }
                       `}
-                    </style>
-                  </div>
-                );
-              })}
+                  </style>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -151,6 +158,7 @@ export default function ResultPage() {
           <Button
             title="Retour à l'accueil"
             onClick={() => {
+              localStorage.clear();
               navigate("/");
             }}
           />
@@ -159,16 +167,11 @@ export default function ResultPage() {
           <Button
             title="Départager les équipes"
             onClick={() => {
-              navigate(
-                `/question/${gameId}?questionNumber=${
-                  parseInt(questionNumber) + 1
-                }`,
-                {
-                  state: {
-                    groupsLeftList: groupsLeftList,
-                  },
-                }
-              );
+              navigate(`/question/${gameId}`, {
+                state: {
+                  groupsLeftList: groupsLeftList,
+                },
+              });
             }}
           />
         )}
@@ -176,16 +179,11 @@ export default function ResultPage() {
           <Button
             title="Continuer la partie"
             onClick={() => {
-              navigate(
-                `/question/${gameId}?questionNumber=${
-                  parseInt(questionNumber) + 1
-                }`,
-                {
-                  state: {
-                    groupsLeftList: groupsLeftList,
-                  },
-                }
-              );
+              navigate(`/question/${gameId}`, {
+                state: {
+                  groupsLeftList: groupsLeftList,
+                },
+              });
             }}
           />
         )}
