@@ -29,20 +29,7 @@ export default function ResultPage() {
     if (isEnded) {
       verifyDraw(groupsReceived);
     }
-    setGroups(
-      groupsReceived.sort((a, b) => {
-        if (a.points > b.points) {
-          return -1;
-        } else if (a.points < b.points) {
-          return 1;
-        } else {
-          return new Intl.Collator("fr", {
-            sensitivity: "base",
-            numeric: true,
-          }).compare(a.name, b.name);
-        }
-      })
-    );
+    setGroups(groupsReceived.sort((a, b) => sortFunction(a, b)));
     let max = 0;
     groupsReceived.forEach((group) => {
       if (group.points > max) {
@@ -88,6 +75,32 @@ export default function ResultPage() {
     return Math.round((points / maxScore) * (divWidth / 1.6));
   };
 
+  const [displayedGroupsCount, setDisplayedGroupsCount] = useState(1);
+
+  const sortFunction = (a, b) => {
+    if (a.points > b.points) {
+      return -1;
+    } else if (a.points < b.points) {
+      return 1;
+    } else {
+      return new Intl.Collator("fr", {
+        sensitivity: "base",
+        numeric: true,
+      }).compare(a.name, b.name);
+    }
+  };
+
+  const handleShowMoreClick = () => {
+    const stepSize = 1;
+    if (displayedGroupsCount + stepSize >= groups.length) {
+      setDisplayedGroupsCount(groups.length);
+    } else if (groups.length - displayedGroupsCount === 2) {
+      setDisplayedGroupsCount(groups.length);
+    } else {
+      setDisplayedGroupsCount(displayedGroupsCount + stepSize);
+    }
+  };
+
   useEffect(() => {
     handleGetGroups(gameId);
     handleGetGame(gameId);
@@ -103,58 +116,133 @@ export default function ResultPage() {
         />
       )}
       <div className="w-full flex flex-col flex-grow items-center justify-center">
-        <div
-          id="rankingDiv"
-          className="w-full flex flex-col justify-start items-start"
-        >
-          <div className="mx-auto">
-            {groups.map((group, index) => {
-              return (
-                <div
-                  key={index}
-                  className={
-                    index === 0 && isEnded
-                      ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
-                      : "flex flex-row p-3"
-                  }
-                >
-                  {index === 0 && isEnded ? (
-                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                      🏆 {group.points} points
-                    </p>
-                  ) : (
+        {!isEnded && (
+          <div
+            id="rankingDiv"
+            className="w-full flex flex-col justify-start items-start"
+          >
+            <div className="mx-auto">
+              {groups.map((group, index) => {
+                return (
+                  <div key={index} className="flex flex-row p-3">
                     <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
                       {index + 1}
-                      <sup>e</sup>) {group.points} points
+                      <sup>{index === 0 ? "er" : "e"}</sup>) {group.points}{" "}
+                      points
                     </p>
-                  )}
-                  <div id={"group" + index}></div>
-                  <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                    {index === 0 && isEnded
-                      ? "🎉 " + group.name + " 🎉"
-                      : group.name}
-                  </p>
-                  <style>
-                    {`
+                    <div id={"group" + index}></div>
+                    <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
+                      {group.name}
+                    </p>
+                    <style>
+                      {`
+                        #group${index} {
+                          width: ${calcRankingBarWidth(group.points)}px;
+                          height: auto;
+                          background-color: #1e1e1e;
+                          border-top-right-radius: 20px;
+                          border-bottom-right-radius: 20px;
+                        }
+                      `}
+                    </style>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        {isEnded && displayedGroupsCount < groups.length - 1 && (
+          <div className="mt-2">
+            <Button
+              title="Afficher le groupe suivant"
+              onClick={handleShowMoreClick}
+            />
+          </div>
+        )}
+        {isEnded && (
+          <>
+            <div
+              id="rankingDiv"
+              className="w-full flex flex-col justify-start items-start"
+            >
+              <div className="mx-auto">
+                {groups
+                  .sort((a, b) => sortFunction(b, a))
+                  .slice(0, displayedGroupsCount)
+                  .sort((a, b) => sortFunction(a, b))
+                  .map((group, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={
+                          index === 0 &&
+                          isEnded &&
+                          !isDraw &&
+                          displayedGroupsCount === groups.length
+                            ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
+                            : "flex flex-row p-3"
+                        }
+                      >
+                        {index === 0 &&
+                        isEnded &&
+                        !isDraw &&
+                        displayedGroupsCount === groups.length ? (
+                          <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                            🏆 {group.points} points
+                          </p>
+                        ) : (
+                          <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                            {groups.length -
+                              groups.findIndex(
+                                (groupToCompare) =>
+                                  groupToCompare.name === group.name
+                              )}
+                            <sup>
+                              {index === 0 &&
+                              displayedGroupsCount === groups.length
+                                ? "er"
+                                : "e"}
+                            </sup>
+                            ) {group.points} points
+                          </p>
+                        )}
+                        <div id={"group" + index}></div>
+                        <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
+                          {index === 0 &&
+                          isEnded &&
+                          !isDraw &&
+                          displayedGroupsCount === groups.length
+                            ? "🎉 " + group.name + " 🎉"
+                            : group.name}
+                        </p>
+                        <style>
+                          {`
                         #group${index} {
                           width: ${calcRankingBarWidth(group.points)}px;
                           height: auto;
                           background-color: ${
-                            index === 0 && isEnded ? "#f4c546" : "#1e1e1e"
+                            index === 0 &&
+                            isEnded &&
+                            !isDraw &&
+                            displayedGroupsCount === groups.length
+                              ? "#f4c546"
+                              : "#1e1e1e"
                           };
                           border-top-right-radius: 20px;
                           border-bottom-right-radius: 20px;
                         }
                       `}
-                  </style>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                        </style>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <div className="w-full pb-4">
-        {isEnded && !isDraw && (
+        {isEnded && !isDraw && displayedGroupsCount === groups.length && (
           <Button
             title="Retour à l'accueil"
             onClick={() => {
@@ -163,7 +251,7 @@ export default function ResultPage() {
             }}
           />
         )}
-        {isEnded && isDraw && (
+        {isEnded && isDraw && displayedGroupsCount === groups.length && (
           <Button
             title="Départager les équipes"
             onClick={() => {
