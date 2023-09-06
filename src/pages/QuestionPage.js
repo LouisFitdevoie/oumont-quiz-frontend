@@ -11,12 +11,9 @@ import Question from "../components/questions/Question";
 import music from "../assets/musics/question_music.mp3";
 import LoadingIndicator from "../components/LoadingIndicator";
 
-//TODO : empêcher user de revenir à question n° questionNumber après avoir actualisé la page
-
 export default function QuestionPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(useLocation().search);
   const [game, setGame] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [initialGroups, setInitialGroups] = useState([]);
@@ -33,9 +30,7 @@ export default function QuestionPage() {
   const [isThemeChosen, setIsThemeChosen] = useState(true);
   const [themeName, setThemeName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(
-    queryParams.has("questionNumber")
-      ? parseInt(queryParams.get("questionNumber"))
-      : 1
+    parseInt(localStorage.getItem("questionNumber")) || 1
   );
   const [currentGroup, setCurrentGroup] = useState(null);
   const [randomThemes, setRandomThemes] = useState([]);
@@ -62,6 +57,11 @@ export default function QuestionPage() {
     backgroundMusic.stop();
     backgroundMusic.unload();
   });
+  //If music doesnt work anymore -> delete next block
+  window.onbeforeunload = () => {
+    backgroundMusic.stop();
+    backgroundMusic.unload();
+  };
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
@@ -91,56 +91,78 @@ export default function QuestionPage() {
 
   const handleThemeChoice = (themeName) => {
     setIsThemeChosen(true);
+    localStorage.setItem("isThemeChosen", true);
     setThemeName(themeName);
+    localStorage.setItem("themeName", themeName);
     setRandomThemes([]);
+    localStorage.removeItem("randomThemes");
   };
 
   const handleGetRandomGroup = () => {
-    if (groups.length === 1) {
-      setCurrentGroup(groups[0]);
-      setGroups(initialGroups);
-      return;
+    if (currentGroup === null) {
+      if (groups.length === 1) {
+        setCurrentGroup(groups[0]);
+        localStorage.setItem("currentGroup", JSON.stringify(groups[0]));
+        setGroups(initialGroups);
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * groups.length);
+      const groupToReturn = groups[randomIndex];
+      const updatedGroups = groups.filter(
+        (group, index) => index !== randomIndex
+      );
+      setGroups(updatedGroups);
+      setCurrentGroup(groupToReturn);
+      localStorage.setItem("currentGroup", JSON.stringify(groupToReturn));
     }
-    const randomIndex = Math.floor(Math.random() * groups.length);
-    const groupToReturn = groups[randomIndex];
-    const updatedGroups = groups.filter(
-      (group, index) => index !== randomIndex
-    );
-    setGroups(updatedGroups);
-    setCurrentGroup(groupToReturn);
   };
 
   const handleGetRandomThemes = async () => {
-    try {
-      setIsLoading(true);
-      const response = await getRandomThemes(gameId);
-      setRandomThemes(response.data.themes);
-    } catch (error) {
-      alert(
-        "Une erreur est survenue lors de la récupération des thèmes, essayez d'actualiser la page"
-      );
-    } finally {
-      setIsLoading(false);
+    if (randomThemes.length === 0) {
+      try {
+        setIsLoading(true);
+        const response = await getRandomThemes(gameId);
+        setRandomThemes(response.data.themes);
+        localStorage.setItem(
+          "randomThemes",
+          JSON.stringify(response.data.themes)
+        );
+      } catch (error) {
+        alert(
+          "Une erreur est survenue lors de la récupération des thèmes, essayez d'actualiser la page"
+        );
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   const handleGetRandomQuestion = async () => {
-    const response = await getRandomQuestion(themeName, gameId);
-    setCurrentQuestion(response.data.question);
-    const questionsAlreadyAsked = questionList;
-    questionsAlreadyAsked.push({
-      order: questionsAlreadyAsked.length,
-      questionId: response.data.question.id,
-    });
-    setQuestionList(questionsAlreadyAsked);
-    setIsQuestionSelected(true);
+    if (themeName != null) {
+      const response = await getRandomQuestion(themeName, gameId);
+      setCurrentQuestion(response.data.question);
+      const questionsAlreadyAsked = questionList;
+      questionsAlreadyAsked.push({
+        order: questionsAlreadyAsked.length,
+        questionId: response.data.question.id,
+      });
+      setQuestionList(questionsAlreadyAsked);
+      localStorage.setItem(
+        "questionList",
+        JSON.stringify(questionsAlreadyAsked)
+      );
+      setIsQuestionSelected(true);
+    }
   };
 
   const handleNextQuestion = () => {
+    localStorage.setItem("questionNumber", questionNumber + 1);
     setQuestionNumber(questionNumber + 1);
     if (questionNumber % 3 === 0) {
       setIsThemeChosen(false);
+      localStorage.setItem("isThemeChosen", false);
       setThemeName(null);
+      localStorage.setItem("themeName", null);
       setCurrentQuestion({});
       setIsQuestionSelected(false);
     } else {
@@ -152,29 +174,29 @@ export default function QuestionPage() {
 
   const handleBreakClicked = () => {
     backgroundMusic.stop();
-    navigate(
-      `/correction/${gameId}?isEnded=false&questionNumber=${questionNumber}`,
-      {
-        state: {
-          questionList: questionList,
-          groupsLeftList: groups,
-        },
-      }
-    );
+    navigate(`/correction/${gameId}?isEnded=false`, {
+      state: {
+        groupsLeftList: groups,
+      },
+    });
   };
 
   const handleEndGameClicked = () => {
     backgroundMusic.stop();
-    navigate(
-      `/correction/${gameId}?isEnded=true&questionNumber=${questionNumber}`,
-      {
-        state: {
-          questionList: questionList,
-          groupsLeftList: groups,
-        },
-      }
-    );
+    navigate(`/correction/${gameId}?isEnded=true`, {
+      state: {
+        groupsLeftList: groups,
+      },
+    });
   };
+
+  useEffect(() => {
+    setIsThemeChosen(Boolean(localStorage.getItem("isThemeChosen")));
+    setQuestionList(JSON.parse(localStorage.getItem("questionList")) || []);
+    setThemeName(localStorage.getItem("themeName") || null);
+    setCurrentGroup(JSON.parse(localStorage.getItem("currentGroup")));
+    setRandomThemes(JSON.parse(localStorage.getItem("randomThemes")) || []);
+  }, []);
 
   useEffect(() => {
     handleGetGame(gameId);
@@ -185,6 +207,7 @@ export default function QuestionPage() {
     if ((questionNumber - 1) % 3 === 0) {
       setIsThemeChosen(false);
       setThemeName(null);
+      localStorage.setItem("themeName", null);
     }
   }, [questionNumber]);
 
@@ -197,6 +220,8 @@ export default function QuestionPage() {
       initialGroups.length > 0 &&
       themeName !== null
     ) {
+      localStorage.removeItem("currentGroup");
+      localStorage.removeItem("randomThemes");
       handleGetRandomQuestion();
     }
   }, [isThemeChosen, initialGroups]);

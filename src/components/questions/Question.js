@@ -4,7 +4,7 @@ import MultipleChoice from "./MultipleChoice";
 import QuestionButtons from "./QuestionButtons";
 import OpenEstimate from "./OpenEstimate";
 
-export default function App({
+export default function Question({
   question,
   handleNextQuestion,
   questionNumber,

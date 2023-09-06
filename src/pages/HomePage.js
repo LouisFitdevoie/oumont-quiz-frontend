@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Logo from "../components/Logo";
@@ -5,6 +6,10 @@ import Button from "../components/Button";
 
 export default function HomePage() {
   let navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <div
