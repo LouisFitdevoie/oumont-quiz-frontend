@@ -7,12 +7,16 @@ import FormField from "../components/forms/FormField";
 import SubmitButton from "../components/forms/SubmitButton";
 import createGameValidator from "../validators/createGame.validator.js";
 import InputFile from "../components/forms/InputFile";
-import { createGame } from "../api/game.api.js";
-import { createQuestion } from "../api/question.api.js";
+import { createGame, deleteGame } from "../api/game.api.js";
+import {
+  createQuestion,
+  deleteQuestionsForGameId,
+} from "../api/question.api.js";
 
 export default function CreateGamePage() {
   let navigate = useNavigate();
   const handleSubmit = async (values) => {
+    let gameCreationError = false;
     const gameResponse = await createGame(
       values.gameName,
       values.timeToAnswerOpen,
@@ -20,13 +24,22 @@ export default function CreateGamePage() {
       values.timeToAnswerEstimate,
       values.personsPerGroup
     );
-    const questionResponse = await createQuestion(
-      gameResponse.data.gameId,
-      values.questions
-    );
-    if (questionResponse.status === 201) {
-      alert("Partie créée avec succès");
-      navigate("/add-groups/" + gameResponse.data.gameId);
+    try {
+      await createQuestion(gameResponse.data.gameId, values.questions);
+    } catch (error) {
+      gameCreationError = true;
+      alert(
+        "Une erreur est survenue lors de la création de la partie. Veuillez vérifier que vos questions respectent le format demandé, puis réessayez."
+      );
+    } finally {
+      if (!gameCreationError) {
+        alert("Partie créée avec succès");
+        navigate("/add-groups/" + gameResponse.data.gameId);
+      } else {
+        await deleteQuestionsForGameId(gameResponse.data.gameId);
+        await deleteGame(gameResponse.data.gameId);
+        navigate("/create-game");
+      }
     }
   };
 
