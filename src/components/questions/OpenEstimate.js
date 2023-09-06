@@ -19,6 +19,15 @@ export default function OpenEstimate({
   const [image, setImage] = useState(null);
   const punctuationArray = ["!", "?", "."];
 
+  //Adding a nbsp after the last word if the question ends with a "?" to not have the "?" alone in the next line
+  if (question.split("")[question.split("").length - 1] === "?") {
+    if (question.split("")[question.split("").length - 2] === " ") {
+      question = question.slice(0, question.split("").length - 2) + "\xa0?";
+    } else {
+      question = question.slice(0, question.split("").length - 1) + "\xa0?";
+    }
+  }
+
   useEffect(() => {
     const getImage = async () => {
       const response = await getQuestionImage(imageName);
