@@ -45,6 +45,8 @@ export default function MultipleChoice({
     }
   }, [question, imageName]);
 
+  const punctuationArray = ["!", "?", "."];
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="w-5/6 flex flex-row bg-white border-2 border-black rounded-2xl text-center font-medium py-2 px-4">
@@ -94,9 +96,14 @@ export default function MultipleChoice({
           ))}
         </div>
       )}
-      {isAnswerShown && explanation !== "" && (
+      {isAnswerShown && explanation.trim() !== "" && (
         <div className="mt-2 w-5/6 bg-green border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
+          {punctuationArray.includes(
+            explanation.split("")[explanation.split("").length - 1]
+          )
+            ? ""
+            : "."}
         </div>
       )}
     </div>
