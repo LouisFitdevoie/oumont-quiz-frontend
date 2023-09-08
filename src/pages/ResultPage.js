@@ -71,7 +71,7 @@ export default function ResultPage() {
   };
 
   const calcRankingBarWidth = (points) => {
-    const divWidth = document.getElementById("rankingDiv").clientWidth;
+    const divWidth = document.getElementById("rankingDiv").clientWidth - 100;
     return Math.round((points / maxScore) * (divWidth / 1.6));
   };
 
