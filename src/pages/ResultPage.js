@@ -115,7 +115,7 @@ export default function ResultPage() {
           }`}
         />
       )}
-      <div className="w-full flex flex-col flex-grow items-center justify-center">
+      <div className="w-11/12 flex flex-col flex-grow items-center justify-center self-center">
         {!isEnded && (
           <div
             id="rankingDiv"
@@ -160,38 +160,47 @@ export default function ResultPage() {
           </div>
         )}
         {isEnded && (
-          <>
-            <div
-              id="rankingDiv"
-              className="w-full flex flex-col justify-start items-start"
-            >
-              <div className="mx-auto">
-                {groups
-                  .sort((a, b) => sortFunction(b, a))
-                  .slice(0, displayedGroupsCount)
-                  .sort((a, b) => sortFunction(a, b))
-                  .map((group, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={
+          <div
+            id="rankingDiv"
+            className="w-full flex flex-col justify-start items-start"
+          >
+            <table className="table-fixed w-full">
+              {groups
+                .sort((a, b) => sortFunction(b, a))
+                .slice(0, displayedGroupsCount)
+                .sort((a, b) => sortFunction(a, b))
+                .map((group, index) => {
+                  return (
+                    <tr
+                      key={index}
+                      className={
+                        index === 0 &&
+                        isEnded &&
+                        !isDraw &&
+                        displayedGroupsCount === groups.length
+                          ? "text-center font-medium"
+                          : "p-3"
+                      }
+                    >
+                      <td
+                        className={`text-right text-xl p-2 font-bold w-[10%] ${
                           index === 0 &&
                           isEnded &&
                           !isDraw &&
                           displayedGroupsCount === groups.length
-                            ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
-                            : "flex flex-row p-3"
-                        }
+                            ? "bg-white py-3 rounded-s-2xl"
+                            : index % 2 === 0
+                            ? "bg-black bg-opacity-10 rounded-s-2xl"
+                            : ""
+                        }`}
                       >
                         {index === 0 &&
                         isEnded &&
                         !isDraw &&
                         displayedGroupsCount === groups.length ? (
-                          <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                            🏆 {group.points} points
-                          </p>
+                          <p>🏆</p>
                         ) : (
-                          <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                          <p>
                             {groups.length -
                               groups.findIndex(
                                 (groupToCompare) =>
@@ -203,42 +212,114 @@ export default function ResultPage() {
                                 ? "er"
                                 : "e"}
                             </sup>
-                            ) {group.points} points
+                            )
                           </p>
                         )}
-                        <div id={"group" + index}></div>
-                        <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                          {index === 0 &&
+                      </td>
+                      <td
+                        className={`text-xl text-center p-2 font-semibold w-[70%] ${
+                          index === 0 &&
                           isEnded &&
                           !isDraw &&
                           displayedGroupsCount === groups.length
-                            ? "🎉 " + group.name + " 🎉"
-                            : group.name}
-                        </p>
-                        <style>
-                          {`
-                        #group${index} {
-                          width: ${calcRankingBarWidth(group.points)}px;
-                          height: auto;
-                          background-color: ${
-                            index === 0 &&
-                            isEnded &&
-                            !isDraw &&
-                            displayedGroupsCount === groups.length
-                              ? "#f4c546"
-                              : "#1e1e1e"
-                          };
-                          border-top-right-radius: 20px;
-                          border-bottom-right-radius: 20px;
-                        }
-                      `}
-                        </style>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          </>
+                            ? "bg-white py-3"
+                            : index % 2 === 0
+                            ? "bg-black bg-opacity-10"
+                            : ""
+                        }`}
+                      >
+                        {index === 0 &&
+                        isEnded &&
+                        !isDraw &&
+                        displayedGroupsCount === groups.length ? (
+                          <p>🎉 {group.name} 🎉</p>
+                        ) : (
+                          <p>{group.name}</p>
+                        )}
+                      </td>
+                      <td
+                        className={`text-xl text-center p-2 font-semibold w-[20%] ${
+                          index === 0 &&
+                          isEnded &&
+                          !isDraw &&
+                          displayedGroupsCount === groups.length
+                            ? "bg-white py-3 rounded-e-2xl"
+                            : index % 2 === 0
+                            ? "bg-black bg-opacity-10 rounded-e-2xl"
+                            : ""
+                        }`}
+                      >
+                        {group.points} points
+                      </td>
+                    </tr>
+                  );
+                  // return (
+                  //   <div
+                  //     key={index}
+                  //     className={
+                  //       index === 0 &&
+                  //       isEnded &&
+                  //       !isDraw &&
+                  //       displayedGroupsCount === groups.length
+                  //         ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
+                  //         : "flex flex-row p-3"
+                  //     }
+                  //   >
+                  //     {index === 0 &&
+                  //     isEnded &&
+                  //     !isDraw &&
+                  //     displayedGroupsCount === groups.length ? (
+                  //       <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                  //         🏆 {group.points} points
+                  //       </p>
+                  //     ) : (
+                  //       <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
+                  //         {groups.length -
+                  //           groups.findIndex(
+                  //             (groupToCompare) =>
+                  //               groupToCompare.name === group.name
+                  //           )}
+                  //         <sup>
+                  //           {index === 0 &&
+                  //           displayedGroupsCount === groups.length
+                  //             ? "er"
+                  //             : "e"}
+                  //         </sup>
+                  //         ) {group.points} points
+                  //       </p>
+                  //     )}
+                  //     <div id={"group" + index}></div>
+                  //     <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
+                  //       {index === 0 &&
+                  //       isEnded &&
+                  //       !isDraw &&
+                  //       displayedGroupsCount === groups.length
+                  //         ? "🎉 " + group.name + " 🎉"
+                  //         : group.name}
+                  //     </p>
+                  //     <style>
+                  //       {`
+                  //       #group${index} {
+                  //         width: ${calcRankingBarWidth(group.points)}px;
+                  //         height: auto;
+                  //         background-color: ${
+                  //           index === 0 &&
+                  //           isEnded &&
+                  //           !isDraw &&
+                  //           displayedGroupsCount === groups.length
+                  //             ? "#f4c546"
+                  //             : "#1e1e1e"
+                  //         };
+                  //         border-top-right-radius: 20px;
+                  //         border-bottom-right-radius: 20px;
+                  //       }
+                  //     `}
+                  //     </style>
+                  //   </div>
+                  // );
+                })}
+            </table>
+          </div>
         )}
       </div>
       <div className="w-full pb-4">
