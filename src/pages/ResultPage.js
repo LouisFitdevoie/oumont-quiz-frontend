@@ -17,7 +17,6 @@ export default function ResultPage() {
 
   const [groups, setGroups] = useState([]);
   const [game, setGame] = useState({});
-  const [maxScore, setMaxScore] = useState(0);
   const [isDraw, setIsDraw] = useState(false);
 
   const handleGetGroups = async (gameId) => {
@@ -30,13 +29,6 @@ export default function ResultPage() {
       verifyDraw(groupsReceived);
     }
     setGroups(groupsReceived.sort((a, b) => sortFunction(a, b)));
-    let max = 0;
-    groupsReceived.forEach((group) => {
-      if (group.points > max) {
-        max = group.points;
-      }
-    });
-    setMaxScore(max);
   };
 
   const verifyDraw = (groupsReceived) => {
@@ -70,12 +62,7 @@ export default function ResultPage() {
     setGame(response.data.game);
   };
 
-  const calcRankingBarWidth = (points) => {
-    const divWidth = document.getElementById("rankingDiv").clientWidth;
-    return Math.round((points / maxScore) * (divWidth / 1.6));
-  };
-
-  const [displayedGroupsCount, setDisplayedGroupsCount] = useState(1);
+  const [displayedGroupsCount, setDisplayedGroupsCount] = useState(0);
 
   const sortFunction = (a, b) => {
     if (a.points > b.points) {
@@ -92,12 +79,31 @@ export default function ResultPage() {
 
   const handleShowMoreClick = () => {
     const stepSize = 1;
-    if (displayedGroupsCount + stepSize >= groups.length) {
+    let groupsCount = displayedGroupsCount;
+    if (groupsCount + stepSize >= groups.length) {
       setDisplayedGroupsCount(groups.length);
-    } else if (groups.length - displayedGroupsCount === 2) {
+    } else if (groups.length - groupsCount === 2) {
       setDisplayedGroupsCount(groups.length);
+      setTimeout(() => {
+        document.getElementById("group1").classList.add("text-transparent");
+        document.getElementById("group2").classList.add("text-transparent");
+      }, [10]);
+      setTimeout(() => {
+        document.getElementById("group1").classList.remove("text-transparent");
+        document.getElementById("group2").classList.remove("text-transparent");
+      }, [isDraw ? 2500 : 5000]);
     } else {
-      setDisplayedGroupsCount(displayedGroupsCount + stepSize);
+      setDisplayedGroupsCount(groupsCount + stepSize);
+      setTimeout(() => {
+        document
+          .getElementById("group" + (groups.length - groupsCount))
+          .classList.add("text-transparent");
+      }, [2]);
+      setTimeout(() => {
+        document
+          .getElementById("group" + (groups.length - groupsCount))
+          .classList.remove("text-transparent");
+      }, [2500]);
     }
   };
 
@@ -115,40 +121,56 @@ export default function ResultPage() {
           }`}
         />
       )}
-      <div className="w-full flex flex-col flex-grow items-center justify-center">
+      <div className="w-11/12 flex flex-col flex-grow items-center justify-center self-center">
         {!isEnded && (
           <div
             id="rankingDiv"
             className="w-full flex flex-col justify-start items-start"
           >
-            <div className="mx-auto">
-              {groups.map((group, index) => {
-                return (
-                  <div key={index} className="flex flex-row p-3">
-                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                      {index + 1}
-                      <sup>{index === 0 ? "er" : "e"}</sup>) {group.points}{" "}
-                      points
-                    </p>
-                    <div id={"group" + index}></div>
-                    <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                      {group.name}
-                    </p>
-                    <style>
-                      {`
-                        #group${index} {
-                          width: ${calcRankingBarWidth(group.points)}px;
-                          height: auto;
-                          background-color: #1e1e1e;
-                          border-top-right-radius: 20px;
-                          border-bottom-right-radius: 20px;
-                        }
-                      `}
-                    </style>
-                  </div>
-                );
-              })}
-            </div>
+            <table className="table-fixed w-full">
+              <tbody>
+                {groups.map((group, index) => {
+                  return (
+                    <tr key={index} className="p-3">
+                      <td
+                        className={`text-right text-xl p-2 font-bold w-[10%] ${
+                          index % 2 === 0
+                            ? "bg-black bg-opacity-10 rounded-s-2xl"
+                            : ""
+                        }`}
+                      >
+                        <p>
+                          {index + 1}
+                          <sup>
+                            {index === 0 &&
+                            displayedGroupsCount === groups.length
+                              ? "er"
+                              : "e"}
+                          </sup>
+                          )
+                        </p>
+                      </td>
+                      <td
+                        className={`text-xl text-center p-2 font-semibold w-[70%] ${
+                          index % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                        }`}
+                      >
+                        <p>{group.name}</p>
+                      </td>
+                      <td
+                        className={`text-xl text-center p-2 font-semibold w-[20%] ${
+                          index % 2 === 0
+                            ? "bg-black bg-opacity-10 rounded-e-2xl"
+                            : ""
+                        }`}
+                      >
+                        {group.points} points
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
         {isEnded && displayedGroupsCount < groups.length - 1 && (
@@ -160,85 +182,124 @@ export default function ResultPage() {
           </div>
         )}
         {isEnded && (
-          <>
-            <div
-              id="rankingDiv"
-              className="w-full flex flex-col justify-start items-start"
-            >
-              <div className="mx-auto">
+          <div
+            id="rankingDiv"
+            className="w-full flex flex-col justify-start items-start"
+          >
+            <table className="table-fixed w-full">
+              <tbody>
                 {groups
                   .sort((a, b) => sortFunction(b, a))
                   .slice(0, displayedGroupsCount)
                   .sort((a, b) => sortFunction(a, b))
                   .map((group, index) => {
                     return (
-                      <div
+                      <tr
                         key={index}
                         className={
                           index === 0 &&
                           isEnded &&
                           !isDraw &&
                           displayedGroupsCount === groups.length
-                            ? "flex flex-row p-3 bg-white border-2 border-black rounded-2xl text-center font-medium"
-                            : "flex flex-row p-3"
+                            ? "text-center font-medium"
+                            : "p-3"
                         }
                       >
-                        {index === 0 &&
-                        isEnded &&
-                        !isDraw &&
-                        displayedGroupsCount === groups.length ? (
-                          <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                            🏆 {group.points} points
-                          </p>
-                        ) : (
-                          <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                            {groups.length -
-                              groups.findIndex(
-                                (groupToCompare) =>
-                                  groupToCompare.name === group.name
-                              )}
-                            <sup>
-                              {index === 0 &&
-                              displayedGroupsCount === groups.length
-                                ? "er"
-                                : "e"}
-                            </sup>
-                            ) {group.points} points
-                          </p>
-                        )}
-                        <div id={"group" + index}></div>
-                        <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                          {index === 0 &&
-                          isEnded &&
-                          !isDraw &&
-                          displayedGroupsCount === groups.length
-                            ? "🎉 " + group.name + " 🎉"
-                            : group.name}
-                        </p>
-                        <style>
-                          {`
-                        #group${index} {
-                          width: ${calcRankingBarWidth(group.points)}px;
-                          height: auto;
-                          background-color: ${
+                        <td
+                          className={`text-right text-xl p-2 font-bold w-[10%] ${
                             index === 0 &&
                             isEnded &&
                             !isDraw &&
                             displayedGroupsCount === groups.length
-                              ? "#f4c546"
-                              : "#1e1e1e"
-                          };
-                          border-top-right-radius: 20px;
-                          border-bottom-right-radius: 20px;
-                        }
-                      `}
-                        </style>
-                      </div>
+                              ? "bg-white py-3 rounded-s-2xl"
+                              : index % 2 === 0
+                              ? "bg-black bg-opacity-10 rounded-s-2xl"
+                              : ""
+                          }`}
+                        >
+                          {index === 0 &&
+                          isEnded &&
+                          !isDraw &&
+                          displayedGroupsCount === groups.length ? (
+                            <p>🏆</p>
+                          ) : (
+                            <p>
+                              {groups.length -
+                                groups.findIndex(
+                                  (groupToCompare) =>
+                                    groupToCompare.name === group.name
+                                )}
+                              <sup>
+                                {index === 0 &&
+                                displayedGroupsCount === groups.length
+                                  ? "er"
+                                  : "e"}
+                              </sup>
+                              )
+                            </p>
+                          )}
+                        </td>
+                        <td
+                          className={`text-xl text-center p-2 font-semibold w-[70%] ${
+                            index === 0 &&
+                            isEnded &&
+                            !isDraw &&
+                            displayedGroupsCount === groups.length
+                              ? "bg-white py-3"
+                              : index % 2 === 0
+                              ? "bg-black bg-opacity-10"
+                              : ""
+                          }`}
+                        >
+                          {index === 0 &&
+                          isEnded &&
+                          !isDraw &&
+                          displayedGroupsCount === groups.length ? (
+                            <p
+                              id={`group${
+                                groups.length -
+                                groups.findIndex(
+                                  (groupToCompare) =>
+                                    groupToCompare.name === group.name
+                                )
+                              }`}
+                            >
+                              🎉 {group.name} 🎉
+                            </p>
+                          ) : (
+                            <p
+                              id={`group${
+                                groups.length -
+                                groups.findIndex(
+                                  (groupToCompare) =>
+                                    groupToCompare.name === group.name
+                                )
+                              }`}
+                            >
+                              {group.name}
+                            </p>
+                          )}
+                        </td>
+                        <td
+                          className={`text-xl text-center p-2 font-semibold w-[20%] ${
+                            index === 0 &&
+                            isEnded &&
+                            !isDraw &&
+                            displayedGroupsCount === groups.length
+                              ? "bg-white py-3 rounded-e-2xl"
+                              : index % 2 === 0
+                              ? "bg-black bg-opacity-10 rounded-e-2xl"
+                              : ""
+                          }`}
+                        >
+                          {group.points} points
+                        </td>
+                      </tr>
                     );
                   })}
-              </div>
-            </div>
-          </>
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
       <div className="w-full pb-4">
