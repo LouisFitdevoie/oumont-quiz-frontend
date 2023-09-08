@@ -104,7 +104,7 @@ export default function ResultPage() {
       setTimeout(() => {
         document.getElementById("group1").classList.remove("text-transparent");
         document.getElementById("group2").classList.remove("text-transparent");
-      }, [5000]);
+      }, [isDraw ? 2500 : 5000]);
     } else {
       setDisplayedGroupsCount(groupsCount + stepSize);
       setTimeout(() => {
