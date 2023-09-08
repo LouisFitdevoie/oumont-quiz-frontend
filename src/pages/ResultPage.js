@@ -17,7 +17,6 @@ export default function ResultPage() {
 
   const [groups, setGroups] = useState([]);
   const [game, setGame] = useState({});
-  const [maxScore, setMaxScore] = useState(0);
   const [isDraw, setIsDraw] = useState(false);
 
   const handleGetGroups = async (gameId) => {
@@ -30,13 +29,6 @@ export default function ResultPage() {
       verifyDraw(groupsReceived);
     }
     setGroups(groupsReceived.sort((a, b) => sortFunction(a, b)));
-    let max = 0;
-    groupsReceived.forEach((group) => {
-      if (group.points > max) {
-        max = group.points;
-      }
-    });
-    setMaxScore(max);
   };
 
   const verifyDraw = (groupsReceived) => {
@@ -68,11 +60,6 @@ export default function ResultPage() {
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
     setGame(response.data.game);
-  };
-
-  const calcRankingBarWidth = (points) => {
-    const divWidth = document.getElementById("rankingDiv").clientWidth - 100;
-    return Math.round((points / maxScore) * (divWidth / 1.6));
   };
 
   const [displayedGroupsCount, setDisplayedGroupsCount] = useState(0);
@@ -140,34 +127,50 @@ export default function ResultPage() {
             id="rankingDiv"
             className="w-full flex flex-col justify-start items-start"
           >
-            <div className="mx-auto">
-              {groups.map((group, index) => {
-                return (
-                  <div key={index} className="flex flex-row p-3">
-                    <p className="w-[170px] text-right text-xl p-2 font-bold h-auto self-center">
-                      {index + 1}
-                      <sup>{index === 0 ? "er" : "e"}</sup>) {group.points}{" "}
-                      points
-                    </p>
-                    <div id={"group" + index}></div>
-                    <p className="text-xl text-left p-2 font-semibold h-11 self-center max-w-[325px] truncate">
-                      {group.name}
-                    </p>
-                    <style>
-                      {`
-                        #group${index} {
-                          width: ${calcRankingBarWidth(group.points)}px;
-                          height: auto;
-                          background-color: #1e1e1e;
-                          border-top-right-radius: 20px;
-                          border-bottom-right-radius: 20px;
-                        }
-                      `}
-                    </style>
-                  </div>
-                );
-              })}
-            </div>
+            <table className="table-fixed w-full">
+              <tbody>
+                {groups.map((group, index) => {
+                  return (
+                    <tr key={index} className="p-3">
+                      <td
+                        className={`text-right text-xl p-2 font-bold w-[10%] ${
+                          index % 2 === 0
+                            ? "bg-black bg-opacity-10 rounded-s-2xl"
+                            : ""
+                        }`}
+                      >
+                        <p>
+                          {index + 1}
+                          <sup>
+                            {index === 0 &&
+                            displayedGroupsCount === groups.length
+                              ? "er"
+                              : "e"}
+                          </sup>
+                          )
+                        </p>
+                      </td>
+                      <td
+                        className={`text-xl text-center p-2 font-semibold w-[70%] ${
+                          index % 2 === 0 ? "bg-black bg-opacity-10" : ""
+                        }`}
+                      >
+                        <p>{group.name}</p>
+                      </td>
+                      <td
+                        className={`text-xl text-center p-2 font-semibold w-[20%] ${
+                          index % 2 === 0
+                            ? "bg-black bg-opacity-10 rounded-e-2xl"
+                            : ""
+                        }`}
+                      >
+                        {group.points} points
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
         {isEnded && displayedGroupsCount < groups.length - 1 && (
@@ -237,13 +240,6 @@ export default function ResultPage() {
                           )}
                         </td>
                         <td
-                          id={`group${
-                            groups.length -
-                            groups.findIndex(
-                              (groupToCompare) =>
-                                groupToCompare.name === group.name
-                            )
-                          }`}
                           className={`text-xl text-center p-2 font-semibold w-[70%] ${
                             index === 0 &&
                             isEnded &&
@@ -259,9 +255,29 @@ export default function ResultPage() {
                           isEnded &&
                           !isDraw &&
                           displayedGroupsCount === groups.length ? (
-                            <p>🎉 {group.name} 🎉</p>
+                            <p
+                              id={`group${
+                                groups.length -
+                                groups.findIndex(
+                                  (groupToCompare) =>
+                                    groupToCompare.name === group.name
+                                )
+                              }`}
+                            >
+                              🎉 {group.name} 🎉
+                            </p>
                           ) : (
-                            <p>{group.name}</p>
+                            <p
+                              id={`group${
+                                groups.length -
+                                groups.findIndex(
+                                  (groupToCompare) =>
+                                    groupToCompare.name === group.name
+                                )
+                              }`}
+                            >
+                              {group.name}
+                            </p>
                           )}
                         </td>
                         <td
