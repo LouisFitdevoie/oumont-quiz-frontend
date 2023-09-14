@@ -221,6 +221,7 @@ export default function QuestionPage() {
       themeName !== null
     ) {
       localStorage.removeItem("currentGroup");
+      setCurrentGroup(null);
       localStorage.removeItem("randomThemes");
       handleGetRandomQuestion();
     }
