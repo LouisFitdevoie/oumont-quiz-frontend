@@ -17,7 +17,7 @@ export default function MultipleChoice({
   backgroundMusic,
 }) {
   const [image, setImage] = useState(null);
-  const possibleAnswersLetter = ["A", "B", "C", "D"];
+  const possibleAnswersLetter = ["A", "B", "C", "D"]; // Add/remove letters if needed
 
   useEffect(() => {
     const elements = document.querySelectorAll(".auto-height");
@@ -33,6 +33,7 @@ export default function MultipleChoice({
       element.style.height = `${maxHeight}px`;
     });
 
+    //Getting the image for the question if there is one and creating a blob url
     const getImage = async () => {
       const response = await getQuestionImage(imageName);
       const imageType = response.headers["content-type"];

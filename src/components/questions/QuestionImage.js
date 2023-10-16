@@ -6,6 +6,7 @@ export default function QuestionImage({ imageName }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    //Getting the image for the question if there is one and creating a blob url
     const getImage = async () => {
       const response = await getQuestionImage(imageName);
       const blob = new Blob([response.data], { type: "image/jpeg" });

@@ -16,7 +16,8 @@ export default function Question({
   const [isAnswerShown, setIsAnswerShown] = useState(false);
   const [isTimeOver, setIsTimeOver] = useState(false);
 
-  const timeToReadCharachter = 0.06; // 0.04s to read a charachter -> To be tweaked if needed
+  //Calculating the time to read the question
+  const timeToReadCharachter = 0.06; // 0.06s to read a character -> To be tweaked if needed
   const charNumber =
     question.questionType === "multipleChoice"
       ? question.question.length + question.choices.length

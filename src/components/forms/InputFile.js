@@ -54,7 +54,8 @@ function handleFileUpload(
   validateForm
 ) {
   const file = fileUploaded;
-  const fileSizeLimit = 1024 * 1024; // 1Mo
+  const fileSizeLimit = 1024 * 1024; //Limitating the size of a file to 1 Mo
+  //Verify if the file is a CSV file and if it does not exceed the size limit mentioned above
   if (file.size > fileSizeLimit) {
     alert("Le fichier est trop grand, il ne doit pas dépasser 1Mo !");
     return;
@@ -62,6 +63,7 @@ function handleFileUpload(
     alert("Le fichier doit être au format CSV !");
     return;
   } else {
+    //If the file is a CSV file and does not exceed the size limit, we read it and create an array of file lines without the first line (the header)
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function () {
