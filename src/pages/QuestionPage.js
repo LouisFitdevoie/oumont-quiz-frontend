@@ -57,7 +57,7 @@ export default function QuestionPage() {
     backgroundMusic.stop();
     backgroundMusic.unload();
   });
-  //If music doesnt work anymore -> delete next block
+
   window.onbeforeunload = () => {
     backgroundMusic.stop();
     backgroundMusic.unload();
@@ -99,6 +99,7 @@ export default function QuestionPage() {
   };
 
   const handleGetRandomGroup = () => {
+    //Getting a random group from the groups that haven't been selected yet
     if (currentGroup === null) {
       if (groups.length === 1) {
         setCurrentGroup(groups[0]);

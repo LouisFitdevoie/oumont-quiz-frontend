@@ -29,6 +29,7 @@ export default function OpenEstimate({
   }
 
   useEffect(() => {
+    //Getting the image for the question if there is one and creating a blob url
     const getImage = async () => {
       const response = await getQuestionImage(imageName);
       const imageType = response.headers["content-type"];

@@ -36,6 +36,7 @@ export default function CorrectionPage() {
     response.data.groups.forEach((group) => {
       groupsReceived.push(group);
     });
+    //Sorting the groups by name alphabetically ascending
     groupsReceived.sort((a, b) => {
       return new Intl.Collator("fr", {
         sensitivity: "base",
@@ -46,6 +47,7 @@ export default function CorrectionPage() {
   };
 
   const handleGetQuestions = async (questionsReceived) => {
+    //Getting the questions for the game and sorting them by the order they were asked
     try {
       setIsLoading(true);
 
@@ -69,6 +71,7 @@ export default function CorrectionPage() {
     }
   };
 
+  //Updating the points of the group and going to the next group
   const handleChangeGroup = async (groupIndex) => {
     const points = groupPoints - penaltyPoints;
     let response;
@@ -91,6 +94,7 @@ export default function CorrectionPage() {
     }
   };
 
+  //Function to handle the change of the penalty points
   const handlePenaltyPointsChange = (points) => {
     if (points < 0) {
       setPenaltyPoints(0);
@@ -106,6 +110,7 @@ export default function CorrectionPage() {
   }, [questionList, groupsLeftList, gameId, isEnded]);
 
   useEffect(() => {
+    //Getting the list of questions asked from the local storage
     setQuestionList(JSON.parse(localStorage.getItem("questionList")) || []);
   }, []);
 
