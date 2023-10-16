@@ -14,6 +14,7 @@ export default function QuestionCorrection({
   const [isAddHalfPointsClicked, setIsAddHalfPointsClicked] = useState(false);
   const [isIncorrectClicked, setIsIncorrectClicked] = useState(false);
 
+  //Function to handle the click on the correct button
   const handleCorrectClick = () => {
     if (question.questionType === "multipleChoice") {
       if (isCorrectClicked) return;
@@ -40,6 +41,7 @@ export default function QuestionCorrection({
     }
   };
 
+  //Function to handle the click on the add half points button
   const handleAddHalfPoints = () => {
     if (question.questionType === "multipleChoice") return;
     if (isAddHalfPointsClicked) return;
@@ -57,6 +59,7 @@ export default function QuestionCorrection({
     }
   };
 
+  //Function to handle the click on the incorrect button
   const handleIncorrectClick = () => {
     if (question.questionType === "multipleChoice") {
       if (isIncorrectClicked) return;
@@ -85,6 +88,7 @@ export default function QuestionCorrection({
 
   const possibleAnswers = ["A", "B", "C", "D"];
   const multipleChoiceCorrectAnswer = () => {
+    //Getting the letter of the correct answer from the possible answers and the answer
     for (let i = 0; i < question.choices.split("/").length; i++) {
       if (question.choices.split("/")[i] === question.answer) {
         return possibleAnswers[i] + " (" + question.answer + ")";
@@ -96,6 +100,7 @@ export default function QuestionCorrection({
   };
 
   useEffect(() => {
+    //Setting the state of the buttons when the currentGroup changes
     setIsCorrectClicked(false);
     setIsAddHalfPointsClicked(false);
     setIsIncorrectClicked(true);
