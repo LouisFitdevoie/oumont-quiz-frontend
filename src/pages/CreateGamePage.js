@@ -33,23 +33,29 @@ export default function CreateGamePage() {
         await createQuestion(gameResponse.data.gameId, values.questions);
       } else if (fileType === "json") {
         let nbQuestionsCreated = 0;
-        values.questions.forEach((question) => {
+        for (const question of values.questions) {
           const questionToCreate = {
             gameId: gameResponse.data.gameId,
             id: uuid.v4(),
-            questionType: question.questionType,
+            questionType: question.question_type,
             theme: question.theme,
             question: question.question,
             answer: question.answer,
-            points: question.points,
+            points: question.points.toString(),
             choices: question.choices,
             explanation: question.explanation,
-            imageName: question.imageName,
-            isBonus: question.isBonus,
+            imageName: question.image_name,
+            isBonus: question.is_bonus,
             isAsked: false,
           };
-          //Create Question with createQuestionJSON function and increment the nbQuestionsCreated variable to display a progress bar of the questions created
-        });
+
+          await createQuestionJSON(questionToCreate);
+          nbQuestionsCreated++;
+          console.log(
+            (nbQuestionsCreated / values.questions.length) * 100 +
+              "% of questions successfully created"
+          );
+        }
       }
     } catch (error) {
       gameCreationError = true;

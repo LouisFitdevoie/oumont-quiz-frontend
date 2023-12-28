@@ -3,9 +3,8 @@ import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   gameName: Yup.string().required("Le nom de partie est requis"),
   questions: Yup.array()
-    .of(Yup.string())
-    .min(1, "Il doit y avoir au moins une question")
-    .required("Les questions sont requises"),
+    .required("Les questions sont requises")
+    .min(1, "Il doit y avoir au moins une question"),
   timeToAnswerOpen: Yup.number("Le temps de réponse doit être un nombre")
     .moreThan(0, "Le temps de réponse doit être plus grand que 0")
     .integer("Le temps de réponse doit être un nombre entier")

@@ -14,13 +14,13 @@ export function createQuestion(gameId, fileLines) {
 }
 
 export function createQuestionJSON(question) {
-  return {
+  return axios({
     method: "post",
     url: `${base_url}/questionJSON`,
     data: {
-      question,
+      question: question,
     },
-  };
+  });
 }
 
 export function getRandomThemes(gameId) {
