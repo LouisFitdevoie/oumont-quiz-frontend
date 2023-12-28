@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Header from "../components/Header";
@@ -11,10 +11,14 @@ import { createGame, deleteGame } from "../api/game.api.js";
 import {
   createQuestion,
   deleteQuestionsForGameId,
+  createQuestionJSON,
 } from "../api/question.api.js";
+const uuid = require("uuid");
 
 export default function CreateGamePage() {
   let navigate = useNavigate();
+  const [fileType, setFileType] = useState("csv");
+
   const handleSubmit = async (values) => {
     let gameCreationError = false;
     const gameResponse = await createGame(
@@ -25,7 +29,28 @@ export default function CreateGamePage() {
       values.personsPerGroup
     );
     try {
-      await createQuestion(gameResponse.data.gameId, values.questions);
+      if (fileType === "csv") {
+        await createQuestion(gameResponse.data.gameId, values.questions);
+      } else if (fileType === "json") {
+        let nbQuestionsCreated = 0;
+        values.questions.forEach((question) => {
+          const questionToCreate = {
+            gameId: gameResponse.data.gameId,
+            id: uuid.v4(),
+            questionType: question.questionType,
+            theme: question.theme,
+            question: question.question,
+            answer: question.answer,
+            points: question.points,
+            choices: question.choices,
+            explanation: question.explanation,
+            imageName: question.imageName,
+            isBonus: question.isBonus,
+            isAsked: false,
+          };
+          //Create Question with createQuestionJSON function and increment the nbQuestionsCreated variable to display a progress bar of the questions created
+        });
+      }
     } catch (error) {
       gameCreationError = true;
       alert(
@@ -71,7 +96,7 @@ export default function CreateGamePage() {
             label="Nom de la partie"
             placeholder="Partie n°1"
           />
-          <InputFile name="questions" />
+          <InputFile name="questions" setFileType={setFileType} />
           <FormField
             name="timeToAnswerOpen"
             label="Temps de réponse pour les questions ouvertes (en secondes)"
