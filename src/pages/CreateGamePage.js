@@ -13,11 +13,20 @@ import {
   deleteQuestionsForGameId,
   createQuestionJSON,
 } from "../api/question.api.js";
+import GameCreatedConfirmation from "../components/ui/GameCreatedConfirmation.js";
 const uuid = require("uuid");
 
 export default function CreateGamePage() {
   let navigate = useNavigate();
   const [fileType, setFileType] = useState("csv");
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [nbQuestionsCreated, setNbQuestionsCreated] = useState(0);
+  const [nbQuestionsAlreadyExisting, setNbQuestionsAlreadyExisting] =
+    useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [isDisplayed, setIsDisplayed] = useState(false);
+  const [isStoringQuestions, setIsStoringQuestions] = useState(false);
+  const [gameId, setGameId] = useState(null);
 
   const handleSubmit = async (values) => {
     let gameCreationError = false;
@@ -28,11 +37,28 @@ export default function CreateGamePage() {
       values.timeToAnswerEstimate,
       values.personsPerGroup
     );
+    setGameId(gameResponse.data.gameId);
     try {
       if (fileType === "csv") {
-        await createQuestion(gameResponse.data.gameId, values.questions);
+        const csvResponse = await createQuestion(
+          gameResponse.data.gameId,
+          values.questions
+        );
+        if (csvResponse.status === 201) {
+          setNbQuestionsCreated(csvResponse.data.questionsCreated);
+          setNbQuestionsAlreadyExisting(
+            csvResponse.data.questionsAlreadyExisting
+          );
+          setTotalQuestions(
+            csvResponse.data.questionsCreated +
+              csvResponse.data.questionsAlreadyExisting
+          );
+        }
       } else if (fileType === "json") {
+        setTotalQuestions(values.questions.length);
+        setIsStoringQuestions(true);
         let nbQuestionsCreated = 0;
+        let nbQuestionsAlreadyExisting = 0;
         for (const question of values.questions) {
           const questionToCreate = {
             gameId: gameResponse.data.gameId,
@@ -49,29 +75,39 @@ export default function CreateGamePage() {
             isAsked: false,
           };
 
-          await createQuestionJSON(questionToCreate);
-          nbQuestionsCreated++;
-          console.log(
-            (nbQuestionsCreated / values.questions.length) * 100 +
-              "% of questions successfully created"
-          );
+          const jsonResponse = await createQuestionJSON(questionToCreate);
+          if (jsonResponse.status === 201) {
+            nbQuestionsCreated++;
+          } else if (jsonResponse.status === 202) {
+            nbQuestionsAlreadyExisting++;
+          }
         }
+        setNbQuestionsCreated(nbQuestionsCreated);
+        setNbQuestionsAlreadyExisting(nbQuestionsAlreadyExisting);
+        setIsStoringQuestions(false);
       }
     } catch (error) {
       gameCreationError = true;
-      alert(
-        "Une erreur est survenue lors de la création de la partie. Veuillez vérifier que vos questions respectent le format demandé, puis réessayez."
-      );
+      setIsStoringQuestions(false);
     } finally {
+      setIsDisplayed(true);
       if (!gameCreationError) {
-        alert("Partie créée avec succès");
-        navigate("/add-groups/" + gameResponse.data.gameId);
+        setIsSuccessful(true);
       } else {
-        await deleteQuestionsForGameId(gameResponse.data.gameId);
-        await deleteGame(gameResponse.data.gameId);
-        navigate("/create-game");
+        setIsSuccessful(false);
       }
     }
+  };
+
+  const handleGameCreated = (gameId) => {
+    navigate("/add-groups/" + gameId);
+  };
+
+  const handleDeleteGame = async (gameId) => {
+    await deleteQuestionsForGameId(gameId);
+    await deleteGame(gameId);
+    setIsDisplayed(false);
+    navigate("/create-game");
   };
 
   useEffect(() => {
@@ -131,6 +167,17 @@ export default function CreateGamePage() {
           <SubmitButton title="Créer la partie" />
         </Form>
       </div>
+      <GameCreatedConfirmation
+        nbQuestionsCreated={nbQuestionsCreated}
+        nbQuestionsAlreadyExisting={nbQuestionsAlreadyExisting}
+        totalQuestions={totalQuestions}
+        isSuccessful={isSuccessful}
+        isDisplayed={isDisplayed}
+        isStoringQuestions={isStoringQuestions}
+        gameId={gameId}
+        handleDeleteGame={handleDeleteGame}
+        handleGameCreated={handleGameCreated}
+      />
     </div>
   );
 }
