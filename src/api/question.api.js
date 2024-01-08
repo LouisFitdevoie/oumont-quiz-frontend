@@ -13,6 +13,16 @@ export function createQuestion(gameId, fileLines) {
   });
 }
 
+export function createQuestionJSON(question) {
+  return axios({
+    method: "post",
+    url: `${base_url}/questionJSON`,
+    data: {
+      question: question,
+    },
+  });
+}
+
 export function getRandomThemes(gameId) {
   return axios({
     method: "get",
