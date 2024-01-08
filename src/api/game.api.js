@@ -35,3 +35,10 @@ export function deleteGame(gameId) {
     url: `${base_url}/game/${gameId}`,
   });
 }
+
+export function getAllGames() {
+  return axios({
+    method: "get",
+    url: `${base_url}/games`,
+  });
+}
