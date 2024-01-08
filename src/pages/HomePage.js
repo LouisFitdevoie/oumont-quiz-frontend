@@ -33,9 +33,8 @@ export default function HomePage() {
         />
         <Button
           title="Historique des parties"
-          onClick={() => console.log("Game history clicked")}
+          onClick={() => navigate("/history")}
           splashscreen
-          disabled
         />
       </div>
     </div>
