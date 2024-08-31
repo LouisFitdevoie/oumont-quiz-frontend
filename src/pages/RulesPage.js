@@ -48,9 +48,9 @@ export default function RulesPage() {
             </li>
           </ul>
           <p className="text-justify mt-2 text-sm">
-            *Est considéré comme triche : essayer de voir les réponses des
-            autres groupes, dire la réponse à voix haute, essayer de regarder
-            son téléphone.
+            *Est considéré comme triche : modifier sa réponse après la fin du
+            timer, essayer de voir les réponses des autres groupes, dire la
+            réponse à voix haute, essayer de regarder son téléphone.
           </p>
         </div>
         <Button

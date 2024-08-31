@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import Timer from "./Timer";
 import { getQuestionImage } from "../../api/question.api";
+import QuestionDifficultyLevel from "../ui/QuestionDifficultyLevel";
 
 export default function OpenEstimate({
   question,
@@ -15,6 +16,7 @@ export default function OpenEstimate({
   imageName = null,
   timeToReadQuestion,
   backgroundMusic,
+  points,
 }) {
   const [image, setImage] = useState(null);
   const punctuationArray = ["!", "?", "."];
@@ -50,9 +52,12 @@ export default function OpenEstimate({
             !isTimeOver ? "pr-2" : ""
           }`}
         >
-          <h1 className="text-4xl font-bold">
-            Question {type === "open" ? "ouverte" : "d'estimation"}
-          </h1>
+          <div className="w-full flex flex-row items-center justify-center">
+            <h1 className="text-4xl font-bold">
+              Question {type === "open" ? "ouverte" : "d'estimation"}
+            </h1>
+            <QuestionDifficultyLevel points={points} />
+          </div>
           <p className="text-3xl">{question}</p>
           {image && (
             <img

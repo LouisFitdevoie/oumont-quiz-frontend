@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import Timer from "./Timer";
 import { getQuestionImage } from "../../api/question.api";
+import Question from "./Question";
+import QuestionDifficultyLevel from "../ui/QuestionDifficultyLevel";
 
 export default function MultipleChoice({
   question,
@@ -15,6 +17,7 @@ export default function MultipleChoice({
   imageName = null,
   timeToReadQuestion,
   backgroundMusic,
+  points,
 }) {
   const [image, setImage] = useState(null);
   const possibleAnswersLetter = ["A", "B", "C", "D"]; // Add/remove letters if needed
@@ -65,7 +68,10 @@ export default function MultipleChoice({
             !isTimeOver ? "pr-2" : ""
           }`}
         >
-          <h1 className="text-4xl font-bold">Question à choix multiples</h1>
+          <div className="w-full flex flex-row items-center justify-center">
+            <h1 className="text-4xl font-bold">Question à choix multiples</h1>
+            <QuestionDifficultyLevel points={points} />
+          </div>
           <p className="text-3xl">{question}</p>
           {image && (
             <img
