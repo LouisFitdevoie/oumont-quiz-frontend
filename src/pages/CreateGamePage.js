@@ -59,23 +59,28 @@ export default function CreateGamePage() {
         setIsStoringQuestions(true);
         let nbQuestionsCreated = 0;
         let nbQuestionsAlreadyExisting = 0;
-        for (const question of values.questions) {
-          const questionToCreate = {
-            gameId: gameResponse.data.gameId,
-            id: uuid.v4(),
-            questionType: question.question_type,
-            theme: question.theme,
-            question: question.question,
-            answer: question.answer,
-            points: question.points.toString(),
-            choices: question.choices,
-            explanation: question.explanation,
-            imageName: question.image_name,
-            isBonus: question.is_bonus,
-            isAsked: false,
-          };
+        const results = await Promise.all(
+          values.questions.map(async (question) => {
+            const questionToCreate = {
+              gameId: gameResponse.data.gameId,
+              id: uuid.v4(),
+              questionType: question.question_type,
+              theme: question.theme,
+              question: question.question,
+              answer: question.answer,
+              points: question.points.toString(),
+              choices: question.choices,
+              explanation: question.explanation,
+              imageName: question.image_name,
+              isBonus: question.is_bonus,
+              isAsked: false,
+            };
 
-          const jsonResponse = await createQuestionJSON(questionToCreate);
+            return createQuestionJSON(questionToCreate);
+          })
+        );
+
+        for (const jsonResponse of results) {
           if (jsonResponse.status === 201) {
             nbQuestionsCreated++;
           } else if (jsonResponse.status === 202) {

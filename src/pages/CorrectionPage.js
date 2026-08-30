@@ -51,14 +51,15 @@ export default function CorrectionPage() {
     try {
       setIsLoading(true);
 
-      const questionsToReturn = [];
-      for (const question of questionsReceived) {
-        const response = await getQuestionById(question.questionId);
-        questionsToReturn.push({
-          order: questionNumber - (questionsReceived.length - question.order),
-          question: response.data.question,
-        });
-      }
+      const questionsToReturn = await Promise.all(
+        questionsReceived.map(async (question) => {
+          const response = await getQuestionById(question.questionId);
+          return {
+            order: questionNumber - (questionsReceived.length - question.order),
+            question: response.data.question,
+          };
+        })
+      );
 
       questionsToReturn.sort((a, b) => a.order - b.order);
       setQuestions(questionsToReturn);
