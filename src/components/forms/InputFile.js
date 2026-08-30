@@ -59,26 +59,35 @@ function handleFileUpload(
   setFileType
 ) {
   const file = fileUploaded;
+  if (!file) return;
+
   const fileSizeLimit = 1024 * 1024; //Limitating the size of a file to 1 Mo
+  const fileName = file.name ? file.name.toLowerCase() : "";
+  const isCsv = fileName.endsWith(".csv") || file.type === "text/csv";
+  const isJson = fileName.endsWith(".json") || file.type === "application/json";
+
   //Verify if the file is a CSV or a JSON file and if it does not exceed the size limit mentioned above
   if (file.size > fileSizeLimit) {
     alert("Le fichier est trop grand, il ne doit pas dépasser 1Mo !");
-    return;
-  } else if (file.type !== "text/csv" && file.type !== "application/json") {
+  } else if (!isCsv && !isJson) {
     alert("Le fichier doit être au format CSV ou JSON !");
-    return;
   } else {
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function () {
       let result;
-      setFileType(file.type === "text/csv" ? "csv" : "json");
-      if (file.type === "text/csv") {
+      setFileType(isCsv ? "csv" : "json");
+      if (isCsv) {
         //If the file is a CSV file and does not exceed the size limit, we read it and create an array of file lines without the first line (the header)
         result = reader.result.split("\n").slice(1);
-      } else if (file.type === "application/json") {
+      } else if (isJson) {
         //If the file is a JSON file and does not exceed the size limit, we read it and create an array of objects
-        result = JSON.parse(reader.result);
+        try {
+          result = JSON.parse(reader.result);
+        } catch (error) {
+          alert("Le fichier JSON est invalide !");
+          return;
+        }
       } else {
         alert("Le fichier doit être au format CSV ou JSON !");
         return;
