@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Question from "../components/questions/Question";
 import music from "../assets/musics/question_music.mp3";
 import { getQuestions } from "../api/question.api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Howl } from "howler";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -19,19 +19,22 @@ export default function TestQuestions() {
     estimate: 0,
   };
 
-  const backgroundMusic = new Howl({
-    src: [music],
-    autoplay: false,
-    html5: true,
-    loop: false,
-    volume: 0.5,
-  });
-  backgroundMusic.on("play", () => {
-    backgroundMusic.stop();
-  });
-  backgroundMusic.on("stop", () => {
-    backgroundMusic.unload();
-  });
+  const backgroundMusic = useMemo(() => {
+    return new Howl({
+      src: [music],
+      autoplay: false,
+      html5: true,
+      loop: false,
+      volume: 0.5,
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      backgroundMusic.stop();
+      backgroundMusic.unload();
+    };
+  }, [backgroundMusic]);
 
   const handleNextQuestion = () => {
     if (questionNumber === allQuestions.length) {

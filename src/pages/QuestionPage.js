@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Howl } from "howler";
 
@@ -43,25 +43,29 @@ export default function QuestionPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const backgroundMusic = new Howl({
-    src: [music],
-    autoplay: false,
-    html5: true,
-    loop: false,
-    volume: 0.5,
-  });
-  backgroundMusic.on("stop", () => {
-    backgroundMusic.unload();
-  });
-  backgroundMusic.on("end", () => {
-    backgroundMusic.stop();
-    backgroundMusic.unload();
-  });
+  const backgroundMusic = useMemo(() => {
+    return new Howl({
+      src: [music],
+      autoplay: false,
+      html5: true,
+      loop: false,
+      volume: 0.5,
+    });
+  }, []);
 
-  window.onbeforeunload = () => {
-    backgroundMusic.stop();
-    backgroundMusic.unload();
-  };
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      backgroundMusic.stop();
+      backgroundMusic.unload();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      backgroundMusic.stop();
+      backgroundMusic.unload();
+    };
+  }, [backgroundMusic]);
 
   const handleGetGame = async (gameId) => {
     const response = await getGame(gameId);
