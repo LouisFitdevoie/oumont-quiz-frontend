@@ -63,6 +63,7 @@ export default function ResultPage() {
   };
 
   const [displayedGroupsCount, setDisplayedGroupsCount] = useState(0);
+  const [transparentGroups, setTransparentGroups] = useState([]);
 
   const sortFunction = (a, b) => {
     if (a.points > b.points) {
@@ -84,26 +85,19 @@ export default function ResultPage() {
       setDisplayedGroupsCount(groups.length);
     } else if (groups.length - groupsCount === 2) {
       setDisplayedGroupsCount(groups.length);
+      setTransparentGroups((prev) => [...prev, "group1", "group2"]);
       setTimeout(() => {
-        document.getElementById("group1").classList.add("text-transparent");
-        document.getElementById("group2").classList.add("text-transparent");
-      }, [10]);
-      setTimeout(() => {
-        document.getElementById("group1").classList.remove("text-transparent");
-        document.getElementById("group2").classList.remove("text-transparent");
-      }, [isDraw ? 2500 : 5000]);
+        setTransparentGroups((prev) =>
+          prev.filter((id) => id !== "group1" && id !== "group2")
+        );
+      }, isDraw ? 2500 : 5000);
     } else {
+      const nextGroupId = "group" + (groups.length - groupsCount);
       setDisplayedGroupsCount(groupsCount + stepSize);
+      setTransparentGroups((prev) => [...prev, nextGroupId]);
       setTimeout(() => {
-        document
-          .getElementById("group" + (groups.length - groupsCount))
-          .classList.add("text-transparent");
-      }, [2]);
-      setTimeout(() => {
-        document
-          .getElementById("group" + (groups.length - groupsCount))
-          .classList.remove("text-transparent");
-      }, [2500]);
+        setTransparentGroups((prev) => prev.filter((id) => id !== nextGroupId));
+      }, 2500);
     }
   };
 
@@ -193,6 +187,15 @@ export default function ResultPage() {
                   .slice(0, displayedGroupsCount)
                   .sort((a, b) => sortFunction(a, b))
                   .map((group, index) => {
+                    const groupNumber =
+                      groups.length -
+                      groups.findIndex(
+                        (groupToCompare) =>
+                          groupToCompare.name === group.name
+                      );
+                    const groupId = `group${groupNumber}`;
+                    const isTransparent = transparentGroups.includes(groupId);
+
                     return (
                       <tr
                         key={index}
@@ -224,11 +227,7 @@ export default function ResultPage() {
                             <p>🏆</p>
                           ) : (
                             <p>
-                              {groups.length -
-                                groups.findIndex(
-                                  (groupToCompare) =>
-                                    groupToCompare.name === group.name
-                                )}
+                              {groupNumber}
                               <sup>
                                 {index === 0 &&
                                 displayedGroupsCount === groups.length
@@ -256,25 +255,19 @@ export default function ResultPage() {
                           !isDraw &&
                           displayedGroupsCount === groups.length ? (
                             <p
-                              id={`group${
-                                groups.length -
-                                groups.findIndex(
-                                  (groupToCompare) =>
-                                    groupToCompare.name === group.name
-                                )
-                              }`}
+                              id={groupId}
+                              className={
+                                isTransparent ? "text-transparent" : ""
+                              }
                             >
                               🎉 {group.name} 🎉
                             </p>
                           ) : (
                             <p
-                              id={`group${
-                                groups.length -
-                                groups.findIndex(
-                                  (groupToCompare) =>
-                                    groupToCompare.name === group.name
-                                )
-                              }`}
+                              id={groupId}
+                              className={
+                                isTransparent ? "text-transparent" : ""
+                              }
                             >
                               {group.name}
                             </p>

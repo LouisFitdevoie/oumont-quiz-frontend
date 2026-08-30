@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useFormikContext } from "formik";
 
 import Button from "../Button";
@@ -6,6 +7,7 @@ import FormField from "./FormField";
 export default function InputFile({ name, setFileType }) {
   const { setFieldTouched, setFieldValue, validateForm, values } =
     useFormikContext();
+  const fileInputRef = useRef(null);
 
   return (
     <div id="questionField">
@@ -16,6 +18,7 @@ export default function InputFile({ name, setFileType }) {
         hidden={true}
       />
       <input
+        ref={fileInputRef}
         type="file"
         name="questions"
         className="hidden"
@@ -41,7 +44,7 @@ export default function InputFile({ name, setFileType }) {
             ? "Modifier les questions"
             : "Ajouter des questions"
         }
-        onClick={() => document.getElementById("inputFile").click()}
+        onClick={() => fileInputRef.current?.click()}
         addQuestion={true}
       />
     </div>
