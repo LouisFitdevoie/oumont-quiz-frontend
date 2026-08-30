@@ -1,6 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 
 import Button from "../components/Button";
+import casart from "../assets/images/sponsors/casart.png";
+import fastcar from "../assets/images/sponsors/fast-car.PNG";
+import lcgroup from "../assets/images/sponsors/lc-group.png";
+import mpm from "../assets/images/sponsors/mpm.png";
+import plafonnageDasthy from "../assets/images/sponsors/plafonnage-dasthy.jpg";
+import sebservices from "../assets/images/sponsors/seb-services.png";
+import spamboux from "../assets/images/sponsors/spamboux.png";
 
 export default function RulesPage() {
   const { gameId } = useParams();
@@ -25,8 +32,8 @@ export default function RulesPage() {
             </li>
             <li className="mb-2">
               -&nbsp;Le papier sur lequel a été indiqué votre réponse devra être
-              déposé dans l'urne de votre groupe avant que la réponse correcte
-              ne soit affichée à l'écran.
+              planté sur le pic de votre groupe avant que la réponse correcte ne
+              soit affichée à l'écran.
             </li>
             <li className="mb-2">
               -&nbsp;Interdiction d'utiliser des appareils connectés à Internet.
@@ -48,10 +55,26 @@ export default function RulesPage() {
             </li>
           </ul>
           <p className="text-justify mt-2 text-sm">
-            *Est considéré comme triche : essayer de voir les réponses des
-            autres groupes, dire la réponse à voix haute, essayer de regarder
-            son téléphone.
+            *Est considéré comme triche : modifier sa réponse après la fin du
+            timer, essayer de voir les réponses des autres groupes, dire la
+            réponse à voix haute, essayer de regarder son téléphone.
           </p>
+          <p className="text-xl font-black mb-5 text-center mt-5">
+            Merci à nos sponsors
+          </p>
+          <div className="flex flex-row items-center justify-between w-full mb-2">
+            <img src={spamboux} alt="Le Spamboux" className="h-16" />
+            <img src={sebservices} alt="Seb Services" className="h-16" />
+            <img src={mpm} alt="MPM" className="h-16" />
+            <img
+              src={plafonnageDasthy}
+              alt="Plafonnage Dasthy"
+              className="h-16"
+            />
+            <img src={lcgroup} alt="LC Group" className="h-16" />
+            <img src={casart} alt="Casart" className="h-16" />
+            <img src={fastcar} alt="Fast Car" className="h-16" />
+          </div>
         </div>
         <Button
           title="Commencer la partie"

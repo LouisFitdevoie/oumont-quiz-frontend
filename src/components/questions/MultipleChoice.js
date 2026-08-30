@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import Timer from "./Timer";
 import { getQuestionImage } from "../../api/question.api";
+import QuestionDifficultyLevel from "../ui/QuestionDifficultyLevel";
 
 export default function MultipleChoice({
   question,
@@ -15,6 +16,7 @@ export default function MultipleChoice({
   imageName = null,
   timeToReadQuestion,
   backgroundMusic,
+  points,
 }) {
   const [image, setImage] = useState(null);
   const possibleAnswersLetter = ["A", "B", "C", "D"]; // Add/remove letters if needed
@@ -65,7 +67,10 @@ export default function MultipleChoice({
             !isTimeOver ? "pr-2" : ""
           }`}
         >
-          <h1 className="text-4xl font-bold">Question à choix multiples</h1>
+          <div className="w-full flex flex-row items-center justify-center">
+            <h1 className="text-4xl font-bold">Question à choix multiples</h1>
+            <QuestionDifficultyLevel points={points} />
+          </div>
           <p className="text-3xl">{question}</p>
           {image && (
             <img
@@ -92,7 +97,7 @@ export default function MultipleChoice({
               className={`px-3 py-2 flex items-center justify-center border-2 border-black rounded-2xl ${
                 isAnswerShown
                   ? answer === correctAnswer
-                    ? "bg-green text-white"
+                    ? "bg-green text-black"
                     : "bg-red text-white"
                   : "bg-white"
               }`}
@@ -107,13 +112,13 @@ export default function MultipleChoice({
         </div>
       )}
       {isAnswerShown && explanation.trim() !== "" && (
-        <div className="mt-2 w-5/6 bg-green text-white border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
+        <div className="mt-2 w-5/6 bg-green text-black border-2 border-black rounded-2xl text-center text-3xl font-medium py-2 px-4">
           <u className="font-semibold">Explication :</u> {explanation}
-          {punctuationArray.includes(
-            explanation.split("")[explanation.split("").length - 1]
-          )
+          {
+            punctuationArray.includes(explanation.split("")[explanation.split("").length - 1])
             ? ""
-            : "."}
+            : "."
+          }
         </div>
       )}
     </div>

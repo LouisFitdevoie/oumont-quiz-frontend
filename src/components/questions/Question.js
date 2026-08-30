@@ -39,6 +39,7 @@ export default function Question({
           imageName={question.imageName !== "" ? question.imageName : null}
           timeToReadQuestion={timeToReadQuestion}
           backgroundMusic={backgroundMusic}
+          points={question.points}
         />
         {isTimeOver && (
           <QuestionButtons
@@ -74,6 +75,7 @@ export default function Question({
           imageName={question.imageName !== "" ? question.imageName : null}
           timeToReadQuestion={timeToReadQuestion}
           backgroundMusic={backgroundMusic}
+          points={question.points}
         />
         {isTimeOver && (
           <QuestionButtons
