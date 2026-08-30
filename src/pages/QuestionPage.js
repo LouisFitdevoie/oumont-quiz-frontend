@@ -167,7 +167,7 @@ export default function QuestionPage() {
       setIsThemeChosen(false);
       localStorage.setItem("isThemeChosen", false);
       setThemeName(null);
-      localStorage.setItem("themeName", null);
+      localStorage.removeItem("themeName");
       setCurrentQuestion({});
       setIsQuestionSelected(false);
     } else {
@@ -196,7 +196,7 @@ export default function QuestionPage() {
   };
 
   useEffect(() => {
-    setIsThemeChosen(Boolean(localStorage.getItem("isThemeChosen")));
+    setIsThemeChosen(localStorage.getItem("isThemeChosen") === "true");
     setQuestionList(JSON.parse(localStorage.getItem("questionList")) || []);
     setThemeName(localStorage.getItem("themeName") || null);
     setCurrentGroup(JSON.parse(localStorage.getItem("currentGroup")));
@@ -212,7 +212,7 @@ export default function QuestionPage() {
     if ((questionNumber - 1) % 3 === 0) {
       setIsThemeChosen(false);
       setThemeName(null);
-      localStorage.setItem("themeName", null);
+      localStorage.removeItem("themeName");
     }
   }, [questionNumber]);
 
