@@ -32,15 +32,22 @@ export default function OpenEstimate({
 
   useEffect(() => {
     //Getting the image for the question if there is one and creating a blob url
+    var imageUrl;
     const getImage = async () => {
       const response = await getQuestionImage(imageName);
       const imageType = response.headers["content-type"];
       const blob = new Blob([response.data], { type: imageType });
-      const url = URL.createObjectURL(blob);
-      setImage(url);
+      imageUrl = URL.createObjectURL(blob);
+      setImage(imageUrl);
     };
     if (imageName) {
       getImage();
+    }
+
+    return () => {
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
+      }
     }
   }, [question, imageName]);
 

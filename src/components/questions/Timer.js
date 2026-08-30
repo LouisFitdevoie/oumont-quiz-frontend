@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 export default function Timer({
   timeToAnswer,
@@ -10,47 +10,53 @@ export default function Timer({
   const progress = ((timeToAnswer - seconds) / timeToAnswer) * 100;
   const [isRead, setIsRead] = useState(false);
 
+  const isMusicPlaying = useRef(false);
+
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsRead(true);
       playMusic();
     }, timeToReadQuestion * 1000);
+    return () => clearTimeout(timer);
   }, [timeToReadQuestion]);
 
-  let isMusicPlaying = false;
   const playMusic = () => {
-    if (isMusicPlaying) return;
-    isMusicPlaying = true;
+    if (isMusicPlaying.current) return;
+    isMusicPlaying.current = true;
     backgroundMusic.play();
   };
 
   const stopMusic = () => {
-    isMusicPlaying = false;
+    isMusicPlaying.current = false;
     backgroundMusic.stop();
   };
 
   useEffect(() => {
     if (isRead) {
       const interval = setInterval(() => {
-        if (seconds > 0) {
-          setSeconds((prevSeconds) => Math.max(prevSeconds - 0.05, 0));
-        } else {
-          stopMusic();
-          clearInterval(interval);
-        }
+        setSeconds((prevSeconds) => {
+          if (prevSeconds > 0) {
+            return Math.max(prevSeconds - 0.05, 0);
+          } else {
+            stopMusic();
+            clearInterval(interval);
+            return  0;
+          }
+        });
       }, 50);
 
       return () => {
         clearInterval(interval);
       };
     }
-  }, [isRead, seconds]);
+  }, [isRead]);
 
   useEffect(() => {
     if (seconds === 0) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsTimeOver(true);
       }, 500);
+      return () => clearTimeout(timer);
     }
   }, [seconds, setIsTimeOver]);
 
