@@ -10,7 +10,7 @@ export default function ResultPage() {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const state = useLocation().state;
-  const isEnded = state.isEnded === "true" ? true : false;
+  const isEnded = state.isEnded === "true";
   const groupsLeftList = state.hasOwnProperty("groupsLeftList")
     ? state.groupsLeftList
     : [];
