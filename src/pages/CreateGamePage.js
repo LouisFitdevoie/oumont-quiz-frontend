@@ -130,9 +130,9 @@ export default function CreateGamePage() {
           initialValues={{
             gameName: "",
             questions: [],
-            timeToAnswerOpen: 0,
-            timeToAnswerQCM: 0,
-            timeToAnswerEstimate: 0,
+            timeToAnswerOpen: 15,
+            timeToAnswerQCM: 15,
+            timeToAnswerEstimate: 15,
             personsPerGroup: 4,
           }}
           onSubmit={(values) => handleSubmit(values)}
