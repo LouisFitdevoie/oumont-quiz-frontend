@@ -6,16 +6,35 @@ export default function QuestionImage({ imageName }) {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
+    let active = true;
+    let url = null;
+
     //Getting the image for the question if there is one and creating a blob url
     const getImage = async () => {
-      const response = await getQuestionImage(imageName);
-      const blob = new Blob([response.data], { type: "image/jpeg" });
-      const url = URL.createObjectURL(blob);
-      setImage(url);
+      try {
+        const response = await getQuestionImage(imageName);
+        if (!active) return;
+        const imageType = response.headers?.["content-type"] || "image/jpeg";
+        const blob = new Blob([response.data], { type: imageType });
+        url = URL.createObjectURL(blob);
+        setImage(url);
+      } catch (error) {
+        console.error("Error loading question image:", error);
+      }
     };
+
     if (imageName) {
       getImage();
+    } else {
+      setImage(null);
     }
+
+    return () => {
+      active = false;
+      if (url) {
+        URL.revokeObjectURL(url);
+      }
+    };
   }, [imageName]);
 
   return (

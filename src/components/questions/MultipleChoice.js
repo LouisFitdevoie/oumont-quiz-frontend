@@ -34,27 +34,39 @@ export default function MultipleChoice({
     elements.forEach((element) => {
       element.style.height = `${maxHeight}px`;
     });
+  }, [question, possibleAnswers]);
 
-    var imageUrl;
+  useEffect(() => {
+    let active = true;
+    let url = null;
 
     //Getting the image for the question if there is one and creating a blob url
     const getImage = async () => {
-      const response = await getQuestionImage(imageName);
-      const imageType = response.headers["content-type"];
-      const blob = new Blob([response.data], { type: imageType });
-      imageUrl = URL.createObjectURL(blob);
-      setImage(imageUrl);
+      try {
+        const response = await getQuestionImage(imageName);
+        if (!active) return;
+        const imageType = response.headers?.["content-type"] || "image/jpeg";
+        const blob = new Blob([response.data], { type: imageType });
+        url = URL.createObjectURL(blob);
+        setImage(url);
+      } catch (error) {
+        console.error("Error loading question image:", error);
+      }
     };
+
     if (imageName) {
       getImage();
+    } else {
+      setImage(null);
     }
 
     return () => {
-      if (imageUrl) {
-        URL.revokeObjectURL(imageUrl);
+      active = false;
+      if (url) {
+        URL.revokeObjectURL(url);
       }
-    }
-  }, [question, imageName]);
+    };
+  }, [imageName]);
 
   const punctuationArray = ["!", "?", "."];
 
