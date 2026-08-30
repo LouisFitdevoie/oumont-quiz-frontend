@@ -107,7 +107,7 @@ export default function QuestionCorrection({
   }, [currentGroup]);
 
   return (
-    <div className="w-full flex flex-row text-left items-center justify-between py-2">
+    <div className="w-full flex flex-row text-left items-center justify-between">
       <div className="flex flex-row">
         <p className="font-bold">
           <u>Question n°{questionNumber} :</u>&nbsp;
@@ -118,21 +118,21 @@ export default function QuestionCorrection({
             : question.answer}
         </p>
       </div>
-      <div className="flex flex-row">
+      <div className="flex flex-row my-1.5">
         <button
           onClick={() => handleCorrectClick()}
-          className={`h-8 w-8 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
-            isCorrectClicked ? "border-green bg-green" : "border-black bg-black"
+          className={`h-10 px-2 ml-2 flex items-center justify-center border rounded-full transition-all duration-100 ${
+            isCorrectClicked ? "border-green bg-green text-black" : "border-black bg-black text-white"
           } hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black
               `}
           title="Réponse correcte"
         >
-          <DoneIcon className="h-4 w-4 self-center" />
+          <p><DoneIcon className="h-4 w-4 self-center" /> Correct</p>
         </button>
         {question.questionType !== "multipleChoice" && (
           <button
             onClick={() => handleAddHalfPoints()}
-            className={`h-8 w-8 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
+            className={`h-10 px-2 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
               isAddHalfPointsClicked
                 ? "border-orange bg-orange"
                 : "border-black bg-black"
@@ -140,18 +140,18 @@ export default function QuestionCorrection({
                 `}
             title="Ajouter la moitié des points"
           >
-            <p className="self-center">+/-</p>
+            <p className="self-center">+/- A moitié</p>
           </button>
         )}
         <button
           onClick={() => handleIncorrectClick()}
-          className={`h-8 w-8 ml-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
+          className={`h-10 ml-2 px-2 flex items-center justify-center border rounded-full text-white transition-all duration-100 ${
             isIncorrectClicked ? "border-red bg-red" : "border-black bg-black"
           } hover:bg-white hover:text-black hover:border-black active:bg-gray active:text-black
               `}
           title="Réponse incorrecte"
         >
-          <CloseIcon className="h-4 w-4 self-center" />
+          <p><CloseIcon className="h-4 w-4 self-center" /> Incorrect</p>
         </button>
       </div>
     </div>
